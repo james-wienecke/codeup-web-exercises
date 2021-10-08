@@ -9,30 +9,30 @@ alert("Great, " + favColor + " is my favorite color too!");
 // movie rental exercise
 alert("You have rented some movies for $3 a night.");
 // collect user input
-var daysRentedMermaid = prompt("How nights have you rented 'The Little Mermaid?'?");
-var daysRentedBrotherBear = prompt("How nights have you rented 'Brother Bear'?");
-var daysRentedHercules = prompt("How nights have you rented 'Hercules'?");
+var daysRentedMermaid = parseFloat(prompt("How nights have you rented 'The Little Mermaid?'?"));
+var daysRentedBrotherBear = parseFloat(prompt("How nights have you rented 'Brother Bear'?"));
+var daysRentedHercules = parseFloat(prompt("How nights have you rented 'Hercules'?"));
 // calculate total rental cost
-var moviesTotalRentalDays = Number(daysRentedMermaid) + Number(daysRentedBrotherBear) + Number(daysRentedHercules);
+var moviesTotalRentalDays = daysRentedMermaid + daysRentedBrotherBear + daysRentedHercules;
 var moviesCostPerNight = 3;
 var moviesTotal = moviesCostPerNight * moviesTotalRentalDays;
 // display total
-alert("Your total cost for movie rentals is $" + moviesTotal + ".");
+alert("Your total cost for movie rentals is $" + moviesTotal.toFixed(2) + ".");
 
 // contractor wages exercise
 alert("You are working as a contractor. For an hour of work, Google pays $400, Amazon $380, and Facebook $350.");
 // collect user input
-var hoursGoogle = prompt("How many hours did you work for Google?");
-var hoursAmazon = prompt("How many hours did you work for Amazon?");
-var hoursFacebook = prompt("How many hours did you work for Facebook?");
+var hoursGoogle = parseFloat(prompt("How many hours did you work for Google?"));
+var hoursAmazon = parseFloat(prompt("How many hours did you work for Amazon?"));
+var hoursFacebook = parseFloat(prompt("How many hours did you work for Facebook?"));
 // hourly rate for each company
 var wageGoogle = 400;
 var wageAmazon = 380;
 var wageFacebook = 350;
 // calculate total pay
-var contractorTotalPay = wageGoogle * Number(hoursGoogle) + wageAmazon * Number(hoursAmazon) + wageFacebook * Number(hoursFacebook);
+var contractorTotalPay = wageGoogle * hoursGoogle + wageAmazon * hoursAmazon + wageFacebook * hoursFacebook;
 // display total
-alert("You earned a total of $" + contractorTotalPay + " for your work.");
+alert("You earned a total of $" + contractorTotalPay.toFixed(2) + " for your work.");
 
 // class enrollment exercise
 alert("A student can only enroll in this class if it is not full and doesn't conflict with their schedule.");
@@ -42,23 +42,15 @@ var classSchedule = confirm("Is the student's schedule free to enroll in the cla
 // logic for valid enrollment
 var classValid = classNotFull && classSchedule;
 // display results
-if (classValid) {
-    alert("Enrollment is possible.");
-} else {
-    alert("Enrollment is not possible.");
-}
+alert("Enrollment is possible: " + classValid)
 
 // product offer exercise
 alert("A product offer requires the offer to still be valid, as well as a 2 item minimum purchase. Premium members are exempt from the minimum.");
 // collect user input
-var offerCountItems = prompt("How many items in the purchase?");
+var offerCountItems = parseFloat(prompt("How many items in the purchase?"));
 var offerExpires = confirm("Is offer still valid?");
 var offerPremium = confirm("Premium member?");
 // logic for offer eligibility
-var offerValid = offerExpires && (offerPremium || (Number(offerCountItems) > 2));
+var offerValid = offerExpires && (offerPremium || (offerCountItems > 2));
 // display results
-if (offerValid) {
-    alert("Product offer can be applied.");
-} else {
-    alert("Product offer invalid.");
-}
+alert("Product offer valid: " + offerValid)
