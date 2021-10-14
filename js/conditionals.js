@@ -91,20 +91,20 @@ alert(analyzeColor(userColor));
 function calculateTotal (luckyNumber, totalAmount) {
 	switch (luckyNumber) {
 		case 0:
-			return (totalAmount - (totalAmount * 0)).toFixed(2);
+			return totalAmount - (totalAmount * 0);
 		case 1:
-			return (totalAmount - (totalAmount * 0.1)).toFixed(2);
+			return totalAmount - (totalAmount * 0.1);
 		case 2:
-			return (totalAmount - (totalAmount * 0.25)).toFixed(2);
+			return totalAmount - (totalAmount * 0.25);
 		case 3:
-			return (totalAmount - (totalAmount * .35)).toFixed(2);
+			return totalAmount - (totalAmount * .35);
 		case 4:
-			return (totalAmount - (totalAmount * .05)).toFixed(2);
+			return totalAmount - (totalAmount * .05);
 		case 5:
-			return (totalAmount - (totalAmount * 1)).toFixed(2);
+			return totalAmount - (totalAmount * 1);
 		default:
 			console.log("Invalid lucky number: " + luckyNumber);
-			return totalAmount.toFixed(2);
+			return totalAmount;
 	}
 }
 // test various inputs
@@ -127,7 +127,7 @@ console.log(calculateTotal(6, 100)); // all other numbers log invalid number and
 var luckyNumber = Math.floor(Math.random() * 6);
 
 var userBill = parseFloat(prompt("What was your bill?")).toFixed(2);
-alert("Your lucky number was " + luckyNumber + " and your bill was $" + userBill + ". Your bill after your lucky number discount is: $" + calculateTotal(luckyNumber, userBill));
+alert("Your lucky number was " + luckyNumber + " and your bill was $" + userBill + ". Your bill after your lucky number discount is: $" + calculateTotal(luckyNumber, userBill).toFixed(2));
 /**
  * TODO:
  * Write some JavaScript that uses a `confirm` dialog to ask the user if they
