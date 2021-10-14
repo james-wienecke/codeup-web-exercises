@@ -127,7 +127,8 @@ console.log(calculateTotal(6, 100)); // all other numbers log invalid number and
 var luckyNumber = Math.floor(Math.random() * 6);
 
 var userBill = parseFloat(prompt("What was your bill?"));
-alert("Your lucky number was " + luckyNumber + " and your bill was $" + userBill.toFixed(2) + ". Your bill after your lucky number discount is: $" + calculateTotal(luckyNumber, userBill).toFixed(2));
+alert("Your lucky number was " + luckyNumber + " and your bill was $" + userBill.toFixed(2) + "."
+	+ " Your bill after your lucky number discount is: $" + calculateTotal(luckyNumber, userBill).toFixed(2));
 /**
  * TODO:
  * Write some JavaScript that uses a `confirm` dialog to ask the user if they
