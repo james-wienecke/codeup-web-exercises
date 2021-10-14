@@ -32,28 +32,20 @@ function analyzeColor (colorName) {
 	switch (colorName) {
 		case 'red':
 			return colorName + " makes me think about Cormac McCarthy's book 'Blood Meridian, or the Evening Redness in the West' and I don't like thinking about that book.";
-			break;
 		case 'orange':
 			return colorName + " is the color of the setting sun";
-			break;
 		case 'yellow':
 			return colorName + " is the color of ripe lemons";
-			break;
 		case 'green':
 			return colorName + " is the color of leaves in springtime";
-			break;
 		case 'blue':
 			return colorName + " is the color of the deep ocean";
-			break;
 		case 'indigo':
 			return colorName + " is the color of the sky after sunset";
-			break;
 		case 'violet':
 			return colorName + " is the color of lavender";
-			break;
 		default:
 			return "Unrecognized output";
-			break;
 	}
 }
 /**
@@ -99,29 +91,21 @@ alert(analyzeColor(userColor));
 function calculateTotal (luckyNumber, totalAmount) {
 	switch (luckyNumber) {
 		case 0:
-			var discount = 0;
-			break;
+			return (totalAmount - (totalAmount * 0)).toFixed(2);
 		case 1:
-			var discount = 0.1;
-			break;
+			return (totalAmount - (totalAmount * 0.1)).toFixed(2);
 		case 2:
-			var discount = 0.25;
-			break;
+			return (totalAmount - (totalAmount * 0.25)).toFixed(2);
 		case 3:
-			var discount = 0.35;
-			break;
+			return (totalAmount - (totalAmount * .35)).toFixed(2);
 		case 4:
-			var discount = 0.5;
-			break;
+			return (totalAmount - (totalAmount * .05)).toFixed(2);
 		case 5:
-			var discount = 1;
-			break;
+			return (totalAmount - (totalAmount * 1)).toFixed(2);
 		default:
 			console.log("Invalid lucky number: " + luckyNumber);
-			return totalAmount.toFixed;
-			break;
+			return totalAmount.toFixed(2);
 	}
-	return (totalAmount - (totalAmount * discount)).toFixed(2);
 }
 // test various inputs
 console.log(calculateTotal(0, 100)); // result should be 100
@@ -175,7 +159,6 @@ function handleNumber (input) {
 	function negativeOrPositive (input) {
 		return (Math.sign(input) >= 0) ? input + " is positive." : input + " is negative.";
 	}
-	
 	// this conditional checks if user's input is a valid number or not
 	if (isNaN(Number(input))) {
 		alert(input + " is NOT a valid number.");
