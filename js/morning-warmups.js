@@ -24,4 +24,23 @@
 	var hadBreakfastMessage = (hadBreakfast) ? "I had breakfast!" : "I didn't have breakfast...";
 	console.log(hadBreakfastMessage);
 
+	/* FRI 15-10-21 Warmup:
+	Write a function called 'typeCheck' that takes an input and returns a string of the data type entered.
+	If the data type is a string, return the string "Haha, it's a string of string!"
+
+	Tests:
+	typeCheck('')
+	typeCheck(isNaN());
+	typeCheck(!false * 3);
+	typeCheck(4 + '4');
+	 */
+
+	function typeCheck (input) {
+		return typeof input === 'string' ? 'Haha, it\'s a string of string!' : typeof input;
+	}
+
+	console.log(typeCheck(''));
+	console.log(typeCheck(isNaN()));
+	console.log(typeCheck(!false * 3));
+	console.log(typeCheck(4 + '4'));
 }());
