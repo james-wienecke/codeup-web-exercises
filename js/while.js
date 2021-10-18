@@ -1,6 +1,7 @@
 (function() {
-    /*
-    Create a while loop that uses console.log() to create the output shown below
+    console.log("While Loop exercise:")
+    console.log("[Powers of Two]")
+    /* Create a while loop that uses console.log() to create the output shown below
     2
     4
     8
@@ -18,14 +19,14 @@
     32768
     65536
      */
-    console.log("While Loop exercise:")
-    console.log("[Powers of Two]")
     let counter = 2;
     while (counter < 100000) {
         console.log(counter);
         counter = counter << 1; // :^)
     }
 
+    console.log("While Loop exercise:")
+    console.log("[Ice Cream Seller]")
     /* DO WHILE LOOP
     An ice cream seller can't go home until she sells all of her cones.
     First write enough code that generates a random number between 50 and 100
@@ -34,21 +35,16 @@
     1 and 5, simulating the amount of cones being bought by her clients. Use a
     do-while loop to log to the console the amount of cones sold to each person.
      */
-
-    console.log("While Loop exercise:")
-    console.log("[Ice Cream Seller]")
-
-// This is how you get a random number between 50 and 100
+    // This is how you get a random number between 50 and 100
     let allCones = Math.floor(Math.random() * 50) + 50;
-// This expression will generate a random number between 1 and 5
-//Math.floor(Math.random() * 5) + 1;
+    // This expression will generate a random number between 1 and 5
+    //Math.floor(Math.random() * 5) + 1;
     do {
         let boughtCones = Math.floor(Math.random() * 5) + 1;
         allCones -= boughtCones;
         console.log(iceCreamReport(allCones, boughtCones));
     } while (allCones > 0);
     console.log("Time to go home!")
-
     function iceCreamReport(all, delta) {
         const plural = (d) => { return (d != 1) ? `s` : `` };
         if (all < 0) {

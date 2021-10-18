@@ -21,23 +21,16 @@
     10 random numbers between 20 and 200 and output to the console
     whether each number is odd or even.
      */
-    function oddOrEven(number) {
-        return (number % 2 === 0) ? "even" : "odd";
-    }
-
     function randNumInRange(low, hi) {
         return Math.floor(Math.random() * (hi - low + 1) + low);
     }
-
     function tenRandomNumberCheck(min, max) {
         for (let i = 0; i < 10; i++) {
             let num = randNumInRange(min, max);
             console.log(`${num} is ${num % 2 === 0 ? 'even' : 'odd'}.`);
         }
     }
-
     tenRandomNumberCheck(20, 200);
-
 
     console.log("For Loop exercise:")
     console.log("[Number Pyramid]");

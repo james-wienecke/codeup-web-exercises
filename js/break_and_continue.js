@@ -1,8 +1,8 @@
 (function(){
-    // prompt user for odd number between 1 and 50
-    // using arrow functions with anonymous functions
     console.log("Break and Continue exercise:")
     console.log("[Odd numbers with user input]")
+    // prompt user for odd number between 1 and 50
+    // using arrow functions with anonymous functions
     const isOdd = (num) => num % 2 !== 0; // implicit return
     const isInRange = (min, max, num) => { return (num >= min) && (num <= max); }
     let userNum = 0;
