@@ -43,4 +43,13 @@
 	console.log(typeCheck(isNaN()));
 	console.log(typeCheck(!false * 3));
 	console.log(typeCheck(4 + '4'));
+
+/* MON 18-10-21 Warmup:
+When writing code to test our tests it's important to put yourself in the mindset of a junior/senior dev
+This will help you in ensuring our tests are fully comprehensive.
+When writing code with tests provided to me it's important for me to write code that is:
+	-A. Write code with minimal effectiveness to green all the tests			<====<<
+	-B. With full functionality so as to ensure my function works as intended
+	-C. Both.
+ */
 }());
