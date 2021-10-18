@@ -6,9 +6,9 @@
      */
 
     function showMultiplicationTables(number) {
-        console.log("Displaying multiplication table (1-10) for", number);
+        console.log(`Displaying multiplication table (1-10) for ${number}`);
         for (let i = 1; i <= 10; i++) {
-            console.log(number + " x " + i + " =", number * i);
+            console.log(`${number} x ${i} = ${number * i}`)
         }
     }
 
@@ -24,14 +24,14 @@
         return (number % 2 === 0) ? "even" : "odd";
     }
 
-    function randNumberInRange(low, hi) {
+    function randNumInRange(low, hi) {
         return Math.floor(Math.random() * (hi - low + 1) + low);
     }
 
     function tenRandomNumberCheck(min, max) {
         for (let i = 0; i < 10; i++) {
-            let num = randNumberInRange(min, max);
-            console.log(num, "is " + oddOrEven(num));
+            let num = randNumInRange(min, max);
+            console.log(`${num} is ${oddOrEven(num)}`);
         }
     }
 
@@ -51,18 +51,19 @@
      */
 
     (function () {
+        function numberNumberTimes(num) {
+            let numberLine = '';
+            for (let i = 0; i < num; i++) {
+                numberLine += num.toString();
+            }
+            return numberLine;
+        }
         for (let i = 1; i < 10; i++) {
             console.log(numberNumberTimes(i));
         }
     }());
 
-    function numberNumberTimes(num) {
-        let numberLine = '';
-        for (let i = 0; i < num; i++) {
-            numberLine += num.toString();
-        }
-        return numberLine;
-    }
+
 
 
     /* 5.
