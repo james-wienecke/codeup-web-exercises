@@ -18,7 +18,8 @@
     32768
     65536
      */
-
+    console.log("While Loop exercise:")
+    console.log("[Powers of Two]")
     let counter = 2;
     while (counter < 100000) {
         console.log(counter);
@@ -34,6 +35,9 @@
     do-while loop to log to the console the amount of cones sold to each person.
      */
 
+    console.log("While Loop exercise:")
+    console.log("[Ice Cream Seller]")
+
 // This is how you get a random number between 50 and 100
     let allCones = Math.floor(Math.random() * 50) + 50;
 // This expression will generate a random number between 1 and 5
@@ -46,7 +50,7 @@
     console.log("Time to go home!")
 
     function iceCreamReport(all, delta) {
-        const plural = function() { return (delta > 1) ? `s` : `` };
+        const plural = (d) => { return (d != 1) ? `s` : `` };
         if (all < 0) {
             return `Cannot sell ${delta} cone${plural(delta)}. I could only sell ${all + delta} cone${plural(all + delta)}...`;
         } else {
