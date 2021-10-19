@@ -1,3 +1,4 @@
+"use strict";
 (function() {
     console.log("While Loop exercise:")
     console.log("[Powers of Two]")

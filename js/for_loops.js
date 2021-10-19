@@ -1,3 +1,4 @@
+"use strict";
 (function() {
     console.log("For Loop exercise:")
     console.log("[Multiplication Tables]")
