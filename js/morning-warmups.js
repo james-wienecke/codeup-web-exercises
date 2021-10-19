@@ -52,4 +52,32 @@ When writing code with tests provided to me it's important for me to write code 
 	-B. With full functionality so as to ensure my function works as intended
 	-C. Both.
  */
+
+/* TUE 19-10-21 Warmup:
+Write a program that logs the numbers from 1 to 100. But for multiples of 3, log "Fizz"
+and for multiples of five, log "Buzz". For multiples of 3 and 5, log "FizzBuzz".
+
+naive first attempt conditional flow in js:
+			if (i % 3 === 0 || i % 5 === 0) {
+				let str = '';
+				if (i % 3 === 0) {
+					str += "Fizz";
+				}
+				if (i % 5 === 0) {
+					str += "Buzz";
+				}
+				console.log(str);
+			} else {
+				console.log(i);
+			}
+ */
+
+	(function () {
+		for (let i = 1; i <=100; i++) {
+			if (i % 15 === 0) console.log("FizzBuzz");
+			else if (i % 3 === 0) console.log("Fizz");
+			else if (i % 5 === 0) console.log("Buzz");
+			else console.log(i);
+		}
+	}());
 }());
