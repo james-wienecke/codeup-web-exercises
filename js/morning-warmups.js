@@ -83,9 +83,10 @@ naive first attempt conditional flow in js:
 /* WED 20-10-21 Warmup:
 Create a function called secondToLast that accepts an array as an argument and will return
 the second to last element in the argument passed via array
-	const arrayWedOct =
  */
-	(function (arr) {
+	let wedOctArr = ["a", "b", "c", "d", "e"];
+	function wedOctArrFun (arr) {
 		return arr[arr.length - 2];
-	}());
+	};
+	console.log(wedOctArrFun(wedOctArr));
 }());
