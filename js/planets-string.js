@@ -30,5 +30,4 @@
     let planetsULString = "<ul><li>" + planetsArray.join("</li><li>") + "</li></ul>";
     console.log("Unordered list HTML:", planetsULString);
     document.getElementById("planetsList").innerHTML = planetsULString;
-
 })();
