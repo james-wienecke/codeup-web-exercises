@@ -255,21 +255,3 @@
 
 
 })();
-
-let company = {
-    name: "Limited Industrial Unlimited",
-    location: {
-        city: "Paris",
-        state: "Texas",
-        country: "US",
-    },
-    numberOfEmployees: 1240,
-    industry: "Metalworking",
-    founder: {
-        firstName: "Adelaide",
-        lastName: "Fitz"
-    },
-    yearEstablished: 1978
-
-
-};
