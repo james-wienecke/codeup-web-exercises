@@ -11,6 +11,11 @@
      *  > console.log(person.firstName) // "Rick"
      *  > console.log(person.lastName) // "Sanchez"
      */
+    console.log("[ person & sayHello ]");
+    let person = {
+        firstName: "James",
+        lastName: "Wienecke"
+    };
 
     /**
      * TODO:
@@ -21,6 +26,8 @@
      * Example
      * > console.log(person.sayHello()) // "Hello from Rick Sanchez!"
      */
+
+    console.log(`Hello from ${person.firstName} ${person.lastName}!`);
 
     /** TODO:
      * HEB has an offer for the shoppers that buy products amounting to
@@ -35,12 +42,23 @@
      * represents one shopper. Use a foreach loop to iterate through the array,
      * and console.log the relevant messages for each person
      */
+    console.log("[ shoppers discount ]")
+    var shoppers = [
+        {name: 'Cameron', amount: 180},
+        {name: 'Ryan', amount: 250},
+        {name: 'George', amount: 320}
+    ];
 
-    // var shoppers = [
-    //     {name: 'Cameron', amount: 180},
-    //     {name: 'Ryan', amount: 250},
-    //     {name: 'George', amount: 320}
-    // ];
+    function calcDiscount(total) {
+        return (total > 200) ? total - (total * 0.12) : total;
+    }
+    (function() {
+        shoppers.forEach(elem => {
+            console.log(`Shopper: ${elem.name}`);
+            console.log(`Total before discount: $${elem.amount.toFixed(2)}`);
+            console.log(`After discount: $${calcDiscount(elem.amount).toFixed(2)}`);
+        })
+    })();
 
     /** TODO:
      * Create an array of objects that represent books and store it in a
@@ -54,6 +72,40 @@
      * > console.log(books[0].author.firstName) // "Douglas"
      * > console.log(books[0].author.lastName) // "Adams"
      */
+    console.log("[ Books ]");
+    let books = [
+        // {name: "Dune", author: {
+        //     firstName: "Frank",
+        //     lastName: "Herbert"
+        //     }
+        // },
+        // {name: "Blindsight", author: {
+        //         firstName: "Peter",
+        //         lastName: "Watts"
+        //     }
+        // },
+        // {name: "The Three Body Problem", author: {
+        //         firstName: "Cixin",
+        //         lastName: "Liu"
+        //     }
+        // },
+        // {name: "Imagica", author: {
+        //         firstName: "Clive",
+        //         lastName: "Barker"
+        //     }
+        // },
+        // {name: "Annihilation", author: {
+        //         firstName: "Jeff",
+        //         lastName: "VanderMeer"
+        //     }
+        // },
+        // {
+        //     name: "魔道祖师", author: {
+        //         firstName: "铜臭",
+        //         lastName: "墨香"
+        //     }
+        // }
+    ];
 
     /**
      * TODO:
@@ -90,5 +142,36 @@
      *   outputs the information described above. Refactor your loop to use your
      *   `showBookInfo` function.
      */
-
+    function createBook (title, authorFirst, authorLast) {
+        return {
+            name: title,
+            author: {
+                first: authorFirst,
+                last: authorLast,
+                fullName: function () {
+                    return `${this.first} ${this.last}`;
+                }
+            }
+        }
+    }
+    function showBookInfo (book, index) {
+        console.log(`Book #${index + 1}`);
+        console.log(`Title: ${book.name}`);
+        console.log(`Author: ${book.author.fullName()}`);
+    }
+    function listBooks() {
+        books.forEach((book, index) => {
+            showBookInfo(book, index);
+            console.log(`---`);
+        });
+    }
+    books.push(createBook('Dune', 'Frank', 'Herbert'));
+    books.push(createBook('Blindsight', 'Peter', 'Watts'));
+    books.push(createBook('Three Body Problem', 'Cixin', 'Liu'));
+    books.push(createBook('Imagica', 'Clive', 'Barker'));
+    books.push(createBook('Weaveworld', 'Clive', 'Barker'));
+    books.push(createBook('Annihilation', 'Jeff', 'VanderMeer'));
+    books.push(createBook('Blood Meridian', 'Cormac', 'Mccarthy'));
+    books.push(createBook('1Q84', 'Haruki', 'Murakami'));
+    listBooks();
 })();
