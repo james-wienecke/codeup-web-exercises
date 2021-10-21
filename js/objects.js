@@ -1,6 +1,5 @@
+"use strict";
 (function() {
-    "use strict";
-
     /**
      * TODO:
      * Create an object with firstName and lastName properties that are strings
@@ -73,39 +72,7 @@
      * > console.log(books[0].author.lastName) // "Adams"
      */
     console.log("[ Books ]");
-    let books = [
-        // {name: "Dune", author: {
-        //     firstName: "Frank",
-        //     lastName: "Herbert"
-        //     }
-        // },
-        // {name: "Blindsight", author: {
-        //         firstName: "Peter",
-        //         lastName: "Watts"
-        //     }
-        // },
-        // {name: "The Three Body Problem", author: {
-        //         firstName: "Cixin",
-        //         lastName: "Liu"
-        //     }
-        // },
-        // {name: "Imagica", author: {
-        //         firstName: "Clive",
-        //         lastName: "Barker"
-        //     }
-        // },
-        // {name: "Annihilation", author: {
-        //         firstName: "Jeff",
-        //         lastName: "VanderMeer"
-        //     }
-        // },
-        // {
-        //     name: "魔道祖师", author: {
-        //         firstName: "铜臭",
-        //         lastName: "墨香"
-        //     }
-        // }
-    ];
+    let books = [];
 
     /**
      * TODO:
@@ -148,23 +115,24 @@
             author: {
                 first: authorFirst,
                 last: authorLast,
-                fullName: function () {
-                    return `${this.first} ${this.last}`;
-                }
+                name: function () { return `${this.first} ${this.last}`; }
             }
         }
     }
+
     function showBookInfo (book, index) {
         console.log(`Book #${index + 1}`);
         console.log(`Title: ${book.name}`);
-        console.log(`Author: ${book.author.fullName()}`);
+        console.log(`Author: ${book.author.name()}`);
     }
+
     function listBooks() {
         books.forEach((book, index) => {
             showBookInfo(book, index);
             console.log(`---`);
         });
     }
+
     books.push(createBook('Dune', 'Frank', 'Herbert'));
     books.push(createBook('Blindsight', 'Peter', 'Watts'));
     books.push(createBook('Three Body Problem', 'Cixin', 'Liu'));
