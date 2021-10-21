@@ -87,6 +87,19 @@ the second to last element in the argument passed via array
 	let wedOctArr = ["a", "b", "c", "d", "e"];
 	function wedOctArrFun (arr) {
 		return arr[arr.length - 2];
-	};
+	}
 	console.log(wedOctArrFun(wedOctArr));
+/* THU 21-10-21 Warmup:
+Write a function named moveToEnd that takes in an array and returns the array with the original first index
+moved to the last index of the array.
+ */
+	let thuOctArr = ['b', 'z', 'f', 'h', 'e', 'l'];
+	function moveToEnd(arr) {
+		let newArr = [...arr];			// i ain't a fan of javascript's destructive tendencies >:(
+		newArr.push(newArr.shift());	// i protecccc the original array from this pain
+		return newArr;					// it's ok bb only the new array was chopped up and rearranged
+	}
+	console.log(thuOctArr);
+	console.log(moveToEnd(thuOctArr));
+	console.log(thuOctArr);
 }());
