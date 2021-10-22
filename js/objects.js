@@ -112,12 +112,13 @@
      *   outputs the information described above. Refactor your loop to use your
      *   `showBookInfo` function.
      */
-    function createBook (title, authorFirst, authorLast) {
+    function createBook (title, authorName) {
+        let author = authorName.split(' ');
         return {
             name: title,
             author: {
-                first: authorFirst,
-                last: authorLast,
+                first: author[0],
+                last: author[1],
                 name: function () { return `${this.first} ${this.last}`; }
             }
         }
@@ -136,13 +137,13 @@
         });
     }
 
-    books.push(createBook('Dune', 'Frank', 'Herbert'));
-    books.push(createBook('Blindsight', 'Peter', 'Watts'));
-    books.push(createBook('Three Body Problem', 'Cixin', 'Liu'));
-    books.push(createBook('Imagica', 'Clive', 'Barker'));
-    books.push(createBook('Weaveworld', 'Clive', 'Barker'));
-    books.push(createBook('Annihilation', 'Jeff', 'VanderMeer'));
-    books.push(createBook('Blood Meridian', 'Cormac', 'Mccarthy'));
-    books.push(createBook('1Q84', 'Haruki', 'Murakami'));
+    books.push(createBook('Dune', 'Frank Herbert'));
+    books.push(createBook('Blindsight', 'Peter Watts'));
+    books.push(createBook('Three Body Problem', 'Cixin Liu'));
+    books.push(createBook('Imagica', 'Clive Barker'));
+    books.push(createBook('Weaveworld', 'Clive Barker'));
+    books.push(createBook('Annihilation', 'Jeff VanderMeer'));
+    books.push(createBook('Blood Meridian', 'Cormac Mccarthy'));
+    books.push(createBook('1Q84', 'Haruki Murakami'));
     listBooks();
 })();
