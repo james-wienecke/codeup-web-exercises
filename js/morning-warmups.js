@@ -102,4 +102,6 @@ moved to the last index of the array.
 	console.log(thuOctArr);
 	console.log(moveToEnd(thuOctArr));
 	console.log(thuOctArr);
+
+
 }());

@@ -13,7 +13,10 @@
     console.log("[ person & sayHello ]");
     let person = {
         firstName: "James",
-        lastName: "Wienecke"
+        lastName: "Wienecke",
+        sayHello: function () {
+            return `Hello from ${this.firstName} ${this.lastName}!`;
+        }
     };
 
     /**
@@ -26,7 +29,7 @@
      * > console.log(person.sayHello()) // "Hello from Rick Sanchez!"
      */
 
-    console.log(`Hello from ${person.firstName} ${person.lastName}!`);
+    console.log(person.sayHello());
 
     /** TODO:
      * HEB has an offer for the shoppers that buy products amounting to
