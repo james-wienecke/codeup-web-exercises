@@ -120,6 +120,18 @@
                 first: author[0],
                 last: author[1],
                 name: function () { return `${this.first} ${this.last}`; }
+            },
+            keywords: [],
+            addKeywords: function (newKeywords) { this.keywords.push(newKeywords); },
+            available: true,
+            dateAvailable: 'now',
+            lend: function () {
+                this.available = false;
+                this.dateAvailable = new Date(new Date + 12096e5);
+            },
+            receive: function () {
+                this.available = true;
+                this.dateAvailable = 'now';
             }
         }
     }
