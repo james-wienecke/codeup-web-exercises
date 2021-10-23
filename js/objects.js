@@ -45,7 +45,7 @@
      * and console.log the relevant messages for each person
      */
     console.log("[ shoppers discount ]")
-    var shoppers = [
+    let shoppers = [
         {name: 'Cameron', amount: 180},
         {name: 'Ryan', amount: 250},
         {name: 'George', amount: 320}
