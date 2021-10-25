@@ -7,18 +7,25 @@
 <body>
 <header>
     <a href="https://github.com/">
-        <img src="img/GitHub-Mark.png" alt="Github homepage" style="width:30px;height:30px;">
+        <img src="img/GitHub-Mark.png" alt="Github homepage" style="width:48px;height:48px;">
     </a>
-    <ul>
-        <li><a href="">Pull requests</a></li>
-        <li><a href="">Issues</a></li>
-        <li><a href="">Marketplace</a></li>
-        <li><a href="">Explore</a></li>
-    </ul>
+    <section id="site-navigation">
+        <form>
+            <input type="text" id="site-search" name="site-search" placeholder="Search or jump to...">
+        </form>
+        <ul>
+            <li><a href="https://github.com/pulls">Pull requests</a></li>
+            <li><a href="https://github.com/issues">Issues</a></li>
+            <li><a href="https://github.com/marketplace">Marketplace</a></li>
+            <li><a href="https://github.com/explore">Explore</a></li>
+        </ul>
+        <a href="https://github.com/notifications">🔔</a>
+        <hr>
+    </section>
 </header>
 <main>
     <section id="team-header">
-        <img src="http://placeholder.pics/svg/48" alt="team profile picture">
+        <img src="img/Chevron_Icon.png" alt="team profile picture" style="width:48px;height:48px;">
         <h2>Codeup</h2>
     </section>
     <section id="team-tabs">
@@ -32,38 +39,55 @@
     </section>
     <section id="tab-body">
         <h3>Codeup's dev team</h3>
-        <section id="user-0">
-            <a href=""><img src="https://fer-uig.glitch.me?uuid=4" alt="user-icon" />
-                Kent Beck</a><br>
-            <pre>
-                KentBeck
-                Member
+        <section class="user-profile" id="user-0">
+            <a href=""><img src="https://fer-uig.glitch.me?uuid=4" alt="user-icon" style="width:30px;height:30px;"/>
+                Kent Beck</a>
+            <p>
+                KentBeck<br>
+                Member<br>
                 1 team member
-            </pre>
+            </p>
         </section>
-        <section id="user-1">
-            <a href=""><img src="https://fer-uig.glitch.me?uuid=12" alt="user-icon" />
-                Codeup Instruction Staff</a><br>
-            <pre>
-                CodeupInstructors
-                Member
+        <section class="user-profile" id="user-1">
+            <a href=""><img src="https://fer-uig.glitch.me?uuid=12" alt="user-icon" style="width:30px;height:30px;"/>
+                Codeup Instruction Staff</a>
+            <p>
+                CodeupInstructors<br>
+                Member<br>
                 1 team member
-            </pre>
+            </p>
         </section>
-        <section id="user-2">
-            <a href=""><img src="https://fer-uig.glitch.me?uuid=24" alt="user-icon" />
-                Martin Fowler</a><br>
-            <pre>
-
-                Member
+        <section class="user-profile" id="user-2">
+            <a href=""><img src="https://fer-uig.glitch.me?uuid=24" alt="user-icon" style="width:30px;height:30px;"/>
+                Martin Fowler</a>
+            <p>
+                <br>
+                Member<br>
                 0 teams member
-            </pre>
+            </p>
         </section>
     </section>
 </main>
 <footer>
-    <p>© 2018 GitHub, Inc. <a href="">Terms</a> <a href="">Privacy</a> <a href="">Security</a> <a href="">Status</a> <a href="">Help</a></p>
-    <p><a href="">Contact GitHub</a> <a href="">API</a> <a href="">Training</a> <a href="">Shop</a> <a href="">Blog</a> <a href="">About</a></p>
+    <hr>
+    <section id="footer-links">
+        <span id="footer-left">
+            © 2018 GitHub, Inc.
+            <a href="https://docs.github.com/en/github/site-policy/github-terms-of-service">Terms</a>
+            <a href="https://docs.github.com/en/github/site-policy/github-privacy-statement">Privacy</a>
+            <a href="https://github.com/security">Security</a>
+            <a href="https://githubstatus.com">Status</a>
+            <a href="https://docs.github.com/">Docs</a>
+        </span>
+        <span>
+            <a href="https://support.github.com/?tags=dotcom-footer">Contact GitHub</a>
+            <a href="https://github.com/pricing">Pricing</a>
+            <a href="https://docs.github.com/">API</a>
+            <a href="https://services.github.com/">Training</a>
+            <a href="https://github.blog/">Blog</a>
+            <a href="https://github.com/about">About</a>
+        </span>
+    </section>
 </footer>
 </body>
 </html>
