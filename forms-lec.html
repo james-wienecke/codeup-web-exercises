@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Forms Lecture</title>
+</head>
+<body>
+  <h1>Forms Lecture</h1>
+    <!-- Structure
+    HTML forms can be defined by using the <form> element.
+    Let's start out by looking at an example of a simple
+    login form. -->
+    <form method="GET" action="https://request-inspector.glitch.me/">
+
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text">
+        <br>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password">
+        <br>
+
+        <input type="submit">
+    </form>
+
+  <form action="https://request-inspector.glitch.me" method="GET">
+      <label for="zipcode">Zipcode</label>
+      <input type="text" name="zipcode" id="zipcode" placeholder="input a zipcode">
+      <button type="submit">Search</button>
+  </form>
+</body>
+</html>
