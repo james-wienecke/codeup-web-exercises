@@ -102,6 +102,31 @@ moved to the last index of the array.
 	console.log(thuOctArr);
 	console.log(moveToEnd(thuOctArr));
 	console.log(thuOctArr);
-
+/* MON 25-10-21 Warmup:
+Visit the pokemon and pick your favorite pokemon. Create a JavaScript object that represents them,
+the more info the better. We will be using this for the lecture today!
+ */
+	let cyndaquil = {
+		dexNumber: 155,
+		name: 'cyndaquil',
+		title: 'fire mouse pokemon',
+		type: 'fire',
+		evolution: 'quilava',
+		ability: ['blaze', 'flash fire'],
+		height: {
+			meters: 0.5,
+			imperial: {
+				feet: 1,
+				inches: 8
+			}
+		},
+		weight: {
+			kilos: 7.9
+			pounds: 17.4
+		},
+		description: 'The fire that spouts from its back burns hottest when it is angry. The flaring flames intimidate foes.',
+		movesFromLvlUp: ['tackle', 'leer', 'smokescreen', 'ember', 'quick attack', 'flame wheel', 'swift', 'flamethrower'],
+		eggGroup: 'field'
+	}
 
 }());
