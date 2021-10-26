@@ -1,0 +1,56 @@
+/* ELEMENT SELECTORS */
+h1 {
+    color: red;
+}
+
+main th {
+    color: blue;
+}
+
+/* CLASS SELECTORS */
+.orange-bg {
+    background-color: orange;
+}
+/* children of elements with orange-bg class: */
+.orange-bg li {
+    font-family: Helvetica, sans-serif;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+/* ID SELECTORS */
+#blue-bg {
+    background-color: blue;
+}
+
+#back-to-top {
+    color: hotpink;
+}
+/* h2 elements of parent element with ID parent-div */
+#parent-div h2 {
+    color: lightblue;
+}
+/* Direct child descendent selector: only selects specific
+elements that are direct child of specified ID/class
+syntax: #id>element {}
+ */
+#type>h2 {
+    text-decoration: underline;
+}
+/* Direct child descendent selector
+syntax: .class>element {}
+ */
+.table-info>td {
+    text-decoration: underline;
+}
+
+.container {
+    color: rebeccapurple;
+}
+
+/* this is "more specific" than the original class styling, so it overrides base style above */
+.container>h3 {
+    color: goldenrod;
+}
