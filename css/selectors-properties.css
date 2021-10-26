@@ -1,6 +1,6 @@
 /* ELEMENT SELECTORS */
 h1 {
-    color: red;
+    color: #FF0000
 }
 
 main th {
@@ -26,7 +26,7 @@ main th {
 }
 
 #back-to-top {
-    color: hotpink;
+    color: purple;
 }
 /* h2 elements of parent element with ID parent-div */
 #parent-div h2 {
@@ -53,4 +53,26 @@ syntax: .class>element {}
 /* this is "more specific" than the original class styling, so it overrides base style above */
 .container>h3 {
     color: goldenrod;
+}
+/* Combination selector:
+ syntax: element.class | class.class
+ */
+h1.orange-bg {
+    font-size: 16px;
+}
+
+a:link {
+    color: navajowhite;
+}
+
+a:visited {
+    color: lightblue;
+}
+
+a:hover {
+    color: limegreen;
+}
+
+a:active {
+    color: coral;
 }
