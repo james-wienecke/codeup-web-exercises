@@ -121,12 +121,44 @@ the more info the better. We will be using this for the lecture today!
 			}
 		},
 		weight: {
-			kilos: 7.9
+			kilos: 7.9,
 			pounds: 17.4
 		},
 		description: 'The fire that spouts from its back burns hottest when it is angry. The flaring flames intimidate foes.',
 		movesFromLvlUp: ['tackle', 'leer', 'smokescreen', 'ember', 'quick attack', 'flame wheel', 'swift', 'flamethrower'],
 		eggGroup: 'field'
 	}
-
+/* TUE 26-10-21 Warmup:
+Write a function that accepts an array as an argument, and that returns an array of objects that have a
+nationality property of "Canadian".
+ */
+	var wrestlers = [
+		{
+			name: "Bret Hart",
+			nationality: "Canadian"
+		}, {
+			name: "Shawn Michaels",
+			nationality: "American"
+		}, {
+			name: "Christian Cage",
+			nationality: "Canadian"
+		}, {
+			name: "Keiji Mutoh",
+			nationality: "Japanese"
+		}, {
+			name: "Eddy Guerrero",
+			nationality: "American"
+		}, {
+			name: "Owen Hart",
+			nationality: "Canadian"
+		}
+	];
+	function getCanadianWrestlers (wrestlers) {
+		let canadianWrestlers = [];
+		wrestlers.forEach((wrestler) => {
+			if (wrestler.nationality === "Canadian") canadianWrestlers.push(wrestler);
+		});
+		return canadianWrestlers;
+	}
+	console.log(getCanadianWrestlers(wrestlers));
 }());
