@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Intro to Elements</title>
+    <link rel="stylesheet" href="css/selectors-properties.css">
 </head>
 <body>
 <header>
-    <h1>Cindaquil</h1>
+    <h1 class="orange-bg">Cindaquil</h1>
     <br>
     <nav>
         <a href="https://www.pokemon.com/us/pokedex/cyndaquil">Pokemon Website Pokedex Page</a>
@@ -16,15 +17,24 @@
 </header>
 <section id="main-image">
     <img src="img/155.png" alt="A picture of the Pokemon 'Cyndaquil'">
-    <input type="text">
 </section>
 <main>
     <p>Pokedex #: <strong>155</strong></p>
     <section id="type">
         <h2>Type</h2>
-        <ul>
+        <ul class="orange-bg">
             <li>Fire</li>
         </ul>
+        <div class="container">
+            <ul>
+                <li>Hi</li>
+                <li>Hi</li>
+                <li>Hello</li>
+            </ul>
+        </div>
+        <div class="container">
+            <h3>Im h3</h3>
+        </div>
     </section>
     <table>
         <tr>
@@ -34,7 +44,7 @@
             <th>Ability</th>
             <th>Gender</th>
         </tr>
-        <tr>
+        <tr class="table-info">
             <td>1'08"</td>
             <td>17.4 lbs</td>
             <td>Fire Mouse</td>
@@ -42,9 +52,15 @@
             <td>Male and Female</td>
         </tr>
     </table>
+    <div id="parent-div">
+        <div>
+            <h2>Am i a child???</h2>
+        </div>
+    </div>
 </main>
 <footer>
-    <a href="#top">Back to top</a>
+    <a href="#top" id="back-to-top">Back to top</a>
 </footer>
+<h1 class="orange-bg underline" id="blue-bg">This is another element.</h1>
 </body>
 </html>
