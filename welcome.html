@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" href="css/style.css">s
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header>
     <h1 class="fancy-header">Welcome to Veridian Dynamics</h1>
-    <p>At Veridian Dynamics, <strong>we</strong> solve <em>your</em> problems with <strong>technology</strong>.</p>
+    <p id="tagline">At Veridian Dynamics, <strong>we</strong> solve <em>your</em> problems with <strong>technology</strong>.</p>
     <hr>
 </header>
-<main>
+<main class="solid-page main">
     <h2>Core Values</h2>
     <ul>
         <li>Competence</li>
@@ -32,10 +32,12 @@
     </ul>
     <hr>
     <h2>Company Vision</h2>
-    <img src="img/executive-sitting.jpg" alt="Picture of an executive office.">
-    <img src="img/workspace-coworking.jpg" alt="Picture of a person working at a desk in an office.">
-    <img src="img/pexels-photo-9890075.jpeg" alt="Picture of a city in a valley at sunset">
-    <img src="img/pexels-photo-443383.jpeg" alt="Picture of looking up at skyscrapers.">
+    <section class="gallery">
+        <img src="img/executive-sitting.jpg" alt="Picture of an executive office.">
+        <img src="img/workspace-coworking.jpg" alt="Picture of a person working at a desk in an office.">
+        <img src="img/pexels-lukas-rodriguez-3618162.jpg" alt="Picture of a person standing next to a tree at sunset.">
+        <img src="img/pexels-alex-azabache-4039921.jpg" alt="Picture of a city at sunset.">
+    </section>
     <h2>Our Product</h2>
     <table>
         <tr>
@@ -63,6 +65,25 @@
 <footer>
     <p><em>All products come with our quality gaurantee™</em></p>
     <a href="#top">Go to the top of the page</a>
+    <hr>
+    <section id="footer-links">
+        <div id="footer-left">
+            © 2021 Veridian Dynamics, Inc.
+            <a href="https://docs.github.com/en/github/site-policy/github-terms-of-service">Terms</a>
+            <a href="https://docs.github.com/en/github/site-policy/github-privacy-statement">Privacy</a>
+            <a href="https://github.com/security">Security</a>
+            <a href="https://githubstatus.com">Status</a>
+            <a href="https://docs.github.com/">Docs</a>
+        </div>
+        <div id="footer-right">
+            <a href="https://support.github.com/?tags=dotcom-footer">Contact GitHub</a>
+            <a href="https://github.com/pricing">Pricing</a>
+            <a href="https://docs.github.com/">API</a>
+            <a href="https://services.github.com/">Training</a>
+            <a href="https://github.blog/">Blog</a>
+            <a href="https://github.com/about">About</a>
+        </div>
+    </section>
 </footer>
 </body>
 </html>
