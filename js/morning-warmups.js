@@ -161,4 +161,15 @@ nationality property of "Canadian".
 		return canadianWrestlers;
 	}
 	console.log(getCanadianWrestlers(wrestlers));
+	/* Warmup 27-10-21
+	Find the area of the circle and round it to the nearest whole number with the Math object
+	 */
+	let circle = {
+		radius: 36
+	}
+	function areaOfCircle () {
+		let area = Math.PI * Math.pow(circle.radius, 2);
+		console.log('area of the circle with radius of', circle.radius, 'is:', Math.round(area));
+	}
+	areaOfCircle();
 }());
