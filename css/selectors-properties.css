@@ -58,7 +58,7 @@ syntax: .class>element {}
  syntax: element.class | class.class
  */
 h1.orange-bg {
-    font-size: 16px;
+    text-decoration: overline underline;
 }
 
 a:link {
@@ -75,4 +75,28 @@ a:hover {
 
 a:active {
     color: coral;
+}
+
+.description {
+    text-decoration: underline wavy navy;
+    text-align: justify;
+    text-indent: 3em;
+}
+
+.pokemon-name {
+    font-family: "Comic Sans MS";
+    font-style: italic;
+    font-weight: lighter;
+    font-size: 5em;
+}
+
+body {
+    background-color: yellow;
+    background-image: url("/img/pokeball.png");
+    background-repeat: repeat-y;
+    background-position-x: center;
+}
+
+.type-list {
+    list-style: inside;
 }
