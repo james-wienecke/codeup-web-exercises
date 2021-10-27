@@ -1,7 +1,94 @@
 h1 {
     color: red;
 }
+html {
+    opacity: 0.7;
+    background-color: #ffecc9;
+    background-image: linear-gradient(30deg, #620779 12%, transparent 12.5%, transparent 87%, #620779 87.5%, #620779), linear-gradient(150deg, #620779 12%, transparent 12.5%, transparent 87%, #620779 87.5%, #620779), linear-gradient(30deg, #620779 12%, transparent 12.5%, transparent 87%, #620779 87.5%, #620779), linear-gradient(150deg, #620779 12%, transparent 12.5%, transparent 87%, #620779 87.5%, #620779), linear-gradient(60deg, #62077977 25%, transparent 25.5%, transparent 75%, #62077977 75%, #62077977), linear-gradient(60deg, #62077977 25%, transparent 25.5%, transparent 75%, #62077977 75%, #62077977);
+    background-size: 22px 39px;
+    background-position: 0 0, 0 0, 11px 19px, 11px 19px, 0 0, 11px 19px;
+    background-repeat: repeat;
+    background-position-x: center;
+}
+
 .fancy-header {
     color: purple;
     text-decoration: underline;
+    text-align: center;
+    font-family: Baskerville;
 }
+
+body {
+    font-family: Helvetica;
+}
+
+ul {
+    list-style-type: square;
+}
+
+ol {
+    list-style-type: lower-roman;
+}
+
+table, th, td {
+    border: 1px dotted black;
+    background-color: whitesmoke;
+}
+
+th, td {
+    padding: 10px;
+}
+
+th {
+    font-size: 1.5em;
+}
+
+a:link {
+    color: cadetblue;
+}
+
+a:visited {
+    color: navy;
+}
+
+a:hover {
+    color: blueviolet;
+}
+
+a:active {
+    color: coral;
+}
+
+.solid-page {
+    max-width: 80%;
+    background-color: whitesmoke;
+    padding: 40px;
+    margin: 20px auto;
+}
+.gallery {
+    margin: auto 10%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.gallery img {
+    max-width: 40%; /* width of container */
+    max-height:40%; /* height of container */
+    margin: 5%;
+}
+
+
+footer, header {
+    background-color: whitesmoke;
+    padding: 40px;
+}
+
+hr {
+    height: 2px;
+}
+
+#tagline {
+    text-align: center;
+}
+
