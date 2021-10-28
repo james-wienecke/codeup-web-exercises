@@ -7,10 +7,10 @@
      background-color: dimgray;
      font-size: xx-large;
      text-align: center;
-     width: 65vw;
-     height: 12vh;
-     padding: 5vh 1vw;
-     margin: 5vh 2.5vw;
+     width: 45vw;
+     height: 4vh;
+     padding: 2vh 1vw;
+     margin: 1vh 2.5vw;
  }
 
  h1 {
@@ -33,10 +33,10 @@
 }
 
 .pbj-recipe {
-    width: 65vw;
-    height: 8vh;
+    width: 45vw;
+    height: fit-content;
     padding: 1vh 1vw;
-    margin: 2.5vh 2.5vw;
+    margin: .5vh 2.5vw;
 }
 .bread {
     background-color: #c68958;
@@ -53,6 +53,5 @@
 .recipe-container {
     border: .25em solid white;
     width: fit-content;
-    margin: 10vh auto;
-    padding: 0%;
+    margin: 1vh auto;
 }
