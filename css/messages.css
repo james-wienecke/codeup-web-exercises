@@ -1,0 +1,54 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Ubuntu, sans-serif;
+}
+
+:root {
+    /* message colors */
+    --bg-info: #CCDEFF;
+    --text-info: #6564B4;
+    --bg-success: #CFF3DA;
+    --text-success: #31824F;
+    --bg-warning: #FCFBC9;
+    --text-warning: #9C8A2D;
+    --bg-error: #FAD2D6;
+    --text-error: #8E2C41;
+}
+
+.message {
+    /* size elements */
+    width: 90vm;
+    /* if height and line-height are equal, text is vertically centered in element */
+    height: 1em;
+    line-height: 1em;
+    /* tried to match example's spacing but it's probably not perfect... */
+    padding: .5em;
+    margin: .5em;
+    /* nice light grey rounded border */
+    border: #D2D3D4 solid 1px;
+    border-radius: 5px;
+}
+
+    /* here be the different color messages */
+.message-info {
+    color: var(--text-info);
+    background-color: var(--bg-info);
+}
+
+.message-success {
+    color: var(--text-success);
+    background-color: var(--bg-success);
+}
+
+.message-warning {
+    color: var(--text-warning);
+    background-color: var(--bg-warning);
+}
+
+.message-error {
+    color: var(--text-error);
+    background-color: var(--bg-error);
+}

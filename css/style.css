@@ -8,14 +8,15 @@ html {
     background-size: 22px 39px;
     background-position: 0 0, 0 0, 11px 19px, 11px 19px, 0 0, 11px 19px;
     background-repeat: repeat;
-    background-position-x: center;
+    /*background-position-x: center;*/
 }
 
 .fancy-header {
     color: purple;
     text-decoration: underline;
     text-align: center;
-    font-family: Baskerville;
+    font-family: Copperplate;
+    font-size: 3em;
 }
 
 body {
@@ -66,16 +67,17 @@ a:active {
     margin: 20px auto;
 }
 .gallery {
-    margin: auto 10%;
+    margin: auto; 
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+
 }
 
 .gallery img {
     max-width: 40%; /* width of container */
-    max-height:40%; /* height of container */
-    margin: 5%;
+    max-height: 40%; /* height of container */
+    margin: 5% auto;
 }
 
 
