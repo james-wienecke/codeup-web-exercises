@@ -172,4 +172,8 @@ nationality property of "Canadian".
 		console.log('area of the circle with radius of', circle.radius, 'is:', Math.round(area));
 	}
 	areaOfCircle();
+    /* Warmup 29-10-21
+     * No warmup?
+     * 
+     * /
 }());
