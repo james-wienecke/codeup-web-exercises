@@ -5,7 +5,7 @@
  h2 {
      color: white;
      background-color: dimgray;
-     font-size: xx-large;
+     font-size: x-large;
      text-align: center;
      width: 45vw;
      height: 4vh;
@@ -15,7 +15,7 @@
 
  h1 {
      color: white;
-     font-size: xxx-large;
+     font-size: xx-large;
      margin: 5vh 2.5vw;
      text-align: center;
  }
@@ -48,6 +48,7 @@
 
 .jelly {
     background-color: blueviolet;
+    color: ghostwhite;
 }
 
 .recipe-container {
