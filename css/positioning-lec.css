@@ -1,0 +1,75 @@
+#arena {
+    border: 5px black solid;
+    margin: 10vh 10vw;
+}
+
+#box {
+    height: 250px;
+    width: 350px;
+    background-color: purple;
+    float: left;
+}
+
+#crate {
+    height: 270px;
+    width: 230px;
+    background-color: greenyellow;
+    float: right;
+    /*clear: both;*/
+}
+
+#basket {
+    height: 200px;
+    width: 80px;
+    background-color: crimson;
+    float: left;
+    /*clear: both;*/
+}
+
+#text {
+    clear: both;
+}
+
+#field {
+    border: 5px black solid;
+    margin: 10vh 10vw;
+    background-color: #cbffcd;
+    /*position: relative;*/
+}
+
+#words {
+    background-color: white;
+}
+
+#new-box {
+    background-color: cadetblue;
+    height: 110px;
+    width: 180px;
+    position: relative;
+    bottom: 160px;
+    left: 20px;
+}
+
+#newer-box {
+    background-color: mediumseagreen;
+    height: 150px;
+    width: 110px;
+    position: absolute;
+    top: 10px;
+    right: 85px;
+}
+
+#newerest-box {
+    background-color: steelblue;
+    height: 130px;
+    width: 120px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+#newestest-box {
+    background-color: seagreen;
+    height: 140px;
+    width: 130px;
+}
