@@ -112,7 +112,7 @@ a {
 .media {
     width: 100%;
     background-color: var(--light-bg);
-    border-bottom: var(--separator-color) solid;
+    border-bottom: var(--separator-color) 1px solid;
     padding: .5em;
     overflow: auto;
 }
