@@ -180,4 +180,43 @@ nationality property of "Canadian".
 	 * How was your halloween?????? ate a lot of candy :)
 	 *
 	 */
+	/* Warmup 02-11-21
+	 * Create a function that takes in an array of objects, and returns the object with the
+	 * highest quantity.
+	 */
+	var groceries = [
+		{
+			name: "carrots",
+			quantity: 5
+		},{
+			name: "yams",
+			quantity: 50
+		},{
+			name: "oranges",
+			quantity: 9
+		},{
+			name: "onions",
+			quantity: 2
+		},{
+			name: "cucumbers",
+			quantity: 6
+		},{
+			name: "potatoes",
+			quantity: 8
+		}
+	];
+	function getHighestQuantity (objs) {
+		let highest =  {
+			num: Number.MIN_SAFE_INTEGER,
+			obj: {}
+		}
+		objs.forEach((elem) => {
+			if (elem.quantity > highest.num) {
+				highest.num = elem.quantity;
+				highest.obj = elem;
+			}
+		});
+		return highest.obj;
+	}
+	console.log(getHighestQuantity(groceries));
 }());
