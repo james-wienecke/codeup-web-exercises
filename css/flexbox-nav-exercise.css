@@ -8,8 +8,6 @@
 .nav {
     background-color: #C1C1C1;
     color: black;
-    margin: 0;
-    padding: 0;
 }
 .navbar {
     display: flex;
@@ -90,7 +88,7 @@ footer a {
     color: #7E7E7E;
 }
 footer a:hover {
-
+    color: #F8690F;
 }
 footer .foot-top {
     display: flex;
@@ -119,7 +117,6 @@ footer button {
     background-color: #F8690F;
     color: whitesmoke;
     line-height: 1.5em;
-    /*border-radius: 20%/50%;*/
     border-radius: .75em;
     border: #F8690F 1px solid;
     margin: 1em 0;
@@ -150,4 +147,5 @@ footer .foot-bottom {
 }
 footer hr {
     max-width: 90%;
+    margin: 0 auto;
 }
