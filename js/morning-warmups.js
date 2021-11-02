@@ -207,16 +207,14 @@ nationality property of "Canadian".
 	];
 	function getHighestQuantity (objs) {
 		let highest =  {
-			num: Number.MIN_SAFE_INTEGER,
-			obj: {}
+			quantity: Number.MIN_SAFE_INTEGER,
 		}
 		objs.forEach((elem) => {
-			if (elem.quantity > highest.num) {
-				highest.num = elem.quantity;
-				highest.obj = elem;
+			if (elem.quantity > highest.quantity) {
+				highest = elem;
 			}
 		});
-		return highest.obj;
+		return highest;
 	}
 	console.log(getHighestQuantity(groceries));
 }());
