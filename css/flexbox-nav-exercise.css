@@ -34,19 +34,19 @@
 .nav a:hover {
     color: blue;
 }
-.nav-account {
+.nav .nav-account {
     justify-content: flex-end;
 }
-.nav-site {
+.nav .nav-site {
     justify-content: flex-start;
 }
-.logo {
+.nav .logo {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.logo a {
+.nav .logo a {
     font-family: 'Montserrat', sans-serif;
     font-size: 3em;
     padding: .2em 0;
