@@ -25,7 +25,6 @@
     font-size: 15px;
     font-weight: bold;
 }
-
 .nav a {
     text-decoration: none;
     color: black;
@@ -38,11 +37,9 @@
 .nav-account {
     justify-content: flex-end;
 }
-
 .nav-site {
     justify-content: flex-start;
 }
-
 .logo {
     position: absolute;
     top: 50%;
