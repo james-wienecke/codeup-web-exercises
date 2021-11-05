@@ -66,7 +66,7 @@
 </ul>
 
 <!-- PIZZA FORM AND TABS CONTENT -->
-<form method="GET" action="https://request-inspector.glitch.me/">
+<form id="form-pizza" method="POST" action="https://request-inspector.glitch.me/">
     <div class="tab-content mx-4" id="pizzaBuild-cards">
         <div class="tab-pane fade show active" id="crust-card" role="tabpanel" aria-labelledby="crust-tab">
             <div class="card">
@@ -80,7 +80,7 @@
                                 <li class="list-group-item">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="crust"
-                                               id="radioHandCrustSmall" value="handSmall">
+                                               id="radioHandCrustSmall" value="hand-sml">
                                         <label class="form-check-label" for="radioHandCrustSmall">
                                             Small (10")
                                         </label>
@@ -89,9 +89,18 @@
                                 <li class="list-group-item">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="crust" id="radioHandCrustMed"
-                                               value="handMed">
+                                               value="hand-med">
                                         <label class="form-check-label" for="radioHandCrustMed">
                                             Medium (12")
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="crust" id="radioHandCrustLrg"
+                                               value="hand-lrg">
+                                        <label class="form-check-label" for="radioHandCrustLrg">
+                                            Large (14")
                                         </label>
                                     </div>
                                 </li>
@@ -130,7 +139,7 @@
                         <div class="card-header">Deep-dish pan pizza</div>
                         <div class="card-body m-0 p-0">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">A delicious mid-west style deep-dish pie.</li>
+                                <li class="list-group-item">A delicious midwestern-style deep-dish pie.</li>
                                 <li class="list-group-item">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="crust" id="radioPanCrust"
@@ -143,19 +152,43 @@
                             </ul>
                         </div>
                     </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Gluten-Free Thin Pizza Crust</div>
+                        <div class="card-body m-0 p-0">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">All the flavor and texture of a classic thin pizza crust, hold the gluten!</li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="crust" id="radioGFCrustSmall"
+                                               value="gf-sml">
+                                        <label class="form-check-label" for="radioGFCrustSmall">
+                                            Small (10")
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="crust" id="radioGFCrustMedium"
+                                               value="gf-med">
+                                        <label class="form-check-label" for="radioGFCrustMedium">
+                                            Medium (12")
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" type="reset"
-                            onclick="$('#crust-tab').tab('show')">Start over
-                    </button>
+                    <a class="btn btn-primary" onclick="tabChange('#crust-tab'); resetForm('form-pizza')" href="#form-pizza">
+                        Start over
+                    </a>
                     <div class="btn-group float-right" role="group"
                          aria-label="Control buttons to go back or forward in build steps">
-                        <button disabled type="button" class="btn btn-primary"
-                                onclick="$('#crust-tab').tab('show')">Previous step
-                        </button>
-                        <button type="button" class="btn btn-primary float-right"
-                                onclick="$('#cheese-tab').tab('show')">Next step
-                        </button>
+                        <a class="btn btn-primary float-right" onclick="tabChange('#cheese-tab')" href="#form-pizza">
+                            Next step
+                        </a>
                     </div>
                 </div>
             </div>
@@ -170,8 +203,39 @@
                         <div class="card-body m-0 p-0">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
+                                    <p>What kinds of cheese?</p>
+                                    <div class="form-check form-check-inline">
+                                        <input checked class="form-check-input" type="checkbox" name="cheese-type" value="mozz"
+                                               id="checkMozz">
+                                        <label class="form-check-label" for="checkMozz">
+                                            Mozzarella
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="cheese-type" value="asiago"
+                                               id="checkAsiago">
+                                        <label class="form-check-label" for="checkAsiago">
+                                            Asiago
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="cheese-type" value="parm"
+                                               id="checkParm">
+                                        <label class="form-check-label" for="checkParm">
+                                            Parmesan
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="cheese-type" value="vegan"
+                                               id="checkVegan">
+                                        <label class="form-check-label" for="checkVegan">
+                                            Non-dairy cheese alternative
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
                                     <label for="selectCheese">How much?</label>
-                                    <select class="form-control" name="cheese" id="selectCheese">
+                                    <select class="form-control" name="cheese-amt" id="selectCheese">
                                         <option value="0.5">Light</option>
                                         <option value="1" selected>Normal</option>
                                         <option value="1.5">Extra</option>
@@ -208,17 +272,17 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" type="reset"
-                            onclick="$('#crust-tab').tab('show')">Start over
-                    </button>
+                    <a class="btn btn-primary" onclick="tabChange('#crust-tab'); resetForm('form-pizza')" href="#form-pizza">
+                        Start over
+                    </a>
                     <div class="btn-group float-right" role="group"
                          aria-label="Control buttons to go back or forward in build steps">
-                        <button type="button" class="btn btn-primary"
-                                onclick="$('#crust-tab').tab('show')">Previous step
-                        </button>
-                        <button type="button" class="btn btn-primary"
-                                onclick="$('#toppings-tab').tab('show')">Next step
-                        </button>
+                        <a class="btn btn-primary" onclick="tabChange('#crust-tab')" href="#form-pizza">
+                            Previous step
+                        </a>
+                        <a class="btn btn-primary" onclick="tabChange('#toppings-tab')" href="#form-pizza">
+                            Next step
+                        </a>
                     </div>
                 </div>
             </div>
@@ -286,6 +350,15 @@
                                         </label>
                                     </div>
                                 </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="meat" value="chicken"
+                                               id="checkChicken">
+                                        <label class="form-check-label" for="checkChicken">
+                                            Chicken
+                                        </label>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -335,7 +408,7 @@
                                         <input class="form-check-input" type="checkbox" name="veg" value="red-pepper"
                                                id="checkRedPepper">
                                         <label class="form-check-label" for="checkRedPepper">
-                                            Pickled red peppers
+                                            Red peppers
                                         </label>
                                     </div>
                                 </li>
@@ -357,21 +430,49 @@
                                         </label>
                                     </div>
                                 </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="veg" value="tomato"
+                                               id="checkTomato">
+                                        <label class="form-check-label" for="checkTomato">
+                                            Diced tomato
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="veg" value="banana-pepper"
+                                               id="checkBPepper">
+                                        <label class="form-check-label" for="checkBPepper">
+                                            Banana peppers
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="veg" value="spinach"
+                                               id="checkSpinach">
+                                        <label class="form-check-label" for="checkSpinach">
+                                            Spinach
+                                        </label>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" type="reset"
-                            onclick="$('#crust-tab').tab('show')">Start over
-                    </button>
+                    <a class="btn btn-primary" onclick="tabChange('#crust-tab'); resetForm('form-pizza')" href="#form-pizza">
+                        Start over
+                    </a>
                     <div class="btn-group float-right" role="group"
                          aria-label="Control buttons to go back or forward in build steps">
-                        <button type="button" class="btn btn-primary"
-                                onclick="$('#cheese-tab').tab('show')">Previous step
-                        </button>
-                        <button class="btn btn-primary" type="submit">Checkout <i class="fas fa-shopping-cart"></i>
-                        </button>
+                        <a class="btn btn-primary" onclick="tabChange('#cheese-tab')" href="#form-pizza">
+                            Previous step
+                        </a>
+                        <a class="btn btn-primary" onclick="submitForm('form-pizza')" href="#form-pizza">
+                            Checkout <i class="fas fa-shopping-cart"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -389,5 +490,18 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+<!-- CUSTOM JAVASCRIPT -->
+<script>
+    function submitForm(id) {
+        document.getElementById(id).submit();
+    }
+    function resetForm(id) {
+        document.getElementById(id).reset();
+    }
+    function tabChange(tab) {
+        $(tab).tab('show');
+    }
+</script>
 </body>
 </html>
