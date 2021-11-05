@@ -122,17 +122,37 @@
                             </ul>
                         </div>
                     </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Deep-dish pan pizza</div>
+                        <div class="card-body m-0 p-0">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">A delicious mid-west style deep-dish pie</li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="crust" id="radioPanCrust"
+                                               value="panMed">
+                                        <label class="form-check-label" for="radioPanCrust">
+                                            Medium (12")
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button href="#crust-card" class="btn btn-primary" type="reset"
                             onclick="$('#crust-tab').tab('show')">Start over
                     </button>
                     <div class="btn-group float-right" role="group"
-                    aria-label="Control buttons to go back or forward in build steps">
-                    <button disabled type="button" href="#crust-card" class="btn btn-primary" onclick="$('#crust-tab').tab('show')">Previous
-                        step</button>
-                    <button type="button" href="#cheese-card" class="btn btn-primary float-right" onclick="$('#cheese-tab').tab('show')">Next
-                        step</button>
+                         aria-label="Control buttons to go back or forward in build steps">
+                        <button disabled type="button" href="#crust-card" class="btn btn-primary"
+                                onclick="$('#crust-tab').tab('show')">Previous step
+                        </button>
+                        <button type="button" href="#cheese-card" class="btn btn-primary float-right"
+                                onclick="$('#cheese-tab').tab('show')">Next step
+                        </button>
                     </div>
                 </div>
             </div>
@@ -192,10 +212,12 @@
                     </button>
                     <div class="btn-group float-right" role="group"
                          aria-label="Control buttons to go back or forward in build steps">
-                        <button type="button" href="#crust-card" class="btn btn-primary" onclick="$('#crust-tab').tab('show')">Previous
-                            step</button>
-                        <button type="button" href="#toppings-card" class="btn btn-primary" onclick="$('#toppings-tab').tab('show')">Next
-                            step</button>
+                        <button type="button" href="#crust-card" class="btn btn-primary"
+                                onclick="$('#crust-tab').tab('show')">Previous step
+                        </button>
+                        <button type="button" href="#toppings-card" class="btn btn-primary"
+                                onclick="$('#toppings-tab').tab('show')">Next step
+                        </button>
                     </div>
 
                 </div>
@@ -247,6 +269,24 @@
                                         </label>
                                     </div>
                                 </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="meat" value="steak"
+                                               id="checkSteak">
+                                        <label class="form-check-label" for="checkSteak">
+                                            Philly steak
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="meat" value="bacon"
+                                               id="checkBacon">
+                                        <label class="form-check-label" for="checkBacon">
+                                            Bacon
+                                        </label>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -257,7 +297,7 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="veg" value="gPepper"
+                                        <input class="form-check-input" type="checkbox" name="veg" value="green-pepper"
                                                id="checkGreenPeppers">
                                         <label class="form-check-label" for="checkGreenPeppers">
                                             Green peppers
@@ -291,6 +331,33 @@
                                         </label>
                                     </div>
                                 </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="veg" value="red-pepper"
+                                               id="checkRedPepper">
+                                        <label class="form-check-label" for="checkRedPepper">
+                                            Pickled red peppers
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="veg" value="jalapeno"
+                                               id="checkJalapeno">
+                                        <label class="form-check-label" for="checkJalapeno">
+                                            Pickled jalapeños
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="veg" value="olive"
+                                               id="checkOlive">
+                                        <label class="form-check-label" for="checkOlive">
+                                            Black olives
+                                        </label>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -300,11 +367,12 @@
                             onclick="$('#crust-tab').tab('show')">Start over
                     </button>
                     <div class="btn-group float-right" role="group"
-                    aria-label="Control buttons to go back or forward in build steps">
-                    <button type="button" href="#cheese-card" class="btn btn-primary" onclick="$('#cheese-tab').tab('show')">Previous
-                        step</button>
-                    <button class="btn btn-primary" type="submit">Checkout <i
-                            class="fas fa-shopping-cart"></i></button>
+                         aria-label="Control buttons to go back or forward in build steps">
+                        <button type="button" href="#cheese-card" class="btn btn-primary"
+                                onclick="$('#cheese-tab').tab('show')">Previous step
+                        </button>
+                        <button class="btn btn-primary" type="submit">Checkout <i class="fas fa-shopping-cart"></i>
+                        </button>
                     </div>
                 </div>
             </div>
