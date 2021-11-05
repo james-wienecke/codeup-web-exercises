@@ -39,14 +39,18 @@
         <a class="nav-link text-dark ml-auto mr-0" href="#"><i class="fas fa-user"></i> Sign up</a>
     </div>
 </nav>
-<div class="jumbotron jumbotron-fluid d-none d-md-block"
-     style="background: url(img/pizza.png) no-repeat center; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
+
+<!-- JUMBOTRON ELEMENT -->
+<div class="jumbotron jumbotron-fluid d-none d-md-block" id="jumbotron-pizza"
+     style="background: url(img/pizza.png) no-repeat center;">
     <div class="container-fluid p-0">
         <h1 class="display-4 text-center">Welcome to Pizza World!</h1>
     </div>
 </div>
 
+<!-- CUSTOMIZE PIZZA TAB NAVS -->
 <h2>Build your own pizza!</h2>
+
 <ul class="nav nav-tabs" id="pizzaBuild-tabs" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="crust-tab" data-toggle="tab" href="#crust-card" role="tab" aria-controls="crust"
@@ -61,6 +65,8 @@
            aria-controls="toppings" aria-selected="false"><span class="badge badge-secondary">3</span> Toppings</a>
     </li>
 </ul>
+
+<!-- PIZZA FORM AND TABS CONTENT -->
 <form method="GET" action="https://request-inspector.glitch.me/">
     <div class="tab-content" id="pizzaBuild-cards">
 
@@ -381,6 +387,7 @@
     </div>
 </form>
 
+<!-- BOOTSTRAP JS SCRIPTS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
