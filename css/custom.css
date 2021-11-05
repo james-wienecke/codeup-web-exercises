@@ -1,0 +1,10 @@
+.jumbotron h1 {
+    background-color: #EDEDED80 !important;
+}
+
+#jumbotron-pizza {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
