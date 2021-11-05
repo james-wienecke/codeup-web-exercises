@@ -133,7 +133,7 @@
                         <div class="card-header">Deep-dish pan pizza</div>
                         <div class="card-body m-0 p-0">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">A delicious mid-west style deep-dish pie</li>
+                                <li class="list-group-item">A delicious mid-west style deep-dish pie.</li>
                                 <li class="list-group-item">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="crust" id="radioPanCrust"
@@ -176,10 +176,10 @@
                                 <li class="list-group-item">
                                     <label for="selectCheese">How much?</label>
                                     <select class="form-control" name="cheese" id="selectCheese">
-                                        <option>Light</option>
-                                        <option selected>Normal</option>
-                                        <option>Extra</option>
-                                        <option>Double</option>
+                                        <option value="0.5">Light</option>
+                                        <option value="1" selected>Normal</option>
+                                        <option value="1.5">Extra</option>
+                                        <option value="2">Double</option>
                                     </select>
                                 </li>
 
@@ -194,18 +194,18 @@
                                 <li class="list-group-item">
                                     <label for="selectSauceType">What type?</label>
                                     <select class="form-control" name="sauce-type" id="selectSauceType">
-                                        <option selected>Tomato sauce</option>
-                                        <option>Marinara sauce</option>
-                                        <option>BBQ sauce</option>
-                                        <option>Alfredo sauce</option>
+                                        <option value="tomato" selected>Tomato sauce</option>
+                                        <option value="marinara">Marinara sauce</option>
+                                        <option value="bbq">BBQ sauce</option>
+                                        <option value="alfredo">Alfredo sauce</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <label for="selectSauceAmount">How much?</label>
                                     <select class="form-control" name="sauce-amt" id="selectSauceAmount">
-                                        <option>Light</option>
-                                        <option selected>Normal</option>
-                                        <option>Extra</option>
+                                        <option value="0.5">Light</option>
+                                        <option value="1" selected>Normal</option>
+                                        <option value="1.5">Extra</option>
                                     </select>
                                 </li>
                             </ul>
