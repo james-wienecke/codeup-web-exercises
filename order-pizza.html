@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 px-lg-2">
-    <a class="navbar-brand p-3 mx-2" href="#"><i class="fas fa-pizza-slice"></i> Pizza World</a>
+    <a class="navbar-brand mx-2" href="#"><i class="fas fa-pizza-slice"></i> Pizza World</a>
     <button class="navbar-toggler p-3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,19 +29,19 @@
 
             <li class="nav-item py-lg-2 px-3">
                 <form class="form-inline">
-                    <input class="form-control col-lg-4" type="search" placeholder="Zip code" aria-label="Search">
-                    <button class="btn btn-outline-secondary mx-lg-2" type="submit">Stores near you!</button>
+                    <input class="form-control col-4" type="search" placeholder="Zip code" aria-label="Search">
+                    <button class="btn btn-outline-secondary mx-lg-2" type="submit">Find your store!</button>
                 </form>
             </li>
         </ul>
-        <div class="dropdown ml-lg-auto mr-lg-2 my-lg-0 py-lg-2 p-3 ">
-            <a class="nav-link text-dark text-nowrap btn dropdown-toggle"
-               role= button href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user"></i> Account
+        <div class="dropdown ml-lg-auto mr-0 my-lg-0 py-lg-2 p-3 ">
+            <a class="nav-link text-dark text-nowrap txt-lg-right text-left btn dropdown-toggle"
+               role="button" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user"></i> Sign in
             </a>
         <form class="dropdown-menu dropdown-menu-lg-right p-4" style="width: 320px;">
             <div class="form-group">
-                <label for="exampleDropdownFormEmail2">Email address</label>
+                <label for="exampleDropdownFormEmail2">Email address or phone number</label>
                 <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
             </div>
             <div class="form-group">
@@ -58,21 +58,48 @@
             </div>
             <button type="submit" class="btn btn-primary">Sign in</button>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">New around here? Sign up</a>
-            <a class="dropdown-item" href="#">Forgot password?</a>
-        </div>
+            <a class="dropdown-item" href="#">New here? Sign up!</a>
+            <a class="dropdown-item" href="#">Forgot password</a>
         </form>
+        </div>
         </div>
     </div>
 </nav>
 
 <!-- JUMBOTRON ELEMENT -->
-<div class="jumbotron jumbotron-fluid d-none d-md-block" id="jumbotron-pizza"
-     style="background: url(img/pizza.png) no-repeat center;">
-    <div class="container-fluid p-0">
-        <h1 class="display-4 text-center">Welcome to Pizza World!</h1>
+<div id="carouselJumbotron" class="carousel slide carousel-fade" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-interval="200">
+            <div class="jumbotron jumbotron-fluid d-none d-md-block" id="jumbotron-pizza1"
+                 style="background: url(img/pizza.png) no-repeat center;">
+                <div class="container-fluid p-0">
+                    <h1 class="display-4 text-center">Welcome to Pizza World!</h1>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" data-interval="200">
+            <div class="jumbotron jumbotron-fluid d-none d-md-block" id="jumbotron-pizza2"
+                 style="background: url(img/pizza2.jpg) no-repeat center;">
+                <div class="container-fluid p-0">
+                    <h1 class="display-4 text-center">Welcome to Pizza World!</h1>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" data-interval="200">
+            <div class="jumbotron jumbotron-fluid d-none d-md-block" id="jumbotron-pizza3"
+                 style="background: url(img/pizza3.jpg) no-repeat center;">
+                <div class="container-fluid p-0">
+                    <h1 class="display-4 text-center">Welcome to Pizza World!</h1>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
+
+
 
 <!-- CUSTOMIZE PIZZA TAB NAVS -->
 <h2 class="text-black px-4">Build your own pizza!</h2>
