@@ -8,3 +8,13 @@
     -o-background-size: cover;
     background-size: cover;
 }
+
+.pizza-nav-badge {
+    vertical-align: middle !important;
+    margin-top: -.1em !important;
+    margin-right: .5em !important;
+}
+
+.nav-item > .active > .pizza-nav-badge {
+    background-color: var(--primary) !important;
+}
