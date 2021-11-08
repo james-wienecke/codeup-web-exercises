@@ -25,12 +25,15 @@ h4 {
 p {
     font-family: 'Fira Sans', sans-serif;
 }
-#minimal-list {
+p.sec-title {
+    font-size: 1.15em;
+}
+ul.minimal-list {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 hr {
-    height: 2px !important;
+    height: 2px;
     background-color: var(--color-acc);
 }
