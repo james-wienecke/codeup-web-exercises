@@ -244,4 +244,43 @@ nationality property of "Canadian".
 		});
 	}
 	console.log(sortByName(products));
+	/* Warmup 9-11-21
+	 * Write a function that takes an array of objects and returns an object with the
+	 * lowest height property. Consider the
+	 */
+	var bBallPlayers = [
+		{
+			name: "Hakeem Olajuwon",
+			height: 213
+		}, {
+			name: "Muggsy Bogues",
+			height: 160
+		}, {
+			name: "Chris Paul",
+			height: 183
+		}, {
+			name: "Bol Bol",
+			height: 218
+		}, {
+			name: "Moochie Norris",
+			height: 185
+		}, {
+			name: "Manu Ginobili",
+			height: 198
+		}
+	];
+	function getLowestHeight (objects) {
+		let lowest = {
+			obj: {},
+			height: Number.MAX_SAFE_INTEGER
+		};
+		objects.forEach((elem) => {
+			if (elem.height < lowest.height)  {
+				lowest.obj = elem;
+				lowest.height = elem.height;
+			}
+		});
+		return lowest.obj;
+	}
+	console.log(getLowestHeight(bBallPlayers));
 }());
