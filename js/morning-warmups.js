@@ -283,4 +283,9 @@ nationality property of "Canadian".
 		return lowest.obj;
 	}
 	console.log(getLowestHeight(bBallPlayers));
+
+	function getRandomElem (arr) {
+		return arr[Math.floor(Math.random() * arr.length)];
+	}
+	console.log(getRandomElem(['rock', 'paper', 'scissors', 'spock', 'lizard']));
 }());
