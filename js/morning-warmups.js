@@ -283,6 +283,7 @@ nationality property of "Canadian".
 		return lowest.obj;
 	}
 	console.log(getLowestHeight(bBallPlayers));
+
 	/* Warmup 9-11-21
 	 * Write a function that takes an array of objects and returns an object with the
 	 * lowest height property. Consider the
@@ -313,4 +314,9 @@ nationality property of "Canadian".
 		magicPoints: 0,
 	}
 	myCharacter.abilities.attack(myCharacter, enemy);
+  /* Warmup 12-11-21 */
+	function getRandomElem (arr) {
+		return arr[Math.floor(Math.random() * arr.length)];
+	}
+	console.log(getRandomElem(['rock', 'paper', 'scissors', 'spock', 'lizard']));
 }());
