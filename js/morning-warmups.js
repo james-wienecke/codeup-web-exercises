@@ -284,6 +284,37 @@ nationality property of "Canadian".
 	}
 	console.log(getLowestHeight(bBallPlayers));
 
+	/* Warmup 9-11-21
+	 * Write a function that takes an array of objects and returns an object with the
+	 * lowest height property. Consider the
+	 */
+	var myCharacter = {
+		name: 'James of Vinland',
+		hitPoints: 100,
+		class: 'Warrior',
+		abilities: {
+			attack: (me, obj) => {
+				let roll = Math.floor(Math.random() * me.weapon.damage);
+				obj.hitPoints -= roll;
+				console.log(`${me.name} attacked ${obj.name} for ${roll} damage!`);
+				console.log(`${obj.name} has ${obj.hitPoints} hit points remaining.`);
+			}
+		},
+		magicPoints: 0,
+		weapon: {
+			name: 'silver sabre',
+			damage: 16,
+			type: 'sword'
+		}
+	}
+	var enemy = {
+		name: 'Savage Orc',
+		hitPoints: 100,
+		class: 'Warrior',
+		magicPoints: 0,
+	}
+	myCharacter.abilities.attack(myCharacter, enemy);
+  /* Warmup 12-11-21 */
 	function getRandomElem (arr) {
 		return arr[Math.floor(Math.random() * arr.length)];
 	}
