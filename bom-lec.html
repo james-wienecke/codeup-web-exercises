@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BOM Lecture</title>
+</head>
+<body>
+<h1>BOM Lecture</h1>
+<script>
+    // BOM is Browser Object Model
+    // let userResp = window.prompt("Gimme something");
+    // window.alert(userResp);
+    // prompt, confirm, and alert are all window object methods
+
+    // this also works
+    // userResp = prompt("Another one!");
+    // alert(userResp);
+
+    // setTimeout(() => {
+    //     alert("hello");
+    // }, 3000);
+    //
+    // setTimeout(() => {
+    //     let email = prompt('Give us your email.');
+    //     alert(email);
+    // }, 5000);
+
+    // let timesAsked = 0;
+    // const annoying = setInterval(() => {
+        // if (timesAsked < 3) {
+        //     alert('will you take me to splash mountain???????')
+        //     timesAsked++;
+        // } else {
+        //     clearInterval(annoying);
+        //     alert('okayyyy........')
+        // }
+    //     if (confirm('will you take me to sea world?????????')) {
+    //         clearInterval(annoying);
+    //         alert('YAAAAAYYYYYY');
+    //         window.location = "https://www.cbsnews.com/news/seaworld-lawsuit-settlement-65-million-lying-investors-blackfish-documentary/#:~:text=The%20film%20accused%20the%20theme,to%20the%20documentary's%20widespread%20popularity.&text=The%20popularity%20of%20%22Blackfish%22%20made,of%20orcas%20at%20SeaWorld%20parks."
+    //     }
+    // }, 900);
+
+    if (confirm('Will you take us to Mt. Splashmore???')) {
+        alert('Thanks dad.');
+    } else {
+        location.reload();
+    }
+
+    // BOM and DOM are very specifically part of web browsers and web pages.
+    // Javascript has applications outside of web development but interacting
+    // with BOM and DOM is pretty much only for web development
+
+    // regardless, YAY NODE
+</script>
+</body>
+</html>
