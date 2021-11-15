@@ -118,6 +118,16 @@ var answer = document.forms.fastSurvey.answer.value;
 
   natParksList.innerHTML = `<li>${nationalParks[0].name}</li><li>${nationalParks[1].name}</li><li>${nationalParks[2].name}</li>`;
 
+  var family = document.getElementById("super-important");
+  family.style.backgroundColor = 'yellow';
+  family.style = 'background-color: yellow; color: red; font-weight: bolder;';
+
+  var colorChangingBG = setInterval(() => {
+    var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+    var randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    document.querySelector('body').style.backgroundColor = randomColor;
+  }, 2000);
 
 
 </script>
