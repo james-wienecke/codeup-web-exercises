@@ -61,25 +61,25 @@
         // TODO: Change the text in the first sub paragraph to "Mission Accomplished!"
         // subParagraphs[0].innerText = "Mission Accomplished!";
 
-        const button1 = document.getElementById('btn-1').addEventListener('click', () => {
+        document.getElementById('btn-1').addEventListener('click', () => {
             const mainHeader = document.getElementById('main-header');
             mainHeader.innerHTML = "JavaScript is Cool";
         });
 
-        const button2 = document.getElementById('btn-2').addEventListener('click', () => {
+        document.getElementById('btn-2').addEventListener('click', () => {
             const subHeader = document.getElementById('sub-header');
             subHeader.style.color = 'blue';
         });
 
-        const button3 = document.getElementById('btn-3').addEventListener('click', () => {
+        document.getElementById('btn-3').addEventListener('click', () => {
             const listItems = document.getElementsByTagName('li');
             for (let i = 0; i < listItems.length; i++) {
-                if (listItems[i].getAttribute('data-dbid') == 1) listItems[i].style.color = 'blue';
+                if (listItems[i].getAttribute('data-dbid') === '1') listItems[i].style.color = 'blue';
                 if (i % 2) listItems[i].style.color = 'grey';
             }
         });
 
-        const button4 = document.getElementById('btn-4').addEventListener('click', () => {
+        document.getElementById('btn-4').addEventListener('click', () => {
             const subParagraphs = document.getElementsByClassName('sub-paragraph');
             subParagraphs[0].innerText = "Mission Accomplished!";
         });
