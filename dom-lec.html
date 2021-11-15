@@ -7,7 +7,7 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <style>
     .dom {
-      /*background-image: url("img/the-dom.jpg");*/
+      background-image: url("img/pexels-alex-azabache-4039921.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -19,7 +19,7 @@
 <div class="row">
   <div class="dom col"></div>
   <div class="col">
-    <h1 class="text-center">The DOM</h1>
+    <h1 id="main-title" class="text-center">The DOM</h1>
     <hr class="w-100">
     <div class="row">
       <div class="col">
@@ -51,10 +51,16 @@
     </div>
     <h3 class="headers">My Ride</h3>
     <div class="image-container d-flex justify-content-center align-items-center">
-<!--      <img id="car-image" src="img/old-car.jpg" alt="Old beat up car">-->
+      <img id="car-image" src="img/GitHub-Mark.png" alt="Old beat up car">
     </div>
   </div>
 </div>
+<form name="fastSurvey" action="get">
+  <label for="answer">what is your favorite movie?</label>
+  <input type="text" name="answer" id="answer">
+</form>
+<ul id="national-parks">
+</ul>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -68,10 +74,50 @@
 var family = document.getElementById('super-important');
 
 var titles = document.getElementsByClassName('headers');
-console.log(titles[0]);
+console.log(titles);
 
 var list = document.getElementsByTagName('li');
 console.log(list);
+
+var querSel = document.querySelector('#unreleased');
+console.log(querSel);
+
+var firstHeader = document.querySelector('.headers');
+console.log(firstHeader);
+
+var allHeaders = document.querySelectorAll('.headers');
+console.log(allHeaders);
+
+var answer = document.forms.fastSurvey.answer.value;
+  console.log(answer);
+
+  allHeaders.forEach((elem) => {
+    elem.style = 'font-family: Impact, sans-serif;';
+  });
+  // forEach works on nodeLists but not HTML collections
+  // aka querySelectorAll vs. getElementsBy
+
+  var carImage = document.querySelector('#car-image');
+
+  console.log(carImage);
+  console.log(carImage.hasAttributes());
+  carImage.setAttribute('src', 'img/Chevron_Icon.png');
+
+  var mainTitle = document.querySelector('#main-title');
+  mainTitle.innerHTML = 'The <b>DOM</b> Lecture Notes';
+
+  // mainTitle.innerText = 'Hello, World! <i>this aint gonna work here pal</i>';
+
+  var nationalParks = [
+    {name: 'Grand Canyon'},
+    {name: 'Yellowstone'},
+    {name: 'White Sands'}
+  ];
+
+  var natParksList = document.querySelector('#national-parks');
+
+  natParksList.innerHTML = `<li>${nationalParks[0].name}</li><li>${nationalParks[1].name}</li><li>${nationalParks[2].name}</li>`;
+
 
 
 </script>
