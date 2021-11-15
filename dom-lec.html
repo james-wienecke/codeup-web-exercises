@@ -7,7 +7,7 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <style>
     .dom {
-      background-image: url("img/the-dom.jpg");
+      /*background-image: url("img/the-dom.jpg");*/
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -51,7 +51,7 @@
     </div>
     <h3 class="headers">My Ride</h3>
     <div class="image-container d-flex justify-content-center align-items-center">
-      <img id="car-image" src="img/old-car.jpg" alt="Old beat up car">
+<!--      <img id="car-image" src="img/old-car.jpg" alt="Old beat up car">-->
     </div>
   </div>
 </div>
@@ -64,7 +64,14 @@
 <script>
   // Write your code here!
 
+  // Get element by id - returns element with its contents
+var family = document.getElementById('super-important');
 
+var titles = document.getElementsByClassName('headers');
+console.log(titles[0]);
+
+var list = document.getElementsByTagName('li');
+console.log(list);
 
 
 </script>
