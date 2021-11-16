@@ -319,4 +319,18 @@ nationality property of "Canadian".
 		return arr[Math.floor(Math.random() * arr.length)];
 	}
 	console.log(getRandomElem(['rock', 'paper', 'scissors', 'spock', 'lizard']));
+	/* Warmup 16-11-21
+	What command do I run to create my branch?
+	git checkout -b firstname-lastname
+
+	How many times can I commit my work?
+	Infinity
+
+	When do we push our branch?
+	The end of the assessment, the instructor will say so.
+
+	What command do I run when I push my branch up?
+	git push origin firstname-lastname
+
+	 */
 }());
