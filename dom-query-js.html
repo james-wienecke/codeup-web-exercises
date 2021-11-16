@@ -62,13 +62,11 @@
         // subParagraphs[0].innerText = "Mission Accomplished!";
 
         document.getElementById('btn-1').addEventListener('click', () => {
-            const mainHeader = document.getElementById('main-header');
-            mainHeader.innerHTML = "JavaScript is Cool";
+            document.getElementById('main-header').innerHTML = "JavaScript is Cool";
         });
 
         document.getElementById('btn-2').addEventListener('click', () => {
-            const subHeader = document.getElementById('sub-header');
-            subHeader.style.color = 'blue';
+            document.getElementById('sub-header').style.color = 'blue';
         });
 
         document.getElementById('btn-3').addEventListener('click', () => {
@@ -80,8 +78,7 @@
         });
 
         document.getElementById('btn-4').addEventListener('click', () => {
-            const subParagraphs = document.getElementsByClassName('sub-paragraph');
-            subParagraphs[0].innerText = "Mission Accomplished!";
+            document.getElementsByClassName('sub-paragraph')[0].innerText = "Mission Accomplished!";
         });
     })();
 </script>
