@@ -7,7 +7,20 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <title>jQuery Exercises</title>
 </head>
-<body>
+<body class="container">
+<h1 id="title" class="headers">jQuery Exercises</h1>
+<div class="list-content">
+    <p id="lorem" class="descrip codeup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam asperiores, consectetur delectus eaque enim eveniet excepturi facere, illum ipsa labore molestias natus nulla officiis pariatur perferendis praesentium quod rerum, tempore.</p>
+    <ul class="list-thing" id="fromsoft-list">
+        <li class="from-listitem" >demon souls</li>
+        <li class="from-listitem">dark souls</li>
+        <li class="from-listitem">dark souls 2</li>
+        <li class="from-listitem">bloodborne</li>
+        <li class="from-listitem codeup">dark souls 3</li>
+        <li class="from-listitem">sekiro</li>
+        <li class="from-listitem" id="codeup">elden ring</li>
+    </ul>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -20,9 +33,23 @@
 <script>
     "use strict";
 
-    $(document).ready(function () {
-        // alert('The DOM has finished loading!');
-    });
+    // $(document).ready(function () {
+    //     // alert('The DOM has finished loading!');
+    // });
+
+    // let pageTitle = $('#title');
+    // alert(pageTitle.html());
+    // let listThing = $('#fromsoft-list');
+    // alert(listThing.html());
+
+    // let codeupElems = $('.codeup');
+    // codeupElems.css('border', '1px solid red');
+
+    $('li').css('font-size', '20px');
+    let paragraph = $('p');
+    let listItem = $('li');
+    alert($('h1').contents);
+    let headParaAndList = $('h1, p, li');
 </script>
 </body>
 </html>
