@@ -22,6 +22,7 @@
     </ul>
 </div>
 
+<div class="con"></div>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -45,12 +46,28 @@
     // let codeupElems = $('.codeup');
     // codeupElems.css('border', '1px solid red');
 
-    $('li').css('font-size', '20px');
+
     let paragraph = $('p');
     let listItem = $('li');
     let h1Elem = $('h1')
-    alert($('h1').html());
+    console.log(h1Elem.html());
+    console.log(h1Elem.contents())
     let headParaAndList = $('h1, p, li');
+    headParaAndList.css('font-family', 'Georgia, sans-serif')
+    listItem.css('font-size', '20px');
+
+    list
+    h1Elem.click(function () {
+        $(this).css('background-color', 'purple');
+    });
+    paragraph.dblclick(function () {
+        $(this).css('font-size', '18px');
+    });
+    listItem.hover(function () {
+        $(this).css('color', 'red');
+    }, function() {
+        $(this).css('color', 'black');
+    });
 </script>
 </body>
 </html>
