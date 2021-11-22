@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Konami Code</title>
+</head>
+<body>
+<h1>Konami Code</h1>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="/js/jquery.js"></script>
+<script>
+  "use strict";
+
+  const leftKey = 37;
+  const upKey = 38;
+  const rightKey = 39;
+  const downKey = 40;
+  const aKey = 65;
+  const bKey = 66;
+  const enterKey = 13;
+
+  const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+  let last11keys = [];
+
+
+  $(document).keyup(function(event){
+    last11keys.push(event.keyCode);
+    if (last11keys.length >= 11) {
+      konamiCodeCheck();
+      last11keys = [];
+    }
+    console.log(last11keys);
+
+
+  });
+
+  function konamiCodeCheck () {
+    if (arraysEqual(last11keys, konamiCode)) {
+      console.log(konamiCode);
+      console.log('Konami code entered');
+    }
+
+  }
+  function getKey(key) {
+    switch(key) {
+      case leftKey:
+        console.log('left');
+        return 'left';
+      case upKey:
+        console.log('up');
+        return 'up';
+      case rightKey:
+        console.log('right');
+        return 'right';
+      case downKey:
+        console.log('down');
+        return 'down';
+      case aKey:
+        console.log('a');
+        return 'a';
+      case bKey:
+        console.log('b');
+        return 'b';
+      case enterKey:
+        console.log('start');
+        return 'start';
+    }
+  }
+  function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+
+    // If you don't care about the order of the elements inside
+    // the array, you should sort both arrays here.
+    // Please note that calling sort on an array will modify that array.
+    // you might want to clone your array first.
+
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+</script>
+</body>
+</html>
