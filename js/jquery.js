@@ -10,11 +10,11 @@ const bKey = 'b';
 const enterKey = 'Enter';
 const shiftKey = 'Shift';
 
-// the konami code as an array
-// const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+// the konami code as an array of key values
 const konamiCode = [upKey, upKey, downKey, downKey, leftKey, rightKey, leftKey, rightKey, bKey, aKey, enterKey];
-let last11keys = [];
-
+// keep an array containing the last few key values
+let keyHistory = [];
+// we will use this for some big css events interval control
 let colorChangingBG = null;
 
 
@@ -32,29 +32,30 @@ $(document).ready(function () {
 
     // here we tally up all the key info and listen for konami code pattern
     function keyCodeHandling (key) {
-        console.log(last11keys);
         // if key is a single character key (ie. a-z & A-Z) convert to lower case
         if (key.length === 1) key = key.toLocaleLowerCase();
         // store the key event's value
-        last11keys.push(key);
+        keyHistory.push(key);
         // if the button corresponds to a button on the controller, flash it
         keyCodeButtonFlash(key);
         // try and match start of pattern so we can refresh key event history
-        if    ((last11keys[last11keys.length - 1] === downKey)
-            && (last11keys[last11keys.length - 2] === upKey)
-            && (last11keys[last11keys.length - 3] === upKey)) {
-            last11keys = [upKey, upKey, downKey];
+        if    ((keyHistory[keyHistory.length - 1] === downKey)
+            && (keyHistory[keyHistory.length - 2] === upKey)
+            && (keyHistory[keyHistory.length - 3] === upKey)) {
+            keyHistory = [upKey, upKey, downKey];
             console.log('listening for konami code');
         }
         // check for konami code pattern
-        if (last11keys.length >= 11) {
-            konamiCodeCheck();
-            last11keys = [];
+        if (keyHistory.length >= 11) {
+            konamiCodeCheck(keyHistory.slice(-11));
+        }
+        if (keyHistory.length >= 77) {
+            keyHistory = [];
         }
     }
 
     function konamiCodeCheck () {
-        if (arraysEqual(last11keys, konamiCode)) {
+        if (arraysEqual(keyHistory, konamiCode)) {
             console.log('Konami code entered');
             // fun DOM party stuff
             $('#code-detected').css('display', 'inline');
