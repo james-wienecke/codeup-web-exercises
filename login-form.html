@@ -17,6 +17,7 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" name="password" class="form-control">
             </div>
+            <div id="notification"></div>
             <button class="btn btn-block" id="sub-button">Login</button>
         </fieldset>
     </form>
@@ -26,6 +27,7 @@
         let userName = document.querySelector('#username');
         let passWord = document.querySelector('#password');
         let submitButton = document.querySelector('#sub-button');
+        let notify = document.querySelector('#notification')
 
         submitButton.addEventListener('click', validateCredentials);
 
@@ -35,10 +37,11 @@
             let userInput = userName.value;
             let passInput = passWord.value;
 
+
             if ((userInput === validUser) && (passInput === validPass)) {
-                console.log('good credentials');
+                notify.innerText = `Welcome back ${userInput}. Logging you in now.`
             } else {
-                console.log('bad credentials');
+                notify.innerText = "We're sorry, your username or password is incorrect. Please try again."
             }
         }
     </script>
