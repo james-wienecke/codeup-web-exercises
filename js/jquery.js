@@ -37,7 +37,7 @@ $(document).ready(function () {
         // store the key event's value
         keyHistory.push(key);
         // if the button corresponds to a button on the controller, flash it
-        keyCodeButtonFlash(key);
+        showAndHide($(`#${keyCodeIdLookup(key)}-key`))
         // try and match start of pattern so we can refresh key event history
         if    ((keyHistory[keyHistory.length - 1] === downKey)
             && (keyHistory[keyHistory.length - 2] === upKey)
@@ -76,31 +76,24 @@ $(document).ready(function () {
     }
 
     // convert keycode to element id
-    function keyCodeButtonFlash(key) {
+    function keyCodeIdLookup(key) {
         switch(key) {
             case leftKey:
-                showAndHide($('#left-key'));
                 return 'left';
             case upKey:
-                showAndHide($('#up-key'));
                 return 'up';
             case rightKey:
-                showAndHide($('#right-key'));
                 return 'right';
             case downKey:
-                showAndHide($('#down-key'));
                 return 'down';
             case aKey:
-                showAndHide($('#a-key'));
                 return 'a';
             case bKey:
-                showAndHide($('#b-key'));
                 return 'b';
             case enterKey:
-                showAndHide($('#start-key'));
                 return 'start';
             case shiftKey:
-                showAndHide($('#select-key'));
+                return 'select'
         }
     }
 
