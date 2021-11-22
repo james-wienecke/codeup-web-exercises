@@ -14,10 +14,8 @@ const shiftKey = 'Shift';
 const konamiCode = [upKey, upKey, downKey, downKey, leftKey, rightKey, leftKey, rightKey, bKey, aKey, enterKey];
 // keep an array containing the last few key values
 let keyHistory = [];
-// we will use this for some big css events interval control
-let colorChangingBG = null;
-
-
+// we will use this for some big css mutation interval control
+let colorInterval = null;
 
 $(document).ready(function () {
     // keyboard input
@@ -27,6 +25,7 @@ $(document).ready(function () {
 
     // mouse click input
     $('.button').on('click', function(event) {
+        // you may think this looks like a mess, but i think it's beautiful
         keyCodeHandling(idToKeyCodeLookup($(event.currentTarget).attr('id')))
     })
 
@@ -59,20 +58,26 @@ $(document).ready(function () {
         if (arraysEqual(keyHistory, konamiCode)) {
             console.log('Konami code entered');
             // fun DOM party stuff
-            $('#code-detected').css('display', 'inline');
-            colorChangingBG = setInterval(() => {
-                let randomColor = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
-                $('body').css('background-color', `${randomColor}`);
-                $('#konami').css('color', `${randomColor}`);
-            }, 750);
-            setTimeout(function () {
-                clearInterval(colorChangingBG);
-                colorChangingBG = null;
-                $('body').css('background-color', 'black');
-                $('#konami').css('color', 'white');
-                $('#code-detected').css('display', 'none');
-            }, 15000);
+            codeActivated();
         }
+    }
+
+    function codeActivated () {
+        $('#code-detected').css('display', 'inline')
+        .animate({ left: '200%' }, 10000)
+        .animate({ left: '-100%' }, 10000);
+        colorInterval = setInterval(() => {
+            let randomColor = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
+            $('body').css('background-color', `${randomColor}`);
+            $('#konami').css('color', `${randomColor}`);
+        }, 750);
+        setTimeout(function () {
+            clearInterval(colorInterval);
+            colorInterval = null;
+            $('body').css('background-color', 'black');
+            $('#konami').css('color', 'white');
+            $('#code-detected').css('display', 'none')
+        }, 20000);
     }
 
     // convert keycode to element id

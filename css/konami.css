@@ -70,8 +70,8 @@ body {
 #code-detected {
     position: absolute;
     color: white;
-    left: 50%;
     bottom: -40%;
+    left: -100%;
     transform: translate(-60%, 0);
     font-size: large;
     text-shadow: 2px 2px black;
