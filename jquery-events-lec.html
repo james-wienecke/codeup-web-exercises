@@ -118,8 +118,10 @@
 
         goku.hover(function() {
             this.src = 'img/goku-mad.png'
+            console.log('mouse has entered element')
         }, function() {
             this.src = 'img/goku-normal.png'
+            console.log('mouse has left element');
         })
 
         //
@@ -129,6 +131,13 @@
         //     }
         //
         //     document.querySelector('.goku-chill').addEventListener('click', gokuChill);
+
+        // .off - turn off event in jQuery:
+        $('.goku-chill').click(function() {
+            // goku.off('mouseenter');
+            goku.off();
+        });
+
         //
         //     // KEYBOARD EVENTS: keyup, keydown, keypress
         //     mainContent.addEventListener('keydown', function(){
@@ -137,6 +146,23 @@
         //             document.querySelector('.space-bar').style.display = 'inline';
         //         }
         //     });
+
+        // jquery key events:
+        var spaceBar = $('.space-bar');
+
+        // mainContent.keydown(function (event) {
+        //     if (event.keyCode === 32) {
+        //         spaceBar.css('display', 'inline');
+        //     }
+        // });
+
+        // .on method in jQuery:
+        mainContent.on('keyup', function (e) {
+            if (e.keyCode === 32) {
+                spaceBar.css('display', 'inline');
+            }
+        });
+
         //
         //     // CHANGE EVENT
         //     var dropdown = document.querySelector('#travel-items');
