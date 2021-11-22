@@ -163,7 +163,9 @@
         }, 750);
         setTimeout(function () {
           clearInterval(colorChangingBG);
+          colorChangingBG = null;
           $('body').css('background-color', 'black');
+          $('#konami').css('color', 'white');
           $('#code-detected').css('display', 'none');
         }, 15000);
       }
