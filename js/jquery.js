@@ -47,10 +47,11 @@ $(document).ready(function () {
         }
         // check for konami code pattern
         if (keyHistory.length >= 11) {
-            konamiCodeCheck(keyHistory.slice(-11));
+            konamiCodeCheck(keyHistory.slice(-11)); // konami code is 11 inputs long, we only want last 11 inputs
         }
-        if (keyHistory.length >= 77) {
-            keyHistory = [];
+        // trim array
+        if (keyHistory.length >= 33) {
+            keyHistory = keyHistory.slice(-11); // we keep one konami code's worth of the key history when we trim
         }
     }
 
