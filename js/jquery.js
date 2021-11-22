@@ -1,14 +1,18 @@
 "use strict";
 
-const leftKey = 37;
-const upKey = 38;
-const rightKey = 39;
-const downKey = 40;
-const aKey = 65;
-const bKey = 66;
-const enterKey = 13;
+// key constants.
+const leftKey = 'ArrowLeft';
+const upKey = 'ArrowUp';
+const rightKey = 'ArrowRight';
+const downKey = 'ArrowDown';
+const aKey = 'a';
+const bKey = 'b';
+const enterKey = 'Enter';
+const shiftKey = 'Shift';
 
-const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+// the konami code as an array
+// const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+const konamiCode = [upKey, upKey, downKey, downKey, leftKey, rightKey, leftKey, rightKey, bKey, aKey, enterKey];
 let last11keys = [];
 
 let colorChangingBG = null;
@@ -18,24 +22,24 @@ let colorChangingBG = null;
 $(document).ready(function () {
     // keyboard input
     $(document).keyup(function(event) {
-        keyCodeHandling(event.keyCode);
+        keyCodeHandling(event.key);
     });
 
     // mouse click input
     $('.button').on('click', function(event) {
-        keyCodeHandling(idtoKeyCodeLookup($(event.currentTarget).attr('id')))
+        keyCodeHandling(idToKeyCodeLookup($(event.currentTarget).attr('id')))
     })
 
     // here we tally up all the key info and listen for konami code pattern
-    function keyCodeHandling (keyCode) {
+    function keyCodeHandling (key) {
         // store the key event
-        last11keys.push(keyCode);
-        keyCodeButtonFlash(keyCode);
+        last11keys.push(key);
+        keyCodeButtonFlash(key);
         // try and match start of pattern so we can refresh key history
-        if        ((last11keys[last11keys.length - 1] === 40)
-            && (last11keys[last11keys.length - 2] === 38)
-            && (last11keys[last11keys.length - 3] === 38)) {
-            last11keys = [38, 38, 40];
+        if        ((last11keys[last11keys.length - 1] === downKey)
+            && (last11keys[last11keys.length - 2] === upKey)
+            && (last11keys[last11keys.length - 3] === upKey)) {
+            last11keys = [upKey, upKey, downKey];
             console.log('listening for konami code');
         }
         // check for konami code pattern
@@ -94,7 +98,7 @@ $(document).ready(function () {
     }
 
     // convert from element id to keycode
-    function idtoKeyCodeLookup(keyName) {
+    function idToKeyCodeLookup(keyName) {
         switch(keyName) {
             case 'left-key':
                 return leftKey;
