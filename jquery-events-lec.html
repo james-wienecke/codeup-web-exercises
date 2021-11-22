@@ -137,6 +137,14 @@
         //             document.querySelector('.space-bar').style.display = 'inline';
         //         }
         //     });
+
+        // jquery key events:
+        var spaceBar =$('.space-bar');
+        mainContent.keydown(function (event) {
+            if (event.keyCode === 32) {
+                spaceBar.css('display', 'inline');
+            }
+        });
         //
         //     // CHANGE EVENT
         //     var dropdown = document.querySelector('#travel-items');
