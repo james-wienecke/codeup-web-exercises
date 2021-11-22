@@ -28,15 +28,12 @@
         let passWord = document.querySelector('#password');
         let submitButton = document.querySelector('#sub-button');
         let notify = document.querySelector('#notification')
-
         submitButton.addEventListener('click', validateCredentials);
 
         function validateCredentials(e) {
             e.preventDefault();
-
             let userInput = userName.value;
             let passInput = passWord.value;
-
 
             if ((userInput === validUser) && (passInput === validPass)) {
                 notify.innerText = `Welcome back ${userInput}. Logging you in now.`
