@@ -17,9 +17,31 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" name="password" class="form-control">
             </div>
-            <button class="btn btn-block">Login</button>
+            <button class="btn btn-block" id="sub-button">Login</button>
         </fieldset>
     </form>
+    <script>
+        const validUser = "regulus2021";
+        const validPass = "gocodeup";
+        let userName = document.querySelector('#username');
+        let passWord = document.querySelector('#password');
+        let submitButton = document.querySelector('#sub-button');
+
+        submitButton.addEventListener('click', validateCredentials);
+
+        function validateCredentials(e) {
+            e.preventDefault();
+
+            let userInput = userName.value;
+            let passInput = passWord.value;
+
+            if ((userInput === validUser) && (passInput === validPass)) {
+                console.log('good credentials');
+            } else {
+                console.log('bad credentials');
+            }
+        }
+    </script>
 </main>
 </body>
 </html>
