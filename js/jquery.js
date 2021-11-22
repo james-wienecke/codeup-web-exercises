@@ -32,11 +32,15 @@ $(document).ready(function () {
 
     // here we tally up all the key info and listen for konami code pattern
     function keyCodeHandling (key) {
-        // store the key event
+        console.log(last11keys);
+        // if key is a single character key (ie. a-z & A-Z) convert to lower case
+        if (key.length === 1) key = key.toLocaleLowerCase();
+        // store the key event's value
         last11keys.push(key);
+        // if the button corresponds to a button on the controller, flash it
         keyCodeButtonFlash(key);
-        // try and match start of pattern so we can refresh key history
-        if        ((last11keys[last11keys.length - 1] === downKey)
+        // try and match start of pattern so we can refresh key event history
+        if    ((last11keys[last11keys.length - 1] === downKey)
             && (last11keys[last11keys.length - 2] === upKey)
             && (last11keys[last11keys.length - 3] === upKey)) {
             last11keys = [upKey, upKey, downKey];
@@ -56,7 +60,6 @@ $(document).ready(function () {
             $('#code-detected').css('display', 'inline');
             colorChangingBG = setInterval(() => {
                 let randomColor = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
-
                 $('body').css('background-color', `${randomColor}`);
                 $('#konami').css('color', `${randomColor}`);
             }, 750);
@@ -94,6 +97,8 @@ $(document).ready(function () {
             case enterKey:
                 showAndHide($('#start-key'));
                 return 'start';
+            case shiftKey:
+                showAndHide($('#select-key'));
         }
     }
 
@@ -114,6 +119,8 @@ $(document).ready(function () {
                 return bKey;
             case 'start-key':
                 return enterKey;
+            case 'select-key':
+                return shiftKey;
         }
     }
 
