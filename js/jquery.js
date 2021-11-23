@@ -55,8 +55,8 @@ $(document).ready(function () {
         }
     }
 
-    function konamiCodeCheck () {
-        if (arraysEqual(keyHistory, konamiCode)) {
+    function konamiCodeCheck (keys) {
+        if (arraysEqual(keys, konamiCode)) {
             console.log('Konami code entered');
             // fun DOM party stuff
             codeActivated();
@@ -82,7 +82,7 @@ $(document).ready(function () {
         }, 20000);
     }
 
-    // convert keycode to element id
+    // convert key value to element id
     function keyToIdLookup(key) {
         switch(key) {
             case leftKey:
@@ -104,7 +104,7 @@ $(document).ready(function () {
         }
     }
 
-    // convert from element id to keycode
+    // convert from element id to key value
     function idToKeyLookup(keyName) {
         switch(keyName) {
             case 'left-key':
