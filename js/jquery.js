@@ -64,8 +64,8 @@ $(document).ready(function () {
 
     function codeActivated () {
         $('#code-detected').css('display', 'inline')
-        .animate({ left: '200%' }, 10000)
-        .animate({ left: '-100%' }, 10000);
+        // .animate({ left: '200%' }, 10000)
+        // .animate({ left: '-100%' }, 10000);
         colorInterval = setInterval(() => {
             let randomColor = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
             $('body').css('background-color', `${randomColor}`);
