@@ -71,8 +71,7 @@ body {
     position: absolute;
     color: white;
     bottom: -40%;
-    left: -100%;
-    transform: translate(-60%, 0);
+    left: 25%;
     font-size: large;
     text-shadow: 2px 2px black;
 

@@ -14,7 +14,7 @@ const shiftKey = 'Shift';
 const konamiCode = [upKey, upKey, downKey, downKey, leftKey, rightKey, leftKey, rightKey, bKey, aKey, enterKey];
 // keep an array containing the last few key values
 let keyHistory = [];
-// we will use this for some big css mutation interval control
+// we will use this for some big css animation for interval control
 let colorInterval = null;
 
 $(document).ready(function () {
@@ -25,8 +25,9 @@ $(document).ready(function () {
 
     // mouse click input
     $('.button').on('click', function(event) {
-        // you may think this looks like a mess, but i think it's beautiful
-        keyCodeHandling(idToKeyCodeLookup($(event.currentTarget).attr('id')))
+        // mouse click event has its target processed to find what the element's corresponding key would be
+        keyCodeHandling(idToKeyLookup($(event.currentTarget).attr('id')));
+        // after this point both mouse and key events are treated identically
     })
 
     // here we tally up all the key info and listen for konami code pattern
@@ -36,7 +37,7 @@ $(document).ready(function () {
         // store the key event's value
         keyHistory.push(key);
         // if the button corresponds to a button on the controller, flash it
-        showAndHide($(`#${keyCodeIdLookup(key)}-key`))
+        showAndHide($(`#${keyToIdLookup(key)}-key`));
         // try and match start of pattern so we can refresh key event history
         if    ((keyHistory[keyHistory.length - 1] === downKey)
             && (keyHistory[keyHistory.length - 2] === upKey)
@@ -54,8 +55,8 @@ $(document).ready(function () {
         }
     }
 
-    function konamiCodeCheck () {
-        if (arraysEqual(keyHistory, konamiCode)) {
+    function konamiCodeCheck (keys) {
+        if (arraysEqual(keys, konamiCode)) {
             console.log('Konami code entered');
             // fun DOM party stuff
             codeActivated();
@@ -63,25 +64,26 @@ $(document).ready(function () {
     }
 
     function codeActivated () {
-        $('#code-detected').css('display', 'inline')
-        .animate({ left: '200%' }, 10000)
-        .animate({ left: '-100%' }, 10000);
+        // show the code detected element
+        $('#code-detected').css('display', 'inline');
+        // begin changing the background color to a random color from a huge list
         colorInterval = setInterval(() => {
             let randomColor = CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
             $('body').css('background-color', `${randomColor}`);
             $('#konami').css('color', `${randomColor}`);
         }, 750);
+        // we will stop the color changing and stuff with this setTimeout
         setTimeout(function () {
             clearInterval(colorInterval);
             colorInterval = null;
             $('body').css('background-color', 'black');
             $('#konami').css('color', 'white');
-            $('#code-detected').css('display', 'none')
+            $('#code-detected').css('display', 'none');
         }, 20000);
     }
 
-    // convert keycode to element id
-    function keyCodeIdLookup(key) {
+    // convert key value to element id
+    function keyToIdLookup(key) {
         switch(key) {
             case leftKey:
                 return 'left';
@@ -98,12 +100,12 @@ $(document).ready(function () {
             case enterKey:
                 return 'start';
             case shiftKey:
-                return 'select'
+                return 'select';
         }
     }
 
-    // convert from element id to keycode
-    function idToKeyCodeLookup(keyName) {
+    // convert from element id to key value
+    function idToKeyLookup(keyName) {
         switch(keyName) {
             case 'left-key':
                 return leftKey;
