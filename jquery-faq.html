@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <title>10 FAQs About National Parks</title>
+    <style>
+        .invisible dd {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+<h1 id="header">National Parks Facts</h1>
+<dl>
+    <dt>1. The first national park:</dt>
+    <dd class="invisible">Yellowstone, established 1872.</dd>
+    <dt>2. The largest tree in the world:</dt>
+    <dd class="invisible">"General Sherman", which is a single-stem tree 275 feet tall and weighing an estimated 1900 metric tons!</dd>
+    <dt>3. The largest national park:</dt>
+    <dd class="invisible">Wrangell-St. Elias National Park, Alaska. It covers 13,000 square miles!</dd>
+    <dt>4. The state with the most national parks:</dt>
+    <dd class="invisible">Trick question! California and Alaska both have the most, each state contains eight parks.</dd>
+    <dt>5. The least visited national park:</dt>
+    <dd class="invisible">Kobuk Valley National Park, in Alaska.</dd>
+    <dt>6. The deepest lake in the US:</dt>
+    <dd class="invisible">Crater Lake in Oregon is 1932 feet deep!</dd>
+    <dt>7. National parks conservation effects:</dt>
+    <dd class="invisible">Over 400 endangered or threatened plant and animal species are given home and habitat in the National Parks.</dd>
+    <dt>8. The only state without National Parks or National Monuments:</dt>
+    <dd class="invisible">Poor Delaware. :(</dd>
+    <dt>9. Does any national park contain an existential threat to modern civilization?</dt>
+    <dd class="invisible">Yes. Yellowstone Caldera is responsible for three of the six largest volcano eruptions and there is nothing we can do about it! :D</dd>
+    <dt>10. The youngest national park:</dt>
+    <dd class="invisible">Pinnacles National Park, in California. It was designated in 2013.</dd>
+</dl>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        let link = $(document.createElement('p')).text('Show answers!');
+        $('#header').after(link);
+        link.click(function (){
+            $('.invisible').toggleClass('invisible');
+        });
+    });
+</script>
+</body>
+</html>
