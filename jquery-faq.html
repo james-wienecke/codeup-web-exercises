@@ -86,15 +86,15 @@
 </div>
 <div class="container-fluid d-flex justify-content-between p-0" id="frame-container">
     <div class="col-4 frame frame-1 text-center">
-        <img class="frame-img" src="">
+        <img class="frame-img" src="img/rock-win.png">
         <p>Swap</p>
     </div>
     <div class="col-4 frame frame-2 text-center">
-        <img class="frame-img" src="">
+        <img class="frame-img" src="img/sciss-win.png">
         <p>Swap</p>
     </div>
     <div class="col-4 frame frame-3 text-center">
-        <img class="frame-img" src="">
+        <img class="frame-img" src="img/paper-win.png">
         <p>Swap</p>
     </div>
 </div>
@@ -145,65 +145,45 @@
         });
 
         // BONUS: frame swapping
-        // 1
-        // The left frame swaps to the right and takes the image from the frame in the center.
-        // frame-1 becomes frame-2, frame-2 becomes frame-1
-        // 2
-        // The center frame swaps randomly to either the left or right.
-        // frame-2 becomes frame-1 or frame-3, frame-1 becomes frame-2 or frame-3 becomes frame-2
-        // 3
-        // The right frame swaps to the left and takes the image from the frame in the center.
-        // frame-3 becomes frame-2, frame-2 becomes frame-3
-        let images = [
-            'img/pizza3.jpg',
-            'img/pizza2.jpg',
-            'img/pizza.png'
-        ];
-
-        function randomVal() {
-            return (Math.floor(Math.random() * 2))
-        }
-
-        $('#frame-container').children().each(function (index) {
-            console.log($(this))
-            $(this).children('img').attr('src', images[index]);
-        })
-
         $('.frame').click(function () {
-            // $(this).next().css('background-color', 'red');
-            // console.log($(this).children('img').attr('src'));
-            // console.log($(this).next());
-            // console.log($(this).is(':last-child'));
-            // console.log($(this).siblings());
+            // keep current image path for swapping later
             let currentImg = $(this).children('img').attr('src');
-            if ($(this).is(':last-child')) {    // last div
-                $(this).css('background-color', 'blue');
-                $(this).prev().css('background-color', 'red');
 
+            // if the clicked div is the last one
+            if ($(this).is(':last-child')) {
+
+                // swap with previous div
                 let swapImg = $(this).prev().children('img').attr('src');
                 $(this).children('img').attr('src', swapImg);
                 $(this).prev().children('img').attr('src', currentImg);
-            } else if ($(this).next().is(':last-child')) {  // middle div
-                $(this).css('background-color', 'green');
-                if (randomVal()) {
-                    console.log('rand val true, swapping next');
+
+            // if the clicked div is the middle one
+            } else if ($(this).next().is(':last-child')) {
+
+                // 50/50 chance of picking next or prev
+                if (Math.floor(Math.random() * 2)) {
+
+                    // swap with next
                     let swapImg = $(this).next().children('img').attr('src');
                     $(this).children('img').attr('src', swapImg);
                     $(this).next().children('img').attr('src', currentImg);
                 } else {
-                    console.log('rand val false, swapping prev');
+
+                    // swap with prev
                     let swapImg = $(this).prev().children('img').attr('src');
                     $(this).children('img').attr('src', swapImg);
                     $(this).prev().children('img').attr('src', currentImg);
+
                 }
-            } else {            // first div
-                $(this).css('background-color', 'purple');
-                $(this).next().css('background-color', 'yellow');
+            // if the clicked div is the first one
+            } else {
+
+                // swap with next
                 let swapImg = $(this).next().children('img').attr('src');
                 $(this).children('img').attr('src', swapImg);
                 $(this).next().children('img').attr('src', currentImg);
             }
-        })
+        });
     });
 </script>
 </body>
