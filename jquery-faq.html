@@ -20,11 +20,10 @@
         .highlight {
             background-color: yellow;
         }
-        .answers-button {
-            margin-bottom: 1rem;
+        .answers-button, .yellow-button {
+            margin: 1rem 0;
         }
         .frame {
-            background-color: white;
             overflow: no-content;
             height: 100%;
             width: 30%;
@@ -61,7 +60,7 @@
     <dd class="invisible text-right">Pinnacles National Park, in California. It was designated in 2013.</dd>
 </dl>
 
-<div class="bg-light shadow container" id="park-facts-container">
+<div class="bg-light shadow container my-2" id="park-facts-container">
     <h3>Guadalupe National Park</h3>
     <ul class="park-facts-list">
         <li class="park-facts-item">Humans have lived in this area for 10,000+ years</li>
@@ -85,15 +84,15 @@
     </ul>
 </div>
 <div class="container-fluid d-flex justify-content-between p-0" id="frame-container">
-    <div class="col-4 frame frame-1 text-center">
+    <div class="col-4 frame frame-1 text-center bg-light">
         <img class="frame-img" src="img/rock-win.png">
         <p>Swap</p>
     </div>
-    <div class="col-4 frame frame-2 text-center">
+    <div class="col-4 frame frame-2 text-center bg-light">
         <img class="frame-img" src="img/sciss-win.png">
         <p>Swap</p>
     </div>
-    <div class="col-4 frame frame-3 text-center">
+    <div class="col-4 frame frame-3 text-center bg-light">
         <img class="frame-img" src="img/paper-win.png">
         <p>Swap</p>
     </div>
@@ -123,7 +122,7 @@
         //<button type="button" className="btn btn-info col" id="button-yellow">Make yellow</button>
         let yellowButton = $(document.createElement('button'))
             .text('Make Yellow')
-            .addClass('yellow-button btn btn-info btn-lg btn-block shadow mb-2');
+            .addClass('yellow-button btn btn-info btn-lg btn-block shadow');
         // attach to document
         $('#park-facts-container').after(yellowButton);
 
