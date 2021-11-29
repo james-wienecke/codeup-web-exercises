@@ -102,11 +102,18 @@
         // attach to document
         $('#park-facts-container').after(yellowButton);
 
+        // when clicked, last child in each ul is highlighted yellow
         yellowButton.click(function () {
             $('.park-facts-list').each(function (index) {
                 $(this).children().last().css('background-color', 'yellow');
             });
         });
+
+        // when h3 is clicked, next list's children are bolded
+        $('h3').click(function () {
+            $(this).next().children().css('font-weight', 'bold')
+        });
+
     });
 </script>
 </body>
