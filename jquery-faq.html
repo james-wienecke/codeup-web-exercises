@@ -114,6 +114,10 @@
             $(this).next().children().css('font-weight', 'bold')
         });
 
+        // when li is clicked, first li of parent ul should have font color blue
+        $('.park-facts-item').click(function () {
+            $(this).parent().children().first().css('color', 'blue');
+        });
     });
 </script>
 </body>
