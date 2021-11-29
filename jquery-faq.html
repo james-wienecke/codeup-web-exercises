@@ -167,13 +167,12 @@
                     let swapImg = $(this).next().children('img').attr('src');
                     $(this).children('img').attr('src', swapImg);
                     $(this).next().children('img').attr('src', currentImg);
-                } else {
 
+                } else {
                     // swap with prev
                     let swapImg = $(this).prev().children('img').attr('src');
                     $(this).children('img').attr('src', swapImg);
                     $(this).prev().children('img').attr('src', currentImg);
-
                 }
             // if the clicked div is the first one
             } else {
