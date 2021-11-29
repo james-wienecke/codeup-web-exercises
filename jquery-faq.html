@@ -9,6 +9,13 @@
         .invisible dd {
             visibility: hidden;
         }
+        /*.show-answers {*/
+        /*    text-decoration: underline;*/
+        /*    color: darkblue;*/
+        /*}*/
+        .hilight {
+            background-color: yellow;
+        }
     </style>
 </head>
 <body>
@@ -40,10 +47,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        let link = $(document.createElement('p')).text('Show answers!');
+        let link = $(document.createElement('button')).text('Show answers!').addClass('btn btn-primary');
         $('#header').after(link);
-        link.click(function (){
+        link.click(function () {
             $('.invisible').toggleClass('invisible');
+        });
+        $('dt').click(function () {
+            $(this).toggleClass('hilight');
         });
     });
 </script>
