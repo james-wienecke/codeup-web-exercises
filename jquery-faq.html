@@ -6,11 +6,16 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <title>10 FAQs About National Parks</title>
     <style>
+        dl {
+            max-height: 80vh;
+        }
         dt {
-            margin-top: 2.5rem;
+            margin-top: 1rem;
+            padding: 0 1rem;
         }
         dd {
             margin-bottom: 2rem;
+            padding: 0 1rem;
         }
         .invisible dd {
             visibility: hidden;
@@ -19,13 +24,13 @@
             background-color: yellow;
         }
         .answers-button {
-            margin-top: 3rem;
+            margin-top: 1rem;
         }
     </style>
 </head>
-<body class="container">
-<h1 id="header" class="text-center">National Parks Facts</h1>
-<dl>
+<body class="container bg-secondary">
+<h1 id="header" class="text-center text-light">National Parks Facts</h1>
+<dl class="overflow-auto bg-light shadow">
     <dt>1. The first national park:</dt>
     <dd class="invisible text-right">Yellowstone, established 1872.</dd>
     <dt>2. The largest tree in the world:</dt>
@@ -43,7 +48,7 @@
     <dt>8. The only state without National Parks or National Monuments:</dt>
     <dd class="invisible text-right">Poor Delaware. :(</dd>
     <dt>9. Does any national park contain an existential threat to modern civilization?</dt>
-    <dd class="invisible text-right">Yes. Yellowstone Caldera is responsible for three of the six largest volcano eruptions and there is nothing we can do about it! :D</dd>
+    <dd class="invisible text-right">Yes. Yellowstone Caldera could destroy us all and there's nothing we can do to stop it!</dd>
     <dt>10. The youngest national park:</dt>
     <dd class="invisible text-right">Pinnacles National Park, in California. It was designated in 2013.</dd>
 </dl>
@@ -52,15 +57,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        // link will be the page element we can use to show the dd elements
-        let link = $(document.createElement('button'))
+        // answersButton will be the page element we can use to show the dd elements
+        let answersButton = $(document.createElement('button'))
             .text('Show answers!')
-            .addClass('answers-button btn btn-primary btn-lg btn-block');
+            .addClass('answers-button btn btn-info btn-lg btn-block shadow');
         // add link right after the h1 header
-        $('dl').after(link);
+        $('dl').after(answersButton);
 
         // click event for link/button/unhider
-        link.click(function () {
+        answersButton.click(function () {
             $('dd').toggleClass('invisible');
         });
 
