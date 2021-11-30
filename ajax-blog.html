@@ -5,6 +5,15 @@
     <title>AJAX Blog</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+        .post-title-link {
+            color: darkblue;
+        }
+        .tags:hover, .post-title-link:hover {
+            color: lightblue !important;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body class="container">
 <section>
@@ -22,6 +31,7 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/781574da57.js" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" data-auto-replace-svg="nest"></script>
 <script>
     $(document).ready(function () {
        $.get('/data/blog.json').done(function (posts) {
@@ -38,32 +48,50 @@
     // Categories
         function createPost(post) {
             // post data is structured: 'title': title, 'content': content, 'categories': [categories], 'date': date
+            // title element is an h5 tag containing an anchor to the individual post
             const $title = $(document.createElement('h5'))
-                .text(post.title)
-                .addClass("card-title post-title");
+                .addClass("card-title post-title")
+                .append($(document.createElement('a')).text(post.title).attr('href', '#').addClass('post-title-link'))
+            // date is a subheading below the title
             const $date = $(document.createElement('h6'))
                 .text(post.date)
                 .addClass("card-subtitle mb-2 text-muted post-date");
+            // content is just a paragraph element
             const $content = $(document.createElement('p'))
                 .text(post.content)
                 .addClass("card-text post-content");
 
-            const $categories = $(document.createElement('span'))
-                .addClass("post-categories")
-            for (let cat of post.categories) {
-                let tag = $(document.createElement('a')).text(cat).attr('href', '#').addClass("card-link");
-                $categories.append(tag);
-            }
-
-            const $cardBody = $(document.createElement('div')).addClass("card-body post-body")
+            // card body contains the title, data, and content
+            const $cardBody = $(document.createElement('div'))
+                .addClass("card-body post-body")
                 .append($title)
                 .append($date)
                 .append($content)
+
+            // categories are prepared slightly different from the others
+            // all categories are held in an inline span
+            const $categories = $(document.createElement('span'))
+                .addClass("post-categories text-muted")
+                .text('tags: ')
+            // but the individual category elements are separate anchor elements
+            for (let cat of post.categories) {
+                let tag = $(document.createElement('a'))
+                    .text(cat)
+                    .attr('href', '#')
+                    .addClass("card-link tags m-1 text-muted");
+                $categories.append(tag);
+            }
+
+            // we build the card footer and then add the categories span
+            const $cardFooter = $(document.createElement('div'))
+                .addClass('card-footer post-footer')
                 .append($categories);
 
+            // final construction of the card is put together and then returned
             return $(document.createElement('div'))
-                .addClass('card post m-4 p-2')
-                .append($cardBody);
+                .addClass('card post m-4')
+                .append($cardBody)
+                .append($cardFooter);
         }
     })
 </script>
