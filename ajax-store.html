@@ -7,20 +7,27 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
-
+<section class="container-fluid text-center">
 <h1>My Tool Store</h1>
-
-<table id="products">
+</section>
+<br>
+<section class="container border shadow" style="max-width: 60%">
+<table id="products" class="table border mt-3">
   <thead>
   <tr>
-    <th>Title</th>
-    <th>Quantity</th>
-    <th>Price</th>
-    <th>Categories</th>
+    <th scope="col">Title</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Price</th>
+    <th scope="col">Categories</th>
   </tr>
   </thead>
   <tbody id="insertProducts"></tbody>
 </table>
+  <button class="btn btn-secondary ml-0 mb-3" id="refresh-btn">Refresh</button>
+</section>
+<section class="container">
+
+</section>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
@@ -30,30 +37,45 @@
   (function() {
     "use strict";
     // TODO: Create an AJAX GET request for the file under data/inventory.json
-    $.get("/data/inventory.json").done(function (data) {
-      // go through all items listed in inventory
-      data.forEach(function (item) {
-        // prepare the table data
-        let title = '<td>'+ item.title + '</td>';
-        let quantity = '<td>' + item.quantity + '</td>';
-        let price = '<td>' + item.price + '</td>';
+    function inventoryRequest() {
+      $.get("/data/inventory.json").done(function (data) {
+        let freshInv = '<tbody id="insertProducts">'
+        // go through all items listed in inventory
+        data.forEach(function (item) {
+          // prepare the table data
+          let title = '<th scope="row">' + item.title + '</th>';
+          let quantity = '<td>' + item.quantity + '</td>';
+          let price = '<td>' + `$${parseFloat(item.price).toFixed(2)}` + '</td>';
 
-        // special case for category as it can be an array of values
-        let category = "<td>";
-        for (let cat of item.categories) {
-          category += cat + ' ';
-        }
-        category += "</td>"
+          // special case for category as it can be an array of values
+          let category = "<td>";
+          for (let cat of item.categories) {
+            category += cat + ' ';
+          }
+          category += "</td>"
 
-        // append the contents of the current item as a row to the existing table body
-        $('#insertProducts').append('<tr>' + title + quantity + price + category + '</tr>');
+          // put all together into a complete row for this item
+          let freshRow = '<tr>' + title + quantity + price + category + '</tr>';
+
+          // append the contents of the current item as a row to the existing table body being built up
+          freshInv += freshRow;
+        });
+        freshInv += '</tbody>';
+        $('#insertProducts').replaceWith(freshInv);
       });
-    });
+    }
+
+    // build page contents on document ready
+    inventoryRequest();
 
     // TODO: Take the data from inventory.json and append it to the products table
     //       HINT: Your data should come back as a JSON object; use console.log() to inspect
     //             its contents and fields
     //       HINT: You will want to target #insertProducts for your new HTML elements
+    $('#refresh-btn').on('click', function (e) {
+      e.preventDefault();
+      inventoryRequest();
+    })
   })();
 </script>
 
