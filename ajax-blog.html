@@ -50,12 +50,19 @@
             // post data is structured: 'title': title, 'content': content, 'categories': [categories], 'date': date
             // title element is an h5 tag containing an anchor to the individual post
             const $title = $(document.createElement('h5'))
-                .addClass("card-title post-title")
+                .addClass("card-title post-title flex-grow-1")
                 .append($(document.createElement('a')).text(post.title).attr('href', '#').addClass('post-title-link'))
             // date is a subheading below the title
             const $date = $(document.createElement('h6'))
                 .text(post.date)
                 .addClass("card-subtitle mb-2 text-muted post-date");
+
+            // create an element to hold date and title so we can place them inline
+            const $head = $(document.createElement('div'))
+                .addClass('d-flex align-items-baseline')
+                .append($title)
+                .append($date);
+
             // content is just a paragraph element
             const $content = $(document.createElement('p'))
                 .text(post.content)
@@ -64,8 +71,7 @@
             // card body contains the title, data, and content
             const $cardBody = $(document.createElement('div'))
                 .addClass("card-body post-body")
-                .append($title)
-                .append($date)
+                .append($head)
                 .append($content)
 
             // categories are prepared slightly different from the others
