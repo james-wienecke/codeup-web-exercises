@@ -77,7 +77,7 @@
             // categories are prepared slightly different from the others
             // all categories are held in an inline span
             const $categories = $(document.createElement('span'))
-                .addClass("post-categories text-muted")
+                .addClass("post-categories text-muted flex-grow-1")
                 .text('tags: ')
             // but the individual category elements are separate anchor elements
             for (let cat of post.categories) {
@@ -88,10 +88,17 @@
                 $categories.append(tag);
             }
 
+            // create social media interaction links
+            const $shareOptions = $(document.createElement('span'))
+                .append($(document.createElement('a')).text('Reply').attr('href', '#').addClass('card-link tags m-1 text-muted'))
+                .append($(document.createElement('a')).text('Like').attr('href', '#').addClass('card-link tags m-1 text-muted'))
+                .append($(document.createElement('a')).text('Share').attr('href', '#').addClass('card-link tags m-1 text-muted'));
+
             // we build the card footer and then add the categories span
             const $cardFooter = $(document.createElement('div'))
-                .addClass('card-footer post-footer')
-                .append($categories);
+                .addClass('card-footer post-footer d-flex')
+                .append($categories)
+                .append($shareOptions);
 
             // final construction of the card is put together and then returned
             return $(document.createElement('div'))
