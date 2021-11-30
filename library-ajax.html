@@ -7,24 +7,30 @@
 <body>
 <div id="books"></div>
 <form action="">
-    <input type="text" name="title">
-    <input type="text" name="author">
+    <input type="text" name="title" id="title">
+    <input type="text" name="author" id="author">
     <input type="submit" id="submit-btn">
 </form>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script>
     $.get("/data/library.json").done(function (books) {
-        console.log(books);
+        // console.log(books);
         books.forEach(function (book) {
             let h1 = "<h1>" + book.title + "</h1>";
             let p = "<p>" + book.author + "</p>";
             $('#books').append(h1 + p);
         });
     });
-
-    $.post("/data/library.json").done(function (data) {
-        console.log(data);
+    $('#submit-btn').on('click', function (e) {
+        e.preventDefault();
+        let title = $('#title').val();
+        let author = $('#author').val();
+        let book = {title, author};
+        console.log(book);
     });
+    // $.post("/data/library.json").done(function (data) {
+        // console.log(data);
+    // });
 </script>
 </body>
 </html>
