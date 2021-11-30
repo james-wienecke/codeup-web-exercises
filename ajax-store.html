@@ -25,11 +25,30 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-        crossorigin="anonymous"></script
+        crossorigin="anonymous"></script>
 <script>
   (function() {
     "use strict";
     // TODO: Create an AJAX GET request for the file under data/inventory.json
+    $.get("/data/inventory.json").done(function (data) {
+      // go through all items listed in inventory
+      data.forEach(function (item) {
+        // prepare the table data
+        let title = '<td>'+ item.title + '</td>';
+        let quantity = '<td>' + item.quantity + '</td>';
+        let price = '<td>' + item.price + '</td>';
+
+        // special case for category as it can be an array of values
+        let category = "<td>";
+        for (let cat of item.categories) {
+          category += cat + ' ';
+        }
+        category += "</td>"
+
+        // append the contents of the current item as a row to the existing table body
+        $('#insertProducts').append('<tr>' + title + quantity + price + category + '</tr>');
+      });
+    });
 
     // TODO: Take the data from inventory.json and append it to the products table
     //       HINT: Your data should come back as a JSON object; use console.log() to inspect
