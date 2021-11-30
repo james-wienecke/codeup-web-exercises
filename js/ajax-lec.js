@@ -18,13 +18,13 @@ var obj = {
 
 // Let's make an API call to get some AJAX going.
 
-// $.get('https://pokeapi.co/api/v2/pokemon/dragonite').done(function (info) {
-//     console.log(info);
-// });
+$.get('https://pokeapi.co/api/v2/pokemon/dragonite').done(function (info) {
+    console.log(info);
+});
 
-// $.get("https://swapi.dev/api/people/12").done(function (resp) {
-//     console.log(resp);
-// });
+$.get("https://swapi.dev/api/people/12").done(function (resp) {
+    console.log(resp);
+});
 
 // BAD PRACTICE DON'T DO THIS PLEASE. YOU WILL MAKE A DAVID CRY T-T
 
