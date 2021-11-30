@@ -46,19 +46,17 @@
            });
        });
 
-
-    // could display like:
-    // Title
-    // Date
-    // Content
-    // Categories
+        // Primary html node creation
         function createPost(post) {
             // post data is structured: 'title': title, 'content': content, 'categories': [categories], 'date': date
             // title element is an h5 tag containing an anchor to the individual post
             const $title = $(document.createElement('h5'))
                 .addClass("card-title post-title flex-grow-1")
-                .append($(document.createElement('a')).text(post.title).attr('href', '#').addClass('post-title-link'))
-            // date is a subheading below the title
+                .append($(document.createElement('a'))
+                    .text(post.title).attr('href', '#')
+                    .addClass('post-title-link'));
+
+            // date is a subheading siblings with the title
             const $date = $(document.createElement('h6'))
                 .text(post.date)
                 .addClass("card-subtitle mb-2 text-muted post-date");
@@ -96,9 +94,15 @@
 
             // create social media interaction links
             const $shareOptions = $(document.createElement('span'))
-                .append($(document.createElement('a')).text('Reply').attr('href', '#').addClass('card-link tags m-1 text-muted'))
-                .append($(document.createElement('a')).text('Like').attr('href', '#').addClass('card-link tags m-1 text-muted'))
-                .append($(document.createElement('a')).text('Share').attr('href', '#').addClass('card-link tags m-1 text-muted'));
+                .append($(document.createElement('a'))
+                    .text('Reply').attr('href', '#')
+                    .addClass('card-link tags m-1 text-muted'))
+                .append($(document.createElement('a'))
+                    .text('Like').attr('href', '#')
+                    .addClass('card-link tags m-1 text-muted'))
+                .append($(document.createElement('a'))
+                    .text('Share').attr('href', '#')
+                    .addClass('card-link tags m-1 text-muted'));
 
             // we build the card footer and then add the categories span
             const $cardFooter = $(document.createElement('div'))
