@@ -37,6 +37,7 @@
   (function() {
     "use strict";
 
+    // each store item type can be used to construct a js object
     function Listing (item) {
       this.title = item.title;
       this.quantity = item.quantity;
@@ -44,6 +45,7 @@
       this.price = item.price;
     }
 
+    // we will use this method to generate the dom nodes needed to display the item in a table row
     Listing.prototype.buildTableRow = function () {
       const $title = $(document.createElement('th'))
               .attr('scope', 'row')
@@ -62,38 +64,32 @@
     }
 
     // TODO: Create an AJAX GET request for the file under data/inventory.json
-    function inventoryRequest() {
+    function inventoryRequest($target) {
       $.get("/data/inventory.json").done(function (data) {
-        // let freshInv = '<tbody id="insertProducts">'
+        // $freshInventory will replace the #insertProducts element in the html
         let $freshInventory = $(document.createElement('tbody'))
-                .attr('id', 'insertProducts');
+                .attr('id', $target.attr('id'));
+        // might as well keep an internal array of the inventory items loaded from the JSON
+        let inventory = [];
         // go through all items listed in inventory
         data.forEach(function (item) {
-          let itemRow = new Listing(item);
-          $freshInventory.append(itemRow.buildTableRow());
-          // prepare the table data
-          // let title = '<th scope="row">' + item.title + '</th>';
-          // let quantity = '<td>' + item.quantity + '</td>';
-          // let price = '<td>' + `$${parseFloat(item.price).toFixed(2)}` + '</td>';
-          // special case for category as it can be an array of values
-          // let category = "<td>";
-          // for (let cat of item.categories) {
-          //   category += cat + ' ';
-          // }
-          // category += "</td>"
-          // put all together into a complete row for this item
-          // let freshRow = '<tr>' + title + quantity + price + category + '</tr>';
-          // append the contents of the current item as a row to the existing table body being built up
-          // freshInv += freshRow;
+          // construct a new Listing
+          let product = new Listing(item);
+          // append the DOM node results of running the Listing buildTableRow method
+          $freshInventory.append(product.buildTableRow());
+          // push the product listing into inventory array
         });
-        // freshInv += '</tbody>';
-        $('#insertProducts').replaceWith($freshInventory);
+        // once the JSON file is completely processed, we replace the old tbody with our newly built version
+        $target.replaceWith($freshInventory);
+        // might as well practice with writing error handling
+      }).fail(function (jqXhr, status, error) {
+       console.log('Request fail:', status, error)
       });
     }
 
     // build page contents on document ready
     // commented out to allow refresh button demo!
-    // inventoryRequest();
+    // inventoryRequest($('#insertProducts'));
 
     // TODO: Take the data from inventory.json and append it to the products table
     //       HINT: Your data should come back as a JSON object; use console.log() to inspect
@@ -101,7 +97,7 @@
     //       HINT: You will want to target #insertProducts for your new HTML elements
     $('#refresh-btn').on('click', function (e) {
       e.preventDefault();
-      inventoryRequest();
+      inventoryRequest($('#insertProducts'));
     })
   })();
 </script>
