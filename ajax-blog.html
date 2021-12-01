@@ -95,7 +95,7 @@
             $posts.text('');
             // disable all old .tag listeners
             $('.tag').off('click');
-            // create new post elements from array and append to $posts
+            // create new post elements from array and prepend to $posts
             posts.forEach(function (post) {
                 if (filter) {
                     // if filter provided, show return from tag controls and filter the posts
@@ -103,18 +103,18 @@
                     if (filter.type === 'tag') {
                         for (let tag of post.categories) {
                             if (tag === filter.query) {
-                                $posts.append(createPost(post));
+                                $posts.prepend(createPost(post));
                             }
                         }
-                    // if targeting a post by title, only append post with matching title
+                    // if targeting a post by title, only prepend post with matching title
                     } else if (filter.type === 'title') {
-                        if (post.title === filter.query) $posts.append(createPost(post));
+                        if (post.title === filter.query) $posts.prepend(createPost(post));
                     // if neither match, i've made a mistake so pls yell at me javascript ;__;
                     } else console.log('invalid filter', filter)
-                    // if no filter provided, append all posts
+                    // if no filter provided, prepend all posts
                 } else {
                     $('#tag-controls').hide();
-                    $posts.append(createPost(post));
+                    $posts.prepend(createPost(post));
                 }
             });
             // once elements are created, setup event listeners in the tags
