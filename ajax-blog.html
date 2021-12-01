@@ -10,7 +10,7 @@
             color: darkblue;
         }
 
-        .tags:hover, .post-title-link:hover, .tag {
+        .tags:hover, .post-title-link:hover, .tag:hover {
             color: lightblue !important;
             text-decoration: none;
         }
@@ -41,7 +41,7 @@
 <section class="container-fluid py-3 m-0" id="title-bar">
     <h1 class="text-center"><a href="#">The Only Blog Ever Made</a></h1>
 </section>
-<section class="page-content container-fluid justify-content-center">
+<main class="page-content container-fluid justify-content-center" id="main">
     <div class="container my-4 mx-auto" id="tag-controls">
         <div class="mx-4">
             <h5 class="py-2 px-2" id="tag-controls-area">
@@ -52,7 +52,7 @@
     <div id="posts" class="container">
 
     </div>
-</section>
+</main>
 
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -69,7 +69,7 @@
 
         function loadAllPosts() {
             $.get('/data/blog.json').done(function (posts) {
-                createPostsList(posts);
+                createPostsList(posts, null, 0);
                 setupReturnControls();
             });
         }
@@ -80,13 +80,21 @@
             });
         }
 
-        function createPostsList (posts, filter) {
+        function scrollToElement($elem) {
+            $('html, body').animate({
+                scrollTop: $elem.offset().top
+            }, 500);
+        }
+
+        function createPostsList (posts, filter, scroll) {
             // clear $posts element
             $posts.text('');
-            $('.tags').off('click');
+            // disable all old .tag listeners
+            $('.tag').off('click');
             // create new post elements from array and append to $posts
             posts.forEach(function (post) {
                 if (filter) {
+                    // if filter provided, show return from tag controls and filter the posts
                     $('#tag-controls').show();
                     for (let tag of post.categories) {
                         if (tag === filter) {
@@ -100,8 +108,14 @@
                 }
             });
             // once elements are created, setup event listeners in the tags
-            addTagLinks(posts);
+            $('.tag').on('click', function (e) {
+                e.preventDefault();
+                createPostsList(posts, $(this).text(), true);
+            });
+            // finally, scroll to top of posts area
+            if (scroll) scrollToElement($('#main'));
         }
+
 
         // Primary html node creation
         function createPost(post) {
@@ -173,47 +187,7 @@
                 .append($cardBody)
                 .append($cardFooter);
         }
-
-        function addTagLinks(posts) {
-            $('.tag').on('click', function (e) {
-                e.preventDefault();
-                createPostsList(posts, $(this).text());
-            });
-        }
-
-        function filterPostsByValue(posts, filter) {
-            $('#posts').text('');
-            let matchesFound = 0;
-            posts.forEach(function (post) {
-                for (let tag of post.categories) {
-                    if (tag === filter) {
-                        $('#posts').append(createPost(post));
-                        matchesFound++;
-                    }
-                }
-            });
-            $('.tag').on('click', function (e) {
-                e.preventDefault();
-                filterPostsByValue(posts, $(this).text());
-            });
-            if (matchesFound) {
-                $('#tag-controls').show();
-                $('#tag-return').on('click', function () {
-                    $('#posts').text('')
-                    posts.forEach(function (post) {
-                        $('#posts').append(createPost(post));
-                    });
-                    $('.tag').on('click', function (e) {
-                        e.preventDefault();
-                        filterPostsByValue(posts, $(this).text());
-                    });
-                    $('#tag-controls').hide()
-                });
-            }
-        }
     });
-
-
 </script>
 </body>
 </html>
