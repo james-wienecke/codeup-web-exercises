@@ -9,7 +9,7 @@
         .post-title-link {
             color: darkblue;
         }
-        .tags:hover, .post-title-link:hover {
+        .tags:hover, .post-title-link:hover, .tag {
             color: lightblue !important;
             text-decoration: none;
         }
@@ -24,6 +24,9 @@
 <body>
 <section class="container-fluid py-3 m-0" id="title-bar">
     <h1 class="text-center"><a href="#">The Only Blog Ever Made</a></h1>
+</section>
+<section class="container" id="tag-controls">
+    <h6><a id="tag-return"><-- Return</a></h6>
 </section>
 <section class="page-content">
     <div id="posts" class="container">
@@ -43,6 +46,11 @@
        $.get('/data/blog.json').done(function (posts) {
            posts.forEach(function (post) {
                $('#posts').append(createPost(post));
+           });
+           $('.tag').on('click', function (e) {
+               e.preventDefault();
+               // console.log($(this));
+               filterPostsByValue(posts, $(this).text());
            });
        });
 
@@ -87,8 +95,8 @@
             for (let cat of post.categories) {
                 let tag = $(document.createElement('a'))
                     .text(cat)
-                    .attr('href', '#')
-                    .addClass("card-link tags m-1 text-muted");
+                    .attr('role', 'button')
+                    .addClass("card-link tag m-1 text-muted");
                 $categories.append(tag);
             }
 
@@ -116,7 +124,21 @@
                 .append($cardBody)
                 .append($cardFooter);
         }
-    })
+
+        function filterPostsByValue(posts, filter) {
+            $('#posts').text('');
+            posts.forEach(function (post) {
+                for (let tag of post.categories) {
+                    if (tag === filter) {
+                        $('#posts').append(createPost(post));
+                    }
+                }
+            });
+        }
+    });
+
+
+
 </script>
 </body>
 </html>
