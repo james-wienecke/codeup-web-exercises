@@ -105,6 +105,7 @@
                     // if targeting a post by title, only append post with matching title
                     } else if (filter.type === 'title') {
                         if (post.title === filter.query) $posts.append(createPost(post));
+                    // if neither match, i've made a mistake so pls yell at me javascript ;__;
                     } else console.log('invalid filter', filter)
                     // if no filter provided, append all posts
                 } else {
@@ -118,8 +119,10 @@
                 createPostsList(posts, {'query': $(this).text(), 'type': 'tag'}, true);
             });
             // and setup event listeners for getting a single post by title
-            // tbd
-
+            $('.post-title-link').on('click', function (e) {
+                e.preventDefault();
+                createPostsList(posts, {'query': $(this).text(), 'type': 'title'}, true);
+            });
             // finally, scroll to top of posts area
             if (scroll) scrollToElement($('#main'));
         }
