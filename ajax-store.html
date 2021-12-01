@@ -78,6 +78,7 @@
           // append the DOM node results of running the Listing buildTableRow method
           $freshInventory.append(product.buildTableRow());
           // push the product listing into inventory array
+          inventory.push(product);
         });
         // once the JSON file is completely processed, we replace the old tbody with our newly built version
         $target.replaceWith($freshInventory);
