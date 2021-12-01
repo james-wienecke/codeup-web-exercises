@@ -96,11 +96,16 @@
                 if (filter) {
                     // if filter provided, show return from tag controls and filter the posts
                     $('#tag-controls').show();
-                    for (let tag of post.categories) {
-                        if (tag === filter) {
-                            $posts.append(createPost(post));
+                    if (filter.type === 'tag') {
+                        for (let tag of post.categories) {
+                            if (tag === filter.query) {
+                                $posts.append(createPost(post));
+                            }
                         }
-                    }
+                    // if targeting a post by title, only append post with matching title
+                    } else if (filter.type === 'title') {
+                        if (post.title === filter.query) $posts.append(createPost(post));
+                    } else console.log('invalid filter', filter)
                     // if no filter provided, append all posts
                 } else {
                     $('#tag-controls').hide();
@@ -110,8 +115,11 @@
             // once elements are created, setup event listeners in the tags
             $('.tag').on('click', function (e) {
                 e.preventDefault();
-                createPostsList(posts, $(this).text(), true);
+                createPostsList(posts, {'query': $(this).text(), 'type': 'tag'}, true);
             });
+            // and setup event listeners for getting a single post by title
+            // tbd
+
             // finally, scroll to top of posts area
             if (scroll) scrollToElement($('#main'));
         }
@@ -124,7 +132,8 @@
             const $title = $(document.createElement('h5'))
                 .addClass("card-title post-title flex-grow-1")
                 .append($(document.createElement('a'))
-                    .text(post.title).attr('href', '#')
+                    .text(post.title)
+                    .attr('href', '#')
                     .addClass('post-title-link'));
 
             // date is a subheading siblings with the title
