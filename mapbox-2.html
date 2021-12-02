@@ -34,6 +34,15 @@
         <h5>Marker info:</h5>
         <p>Longitude: <span id="marker-lng"></span></p>
         <p>Latitude: <span id="marker-lat"></span></p>
+        <p>Location: <span id="degeocoded-loc"></span></p>
+    </div>
+</section>
+<section class="d-flex">
+    <div class="input-group">
+        <input type="text" class="form-control" id="geocoder-search" placeholder="address" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="geocoder-submit">Go to</button>
+        </div>
     </div>
 </section>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -42,6 +51,7 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 <script src="js/keys.js"></script>
+<script src="js/mapbox-geocoder-utils.js"></script>
 <script>
     mapboxgl.accessToken = MAPBOX_TOKEN;
     const map = new mapboxgl.Map({
@@ -78,6 +88,8 @@
 
     displayObjLngLat(myMarker);
 
+    // console.log(geocode('San Antonio', MAPBOX_TOKEN));
+
     // when marker is dragged, update page display of the target's coords
     myMarker.on('dragend', function (e) {
         displayObjLngLat(e.target)
@@ -103,10 +115,21 @@
     function displayObjLngLat (obj) {
         $('#marker-lng').text(obj.getLngLat().lng);
         $('#marker-lat').text(obj.getLngLat().lat);
+        reverseGeocode(obj.getLngLat(), MAPBOX_TOKEN).then(function (res) {
+            $('#degeocoded-loc').text(res);
+            return res
+        });
     }
 
+    $('#geocoder-submit').on('click', function () {
+        flyToSearch($('#geocoder-search').val());
+    })
 
-
+    function flyToSearch (query) {
+        geocode(query, MAPBOX_TOKEN).then(function (res) {
+            map.flyTo({center: res, speed: 1});
+        });
+    }
  </script>
 </body>
 </html>
