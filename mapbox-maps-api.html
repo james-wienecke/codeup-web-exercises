@@ -9,9 +9,51 @@
     <!-- Mapbox stuff -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        .marker {
+            background-color: black;
+            border: 2px solid white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<body>
-
+<body class="container justify-content-center">
+<div class="container-fluid" id='map' style='width: 70vw; height: 60vh;'></div>
+<section class="d-flex m-4">
+    <div class="container">
+        <button class="btn btn-secondary" id="mapzoom-in">Zoom in</button>
+        <button class="btn btn-secondary" id="mapzoom-out">Zoom out</button>
+    </div>
+    <div class="input-group flex-fill">
+        <input type="text" class="form-control" id="mapcoord-input" placeholder="latitude, longitude" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="mapcoord-submit">Go to</button>
+        </div>
+    </div>
+</section>
+<section class="d-flex m-4" id="marker-controls">
+    <div class="container">
+<!--        <button class="btn btn-secondary disabled" id="marker-centerinscreen">Center marker in screen</button>-->
+        <button class="btn btn-secondary" id="marker-centerscreenon">Center screen on marker</button>
+    </div>
+    <div class="container">
+        <h5>Marker info:</h5>
+        <p>Longitude: <span id="marker-lng"></span></p>
+        <p>Latitude: <span id="marker-lat"></span></p>
+        <p>Location: <span id="degeocoded-loc"></span></p>
+    </div>
+</section>
+<section class="d-flex">
+    <div class="input-group">
+        <input type="text" class="form-control" id="geocoder-search" placeholder="address" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="geocoder-submit">Go to</button>
+        </div>
+    </div>
+</section>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -28,11 +70,129 @@
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
-        center: [-73.9857, 40.7484], // starting position [lng, lat] NYC: 40.7484° N, 73.9857° W
-        zoom: 10 // starting zoom
+        center: [-98.4941816751808, 29.42989209851484], // starting position
+        zoom: 9 // starting zoom
     });
 </script>
 <script>
+    // restaurant POIs geojson source
+    const restaurants = {
+            'type': 'FeatureCollection',
+            'features': [
+                {
+                    'type': 'Feature',
+                    'properties': {
+                        'title': 'Kungfu Noodle',
+                        'description': 'Authentic Chinese noodle soup and fresh steamed bao.'
+                    },
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': [-98.618853, 29.496481000000003]
+                    }
+                },
+                {
+                    'type': 'Feature',
+                    'properties': {
+                        'title': 'Unknown',
+                        'description': 'unset'
+                    },
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': [-98.62, 29.5]
+                    }
+                },
+                {
+                    'type': 'Feature',
+                    'properties': {
+                        'title': 'Unknown',
+                        'description': 'unset'
+                    },
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': [-98.63, 29.46]
+                    }
+                }
+            ]
+        };
+
+    // add markers to map
+    restaurants.features.forEach((feature) => {
+        // create a HTML element for each feature
+        const el = document.createElement('div');
+        el.className = 'marker';
+
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+            .setLngLat(feature.geometry.coordinates)
+            .setPopup(
+                new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML(
+                        `<h5>${feature.properties.title}</h5><p>${feature.properties.description}</p>`
+                    )
+            )
+            .addTo(map);
+    });
+
+
+
+    // fun extra controls w/ bootstrap stuff
+    $('#mapzoom-in').on('click', function () { map.zoomIn() });
+    $('#mapzoom-out').on('click', function () { map.zoomOut() });
+
+    $('#mapcoord-submit').on('click', function () {
+        let newCoords = $('#mapcoord-input').val().split(' ');
+        map.flyTo({center: newCoords, speed: 1});
+    });
+
+    // restaurant: -98.618853, 29.496481000000003
+    // const myMarker = new mapboxgl.Marker({
+    //     color: 'green',
+    // })  .setLngLat([-98.618853, 29.496481000000003])
+    //     .addTo(map);
+    //
+    // displayObjLngLat(myMarker);
+    //
+    // map.on('click', function () {
+    //     const infoPopup = new mapboxgl.Popup({ closeOnClick: false })
+    //         .setLngLat(myMarker.getLngLat())
+    //         .setHTML('<h4><a href="https://kungfu-noodle.business.site/">Kungfu Noodle</a></h4>')
+    //         .addTo(map);
+    // })
+
+    // when marker is dragged, update page display of the target's coords
+    // myMarker.on('dragend', function (e) {
+    //     displayObjLngLat(e.target)
+    // });
+
+    // this button places the marker at the center of the camera view
+    // $('#marker-centerinscreen').on('click', function () {
+    //     myMarker.setLngLat(map.getCenter());
+    //     displayObjLngLat(myMarker);
+    // });
+
+    // this button centers the camera view on the marker
+    $('#marker-centerscreenon').on('click', function () {
+        map.setCenter(myMarker.getLngLat());
+    })
+
+    // this will set the two coordinate displays to the provided object's lng/lat
+    function displayObjLngLat (obj) {
+        $('#marker-lng').text(obj.getLngLat().lng);
+        $('#marker-lat').text(obj.getLngLat().lat);
+        reverseGeocode(obj.getLngLat(), MAPBOX_TOKEN).then(function (res) {
+            $('#degeocoded-loc').text(res);
+        });
+    }
+
+    $('#geocoder-submit').on('click', function () {
+        flyToSearch($('#geocoder-search').val());
+    })
+
+    function flyToSearch (query) {
+        geocode(query, MAPBOX_TOKEN).then(function (res) {
+            map.flyTo({center: res, speed: 1});
+        });
+    }
 
 </script>
 </body>
