@@ -9,7 +9,7 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body class="container justify-content-center">
-<h1 class="text-center">Welcome to Mapbox!!!</h1>
+<h1 class="text-center">Statue of Liberty</h1>
 
 
 <div class="container-fluid" id='map' style='width: 70vw; height: 60vh;'></div>
@@ -47,7 +47,7 @@
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
-        center: [-74.0445, 40.6892], // starting position [lng, lat]
+        center: [-73.9857, 40.7484], // starting position [lng, lat] NYC: 40.7484° N, 73.9857° W
         zoom: 10 // starting zoom
     });
 </script>
@@ -69,33 +69,37 @@
 
 
     //// MARKERS
-    // statue of liberty lnglat = 40.6892° N, 74.0445° W / -74.0445, 40.6892
-    const statueOfLiberty = new mapboxgl.Marker({
+    // statue of liberty lnglat = 40.6892° N, 74.0445° W aka -74.0445, 40.6892
+    const myMarker = new mapboxgl.Marker({
         color: 'green',
     })  .setLngLat([-74.0445, 40.6892])
         .setDraggable(true)
         .addTo(map);
 
-    displayObjLngLat(statueOfLiberty);
+    displayObjLngLat(myMarker);
 
-    statueOfLiberty.on('drag', function (e) {
+    // when marker is dragged, update page display of the target's coords
+    myMarker.on('dragend', function (e) {
         displayObjLngLat(e.target)
     });
 
     const statuePopup = new mapboxgl.Popup({ closeOnClick: false })
-        .setLngLat([-74.0445, 40.6892])
+        .setLngLat(myMarker.getLngLat())
         .setHTML('<h1>Statue of Liberty</h1>')
         .addTo(map);
 
+    // this button places the marker at the center of the camera view
     $('#marker-centerinscreen').on('click', function () {
-        statueOfLiberty.setLngLat(map.getCenter());
-        displayObjLngLat(statueOfLiberty);
+        myMarker.setLngLat(map.getCenter());
+        displayObjLngLat(myMarker);
     });
 
+    // this button centers the camera view on the marker
     $('#marker-centerscreenon').on('click', function () {
-        map.setCenter(statueOfLiberty.getLngLat());
+        map.setCenter(myMarker.getLngLat());
     })
 
+    // this will set the two coordinate displays to the provided object's lng/lat
     function displayObjLngLat (obj) {
         $('#marker-lng').text(obj.getLngLat().lng);
         $('#marker-lat').text(obj.getLngLat().lat);
