@@ -8,12 +8,23 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
 </head>
-<body>
-<h1>Welcome to Mapbox!!!</h1>
+<body class="container justify-content-center">
+<h1 class="text-center">Welcome to Mapbox!!!</h1>
 
 
-<div id='map' style='width: 400px; height: 300px;'></div>
-
+<div class="container-fluid" id='map' style='width: 70vw; height: 60vh;'></div>
+<section class="d-flex m-4">
+    <div class="container">
+        <button class="btn btn-secondary" id="mapzoom-in">Zoom in</button>
+        <button class="btn btn-secondary" id="mapzoom-out">Zoom out</button>
+    </div>
+    <div class="input-group flex-fill">
+        <input type="text" class="form-control" id="mapcoord-input" placeholder="latitude, longitude" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="mapcoord-submit">Go to</button>
+        </div>
+    </div>
+</section>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
@@ -25,10 +36,62 @@
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
-        center: [-74.5, 40], // starting position [lng, lat]
-        zoom: 9 // starting zoom
+        center: [-98.4683, 29.5312], // starting position [lng, lat]
+        zoom: 8 // starting zoom
     });
 </script>
-<script></script>
+<script>
+    //TODO: Mini exercise #1 - Create an HTML file named mapbox-1.html. Create a map that is centered at the San Antonio Airport with the zoom set to 12.
+    //TODO: After 5 seconds, use a method found in the documentation to fly to the DFW Airport and change the map style to satellite streets.
+    // let flyDFW = setTimeout(function () {
+    //     map.setStyle( 'mapbox://styles/mapbox/satellite-streets-v11');
+    //     map.flyTo({
+    //         center: [
+    //             -97.040443,
+    //             32.897480
+    //         ],
+    //         speed: 1,
+    //         essential: true // this animation is considered essential with respect to prefers-reduced-motion
+    //     });
+    // }, 5000)
+
+    //      *BONUS* Create a button labeled "Zoom In", and when the button is clicked, increases the zoom value by 1.\
+    $('#mapzoom-in').on('click', function () { map.zoomIn() });
+    $('#mapzoom-out').on('click', function () { map.zoomOut() });
+
+    $('#mapcoord-submit').on('click', function () {
+        let newCoords = $('#mapcoord-input').val().split(' ');
+        map.flyTo({center: newCoords, speed: 1});
+    });
+
+    //// MARKERS
+    // creating a new marker object
+    const codeup = new mapboxgl.Marker({
+        color: 'blue',
+    })  .setLngLat([-98.48615, 29.426827])
+        .setDraggable(true);
+    // need to use setters/getters for pretty much all mapbox objects
+
+    // new marker needs to be added to a map for display
+    codeup.addTo(map);
+
+    // there are events for a lot of mapbox objects, can be handled w/ jquery like:
+    codeup.on('dragend', (event) => {
+        console.log(event.target.getLngLat());
+    });
+
+    //// POPUPS
+    const popup = new mapboxgl.Popup({
+        closeOnClick: false,
+    })
+        .addTo(map)
+        .setLngLat(codeup.getLngLat())
+        .setHTML('<h1>Hello from Codeup!</h1>');
+
+    // popup follows marker as it is dragged!
+    codeup.on('drag', (event) => {
+        popup.setLngLat(event.target.getLngLat());
+    });
+</script>
 </body>
 </html>
