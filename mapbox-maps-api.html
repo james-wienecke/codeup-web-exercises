@@ -11,18 +11,22 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
     <style>
         .marker {
-            background-color: #3d3df8;
-            border: 2px solid #e8e3ff;
+            background-image: url('img/marker.svg.png');
+            background-size: cover;
             width: 20px;
-            height: 20px;
-            border-radius: 50%;
+            height: 30px;
             cursor: pointer;
+        }
+        .popup-img {
+            /*width: 15vw;*/
+            height: 10vh;
+            float: left;
         }
     </style>
 </head>
 <body class="container justify-content-center">
 <h1>Best Restaurants</h1>
-<div class="container-fluid" id='map' style='width: 70vw; height: 60vh;'></div>
+<div class="container-fluid" id='map' style='width: 80vw; height: 80vh;'></div>
 <section class="d-flex m-4">
     <div class="container">
         <button class="btn btn-secondary" id="mapzoom-in">Zoom in</button>
@@ -35,6 +39,11 @@
         </div>
     </div>
 </section>
+<footer>
+    <p>Map marker icon source:
+        <a href="https://commons.wikimedia.org/wiki/File:Map_marker.svg">Andrew Onorato, modified by User:Psubhashish</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
+    </p>
+</footer>
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -68,10 +77,11 @@
                         'description': 'Authentic Chinese noodle soup with fabulous fresh steamed bao. It\'s a dead simple setup but it\'s phenomenal food with an incredibly delicious broth. Given the choice between cutting off an arm or never going to Kungfu again, I\'d chop my arm off happily.',
                         'website': 'https://kungfu-noodle.business.site/',
                         'phone': '(210) 451-5586',
+                        'image': 'img/KungfuNoodle.webp',
                     },
                     'geometry': {
                         'type': 'Point',
-                        'coordinates': [-98.618853, 29.496481000000003]
+                        'coordinates': [-98.618853, 29.496481000000003],
                     }
                 },
                 {
@@ -81,10 +91,11 @@
                         'description': 'Incredible Thai food. Huge menu with tons of variety in everything from appetizers to entrees to drinks.',
                         'website': 'https://www.thaideesa.com/',
                         'phone': '(210) 342-3622',
+                        'image': 'img/Thai-Dee.jpg',
                     },
                     'geometry': {
                         'type': 'Point',
-                        'coordinates': [-98.50815599999999, 29.499339000000006]
+                        'coordinates': [-98.50815599999999, 29.499339000000006],
                     }
                 },
                 {
@@ -94,10 +105,11 @@
                         'description': 'Classic American breakfast food (and so much more!). Huge pancakes, great coffee, and the good butter. This restaurant feels like being at your weird old great-grandparent\'s house when you were like four years old. In a good way.',
                         'website': 'https://www.magnoliapancakehaus.com/',
                         'phone': '(210) 496-0828',
+                        'image': 'img/magnolia.png',
                     },
                     'geometry': {
                         'type': 'Point',
-                        'coordinates': [-98.584856, 29.540073000000007]
+                        'coordinates': [-98.584856, 29.540073000000007],
                     }
                 }
             ]
@@ -116,11 +128,17 @@
             console.log(feature.geometry.coordinates);
             console.log(res);
             const $info = $(document.createElement('div'))
+                .addClass('container justify-content-center')
                 .append($(document.createElement('h5'))
                     .append($(document.createElement('a'))
                         .text(feature.properties.title)
-                        .attr('href', feature.properties.website)))
+                        .attr('href', feature.properties.website)
+                        .attr('target','_blank')))
+                .append($(document.createElement('img'))
+                    .addClass('popup-img mr-3')
+                    .attr('src', feature.properties.image))
                 .append($(document.createElement('p'))
+                    .addClass('mx-3')
                     .text(feature.properties.description))
                 .append($(document.createElement('p'))
                     .text(res))
@@ -131,7 +149,10 @@
         new mapboxgl.Marker(el)
             .setLngLat(feature.geometry.coordinates)
             .setPopup(
-                new mapboxgl.Popup({ offset: 25 }) // add popups
+                new mapboxgl.Popup({
+                    offset: 25,
+                    maxWidth: '600px',
+                }) // add popups
                 .setDOMContent($info.get(0))
             )
             .addTo(map);
