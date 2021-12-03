@@ -60,7 +60,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="#" role="button" id="marker-hide">Toggle Marker Visibility</a>
-        <a class="dropdown-item" href="#" role="button" id="marker-anim">Animate markers</a>
+        <a class="dropdown-item" href="#" role="button" id="marker-anim">Animate User Marker</a>
     </div>
 </div>
 <footer class="citations m-4">
@@ -89,7 +89,7 @@
         zoom: 10 // starting zoom
     });
 
-    // restaurant POIs geojson source
+    // restaurant POIs geojson-ish source
     const restaurants = {
             'type': 'FeatureCollection',
             'features': [
@@ -148,8 +148,6 @@
                 'lng': feature.geometry.coordinates[0],
                 'lat': feature.geometry.coordinates[1]
             }, MAPBOX_TOKEN).then((res) => {
-            console.log(feature.geometry.coordinates);
-            console.log(res);
             const $info = $(document.createElement('div'))
                 .addClass('container justify-content-center')
                 .append($(document.createElement('h5'))
@@ -205,14 +203,18 @@
     const userMarkerEl = document.createElement('div');
     userMarkerEl.className = 'marker';
     const userMarker = new mapboxgl.Marker(userMarkerEl);
+    let userMarkerLat = null;
 
     function markSearch (query) {
         geocode(query, MAPBOX_TOKEN).then(function (res) {
             userMarker.setLngLat(res).addTo(map);
-            map.flyTo({center: userMarker.getLngLat(), zoom: 15, speed: 1});
+            map.flyTo({center: userMarker.getLngLat(), speed: 1});
+            $('#marker-anim-debug-lat').text(userMarker.getLngLat().lat)
+            userMarkerLat = userMarker.getLngLat().lat;
         });
     }
 
+    // apply the zoom. wow.
     $('#zoom-apply').on('click', function (e) {
         map.setZoom($('#zoom-select').val());
     });
@@ -220,7 +222,28 @@
     // handle hiding markers goes here
     $('#marker-hide').on('click', function (e) {
         $('.marker').toggleClass('marker-hidden');
-    })
+    });
+
+    // marker animation stuff
+    $('#marker-anim').on('click', function (e) {
+        requestAnimationFrame(animateMarker)
+    });
+
+    function animateMarker(timestamp) {
+        // im begging you all do not attempt to bounce a marker's actual location up and down
+        // with a trig function please GOD
+        const radius = 20;
+
+        // use offset instead of long/lat
+        userMarker.setOffset([
+            0, // do NOT change x
+            // godforsaken code follows dear god don't let my Cal II professor know how hard i struggled w/ this
+            -1 * Math.abs(Math.sin(timestamp / 500) * radius),
+        ])
+
+        // Request the next frame of the animation.
+        requestAnimationFrame(animateMarker);
+    }
 </script>
 </body>
 </html>
