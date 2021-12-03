@@ -11,8 +11,8 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
     <style>
         .marker {
-            background-color: black;
-            border: 2px solid white;
+            background-color: #3d3df8;
+            border: 2px solid #e8e3ff;
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -21,6 +21,7 @@
     </style>
 </head>
 <body class="container justify-content-center">
+<h1>Best Restaurants</h1>
 <div class="container-fluid" id='map' style='width: 70vw; height: 60vh;'></div>
 <section class="d-flex m-4">
     <div class="container">
@@ -34,26 +35,7 @@
         </div>
     </div>
 </section>
-<section class="d-flex m-4" id="marker-controls">
-    <div class="container">
-<!--        <button class="btn btn-secondary disabled" id="marker-centerinscreen">Center marker in screen</button>-->
-        <button class="btn btn-secondary" id="marker-centerscreenon">Center screen on marker</button>
-    </div>
-    <div class="container">
-        <h5>Marker info:</h5>
-        <p>Longitude: <span id="marker-lng"></span></p>
-        <p>Latitude: <span id="marker-lat"></span></p>
-        <p>Location: <span id="degeocoded-loc"></span></p>
-    </div>
-</section>
-<section class="d-flex">
-    <div class="input-group">
-        <input type="text" class="form-control" id="geocoder-search" placeholder="address" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="geocoder-submit">Go to</button>
-        </div>
-    </div>
-</section>
+
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -83,7 +65,9 @@
                     'type': 'Feature',
                     'properties': {
                         'title': 'Kungfu Noodle',
-                        'description': 'Authentic Chinese noodle soup and fresh steamed bao.'
+                        'description': 'Authentic Chinese noodle soup with fabulous fresh steamed bao. It\'s a dead simple setup but it\'s phenomenal food with an incredibly delicious broth. Given the choice between cutting off an arm or never going to Kungfu again, I\'d chop my arm off happily.',
+                        'website': 'https://kungfu-noodle.business.site/',
+                        'phone': '(210) 451-5586',
                     },
                     'geometry': {
                         'type': 'Point',
@@ -93,47 +77,66 @@
                 {
                     'type': 'Feature',
                     'properties': {
-                        'title': 'Unknown',
-                        'description': 'unset'
+                        'title': 'Thai Dee',
+                        'description': 'Incredible Thai food. Huge menu with tons of variety in everything from appetizers to entrees to drinks.',
+                        'website': 'https://www.thaideesa.com/',
+                        'phone': '(210) 342-3622',
                     },
                     'geometry': {
                         'type': 'Point',
-                        'coordinates': [-98.62, 29.5]
+                        'coordinates': [-98.50815599999999, 29.499339000000006]
                     }
                 },
                 {
                     'type': 'Feature',
                     'properties': {
-                        'title': 'Unknown',
-                        'description': 'unset'
+                        'title': 'The Magnolia Pancake Haus',
+                        'description': 'Classic American breakfast food (and so much more!). Huge pancakes, great coffee, and the good butter. This restaurant feels like being at your weird old great-grandparent\'s house when you were like four years old. In a good way.',
+                        'website': 'https://www.magnoliapancakehaus.com/',
+                        'phone': '(210) 496-0828',
                     },
                     'geometry': {
                         'type': 'Point',
-                        'coordinates': [-98.63, 29.46]
+                        'coordinates': [-98.584856, 29.540073000000007]
                     }
                 }
             ]
         };
-
     // add markers to map
     restaurants.features.forEach((feature) => {
         // create a HTML element for each feature
         const el = document.createElement('div');
         el.className = 'marker';
 
+        // create popup node content
+        reverseGeocode({
+                'lng': feature.geometry.coordinates[0],
+                'lat': feature.geometry.coordinates[1]
+            }, MAPBOX_TOKEN).then((res) => {
+            console.log(feature.geometry.coordinates);
+            console.log(res);
+            const $info = $(document.createElement('div'))
+                .append($(document.createElement('h5'))
+                    .append($(document.createElement('a'))
+                        .text(feature.properties.title)
+                        .attr('href', feature.properties.website)))
+                .append($(document.createElement('p'))
+                    .text(feature.properties.description))
+                .append($(document.createElement('p'))
+                    .text(res))
+                .append($(document.createElement('p'))
+                    .text(feature.properties.phone))
+
         // make a marker for each feature and add to the map
         new mapboxgl.Marker(el)
             .setLngLat(feature.geometry.coordinates)
             .setPopup(
                 new mapboxgl.Popup({ offset: 25 }) // add popups
-                    .setHTML(
-                        `<h5>${feature.properties.title}</h5><p>${feature.properties.description}</p>`
-                    )
+                .setDOMContent($info.get(0))
             )
             .addTo(map);
+        });
     });
-
-
 
     // fun extra controls w/ bootstrap stuff
     $('#mapzoom-in').on('click', function () { map.zoomIn() });
@@ -143,46 +146,6 @@
         let newCoords = $('#mapcoord-input').val().split(' ');
         map.flyTo({center: newCoords, speed: 1});
     });
-
-    // restaurant: -98.618853, 29.496481000000003
-    // const myMarker = new mapboxgl.Marker({
-    //     color: 'green',
-    // })  .setLngLat([-98.618853, 29.496481000000003])
-    //     .addTo(map);
-    //
-    // displayObjLngLat(myMarker);
-    //
-    // map.on('click', function () {
-    //     const infoPopup = new mapboxgl.Popup({ closeOnClick: false })
-    //         .setLngLat(myMarker.getLngLat())
-    //         .setHTML('<h4><a href="https://kungfu-noodle.business.site/">Kungfu Noodle</a></h4>')
-    //         .addTo(map);
-    // })
-
-    // when marker is dragged, update page display of the target's coords
-    // myMarker.on('dragend', function (e) {
-    //     displayObjLngLat(e.target)
-    // });
-
-    // this button places the marker at the center of the camera view
-    // $('#marker-centerinscreen').on('click', function () {
-    //     myMarker.setLngLat(map.getCenter());
-    //     displayObjLngLat(myMarker);
-    // });
-
-    // this button centers the camera view on the marker
-    $('#marker-centerscreenon').on('click', function () {
-        map.setCenter(myMarker.getLngLat());
-    })
-
-    // this will set the two coordinate displays to the provided object's lng/lat
-    function displayObjLngLat (obj) {
-        $('#marker-lng').text(obj.getLngLat().lng);
-        $('#marker-lat').text(obj.getLngLat().lat);
-        reverseGeocode(obj.getLngLat(), MAPBOX_TOKEN).then(function (res) {
-            $('#degeocoded-loc').text(res);
-        });
-    }
 
     $('#geocoder-submit').on('click', function () {
         flyToSearch($('#geocoder-search').val());
