@@ -169,22 +169,27 @@
     });
 
 
+    // text field's input button group members handled here
+    // optional non-bonus thing that flies to location w/o marker placement
     $('#geocoder-submit').on('click', function () {
         flyToSearch($('#geocoder-search').val());
     })
-
-    $('#geocoder-mark').on('click', function () {
-        markSearch($('#geocoder-search').val());
-    });
-
     function flyToSearch (query) {
         geocode(query, MAPBOX_TOKEN).then(function (res) {
             map.flyTo({center: res, speed: 1});
         });
     }
+
+    // bonus challenge solution that marks and moves to user input
+    $('#geocoder-mark').on('click', function () {
+        markSearch($('#geocoder-search').val());
+    });
+
+
+    // for good reasons including but not limited to my sanity, the user only gets ONE marker
     const userMarkerEl = document.createElement('div');
     userMarkerEl.className = 'marker';
-    const userMarker = new mapboxgl.Marker(userMarkerEl)
+    const userMarker = new mapboxgl.Marker(userMarkerEl);
 
     function markSearch (query) {
         geocode(query, MAPBOX_TOKEN).then(function (res) {
@@ -195,7 +200,9 @@
 
     $('#zoom-apply').on('click', function (e) {
         map.setZoom($('#zoom-select').val());
-    })
+    });
+
+    // handle hiding markers goes here
 </script>
 </body>
 </html>
