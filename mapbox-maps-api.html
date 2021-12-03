@@ -17,16 +17,22 @@
             height: 30px;
             cursor: pointer;
         }
+        .marker-hidden {
+            visibility: hidden;
+        }
         .popup-img {
             /*width: 15vw;*/
             height: 10vh;
             float: left;
         }
+        .citations {
+            font-size: 10px;
+        }
     </style>
 </head>
-<body class="container justify-content-center">
-<h1>Best Restaurants</h1>
-<div class="container-fluid" id='map' style='width: 75vw; height: 60vh;'></div>
+<body class="container">
+<h1 class="mx-4 mb-4">Best Restaurants</h1>
+<div class="container-fluid" id='map' style='width: 100%; height: 500px;'></div>
 <section class="d-flex m-4">
     <div class="input-group mr-1">
         <select class="custom-select" id="zoom-select" aria-label="Map zoom select">
@@ -48,7 +54,16 @@
         </div>
     </div>
 </section>
-<footer>
+<div class="dropdown m-4">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Options
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#" role="button" id="marker-hide">Toggle Marker Visibility</a>
+        <a class="dropdown-item" href="#" role="button" id="marker-anim">Animate markers</a>
+    </div>
+</div>
+<footer class="citations m-4">
     <p>Map marker icon source:
         <a href="https://commons.wikimedia.org/wiki/File:Map_marker.svg">Andrew Onorato, modified by User:Psubhashish</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
     </p>
@@ -70,11 +85,10 @@
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
-        center: [-98.4941816751808, 29.42989209851484], // starting position
-        zoom: 9 // starting zoom
+        center: [-98.54, 29.47], // starting position
+        zoom: 10 // starting zoom
     });
-</script>
-<script>
+
     // restaurant POIs geojson source
     const restaurants = {
             'type': 'FeatureCollection',
@@ -161,6 +175,7 @@
                 new mapboxgl.Popup({
                     offset: 25,
                     maxWidth: '600px',
+                    focusAfterOpen: false,
                 }) // add popups
                 .setDOMContent($info.get(0))
             )
@@ -203,6 +218,9 @@
     });
 
     // handle hiding markers goes here
+    $('#marker-hide').on('click', function (e) {
+        $('.marker').toggleClass('marker-hidden');
+    })
 </script>
 </body>
 </html>
