@@ -26,16 +26,25 @@
 </head>
 <body class="container justify-content-center">
 <h1>Best Restaurants</h1>
-<div class="container-fluid" id='map' style='width: 80vw; height: 80vh;'></div>
+<div class="container-fluid" id='map' style='width: 75vw; height: 60vh;'></div>
 <section class="d-flex m-4">
-    <div class="container">
-        <button class="btn btn-secondary" id="mapzoom-in">Zoom in</button>
-        <button class="btn btn-secondary" id="mapzoom-out">Zoom out</button>
-    </div>
-    <div class="input-group flex-fill">
-        <input type="text" class="form-control" id="mapcoord-input" placeholder="latitude, longitude" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
+    <div class="input-group mr-1">
+        <select class="custom-select" id="zoom-select" aria-label="Map zoom select">
+            <option selected disabled hidden>Change zoom level</option>
+            <option value="5">State level</option>
+            <option value="10">City level</option>
+            <option value="15">Street level</option>
+            <option value="20">Building level</option>
+        </select>
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="mapcoord-submit">Go to</button>
+            <button class="btn btn-outline-secondary" type="button" id="zoom-apply">Apply</button>
+        </div>
+    </div>
+    <div class="input-group">
+        <input type="text" class="form-control" id="geocoder-search" placeholder="Enter address" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="geocoder-submit">Go to</button>
+            <button class="btn btn-outline-secondary" type="button" id="geocoder-mark">Mark</button>
         </div>
     </div>
 </section>
@@ -159,25 +168,34 @@
         });
     });
 
-    // fun extra controls w/ bootstrap stuff
-    $('#mapzoom-in').on('click', function () { map.zoomIn() });
-    $('#mapzoom-out').on('click', function () { map.zoomOut() });
-
-    $('#mapcoord-submit').on('click', function () {
-        let newCoords = $('#mapcoord-input').val().split(' ');
-        map.flyTo({center: newCoords, speed: 1});
-    });
 
     $('#geocoder-submit').on('click', function () {
         flyToSearch($('#geocoder-search').val());
     })
+
+    $('#geocoder-mark').on('click', function () {
+        markSearch($('#geocoder-search').val());
+    });
 
     function flyToSearch (query) {
         geocode(query, MAPBOX_TOKEN).then(function (res) {
             map.flyTo({center: res, speed: 1});
         });
     }
+    const userMarkerEl = document.createElement('div');
+    userMarkerEl.className = 'marker';
+    const userMarker = new mapboxgl.Marker(userMarkerEl)
 
+    function markSearch (query) {
+        geocode(query, MAPBOX_TOKEN).then(function (res) {
+            userMarker.setLngLat(res).addTo(map);
+            map.flyTo({center: userMarker.getLngLat(), zoom: 15, speed: 1});
+        });
+    }
+
+    $('#zoom-apply').on('click', function (e) {
+        map.setZoom($('#zoom-select').val());
+    })
 </script>
 </body>
 </html>
