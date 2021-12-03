@@ -9,6 +9,25 @@
     <!-- Mapbox stuff -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        .marker {
+            background-image: url('img/marker.svg.png');
+            background-size: cover;
+            width: 20px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .marker-hidden {
+            visibility: hidden;
+        }
+        .popup-img {
+            height: 10vh;
+            float: left;
+        }
+        .citations {
+            font-size: 10px;
+        }
+    </style>
 </head>
 <body class="container">
 <h1 class="mx-4 mb-4">Weather</h1>
@@ -53,6 +72,7 @@
     }
 
     function buildAPIRequest (req) {
+        let day = 0
         $.get('https://api.openweathermap.org/data/2.5/onecall',{
             lat: req.lat,
             lon: req.lon,
@@ -62,10 +82,45 @@
             appid: OPENWEATHER_TOKEN,
         }).done((res) => {
             console.log(res);
-            $('#weather-icon').attr('src', `http://openweathermap.org/img/wn/${res.current.weather[0].icon}.png`)
+            $('#weather-icon').attr('src', `http://openweathermap.org/img/wn/${res.current.weather[0].icon}.png`);
+            let date = new Date(res.daily[day].dt * 1000);
+            console.log(date);
         });
     }
+
     buildAPIRequest(request);
+
+    // text field's input button group members handled here
+    // optional non-bonus thing that flies to location w/o marker placement
+    $('#geocoder-submit').on('click', function () {
+        flyToSearch($('#geocoder-search').val());
+    })
+    function flyToSearch (query) {
+        geocode(query, MAPBOX_TOKEN).then(function (res) {
+            map.flyTo({center: res, speed: 1});
+        });
+    }
+
+    // mark and move to input
+    $('#geocoder-mark').on('click', function () {
+        markSearch($('#geocoder-search').val());
+    });
+
+
+    // for good reasons including but not limited to my sanity, the user only gets ONE marker
+    const userMarkerEl = document.createElement('div');
+    userMarkerEl.className = 'marker';
+    const userMarker = new mapboxgl.Marker(userMarkerEl);
+
+    function markSearch (query) {
+        geocode(query, MAPBOX_TOKEN).then(function (res) {
+            userMarker.setLngLat(res).addTo(map);
+            map.flyTo({center: userMarker.getLngLat(), speed: 1});
+            request.lon = userMarker.getLngLat().lng;
+            request.lat = userMarker.getLngLat().lat;
+            buildAPIRequest(request);
+        });
+    }
 
 </script>
 </body>
