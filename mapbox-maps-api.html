@@ -63,8 +63,8 @@
         <a class="dropdown-item" href="#" role="button" id="marker-anim">Animate User Marker</a>
     </div>
 </div>
-<footer class="citations m-4">
-    <p>Map marker icon source:
+<footer class="m-4">
+    <p class="citations">Map marker icon source:
         <a href="https://commons.wikimedia.org/wiki/File:Map_marker.svg">Andrew Onorato, modified by User:Psubhashish</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
     </p>
 </footer>
@@ -85,7 +85,7 @@
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
-        center: [-98.54, 29.47], // starting position
+        center: [-98.54, 29.43], // starting position
         zoom: 10 // starting zoom
     });
 
@@ -137,6 +137,7 @@
                 }
             ]
         };
+
     // add markers to map
     restaurants.features.forEach((feature) => {
         // create a HTML element for each feature
@@ -156,14 +157,16 @@
                         .attr('href', feature.properties.website)
                         .attr('target','_blank')))
                 .append($(document.createElement('img'))
-                    .addClass('popup-img mr-3')
+                    .addClass('popup-img mr-1')
                     .attr('src', feature.properties.image))
                 .append($(document.createElement('p'))
-                    .addClass('mx-3')
+                    .addClass('mx-1')
                     .text(feature.properties.description))
                 .append($(document.createElement('p'))
+                    .addClass('mx-1')
                     .text(res))
                 .append($(document.createElement('p'))
+                    .addClass('mx-1')
                     .text(feature.properties.phone))
 
         // make a marker for each feature and add to the map
@@ -172,7 +175,7 @@
             .setPopup(
                 new mapboxgl.Popup({
                     offset: 25,
-                    maxWidth: '600px',
+                    maxWidth: '350px',
                     focusAfterOpen: false,
                 }) // add popups
                 .setDOMContent($info.get(0))
@@ -180,7 +183,6 @@
             .addTo(map);
         });
     });
-
 
     // text field's input button group members handled here
     // optional non-bonus thing that flies to location w/o marker placement
@@ -203,14 +205,11 @@
     const userMarkerEl = document.createElement('div');
     userMarkerEl.className = 'marker';
     const userMarker = new mapboxgl.Marker(userMarkerEl);
-    let userMarkerLat = null;
 
     function markSearch (query) {
         geocode(query, MAPBOX_TOKEN).then(function (res) {
             userMarker.setLngLat(res).addTo(map);
             map.flyTo({center: userMarker.getLngLat(), speed: 1});
-            $('#marker-anim-debug-lat').text(userMarker.getLngLat().lat)
-            userMarkerLat = userMarker.getLngLat().lat;
         });
     }
 
@@ -226,7 +225,7 @@
 
     // marker animation stuff
     $('#marker-anim').on('click', function (e) {
-        requestAnimationFrame(animateMarker)
+        requestAnimationFrame(animateMarker);
     });
 
     function animateMarker(timestamp) {
@@ -237,9 +236,9 @@
         // use offset instead of long/lat
         userMarker.setOffset([
             0, // do NOT change x
-            // godforsaken code follows dear god don't let my Cal II professor know how hard i struggled w/ this
+            // please don't let my cal professors know how hard i struggled w/ this
             -1 * Math.abs(Math.sin(timestamp / 500) * radius),
-        ])
+        ]);
 
         // Request the next frame of the animation.
         requestAnimationFrame(animateMarker);
