@@ -8,20 +8,74 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <!-- Mapbox stuff -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet'/>
+    <style>
+        body {
+            background-color: #e1e1e1;
+        }
+
+        .marker {
+            background-image: url('img/marker.svg.png');
+            background-size: cover;
+            width: 20px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .marker-hidden {
+            visibility: hidden;
+        }
+
+        .popup-img {
+            height: 10vh;
+            float: left;
+        }
+
+        .citations {
+            font-size: 10px;
+        }
+
+        .weather-card {
+            background-color: #efefef;
+        }
+
+        .weather-icon {
+            border-radius: 50%;
+            background-color: white;
+        }
+
+        .day {
+            background-color: lightskyblue;
+        }
+
+        .night {
+            background-color: #22067a;
+        }
+    </style>
 </head>
 <body class="container">
 <h1 class="mx-4 mb-4">Weather</h1>
-<img id="weather-icon">
-<div class="container-fluid" id='map' style='width: 100%; height: 500px;'></div>
+
+<div class="container-fluid" id='map' style='width: 100%; height: 200px;'></div>
 <section class="d-flex m-4">
     <div class="input-group">
-        <input type="text" class="form-control" id="geocoder-search" placeholder="Enter address" aria-label="latitude and longitude" aria-describedby="goto-coordinates">
+        <input type="text" class="form-control" id="geocoder-search" placeholder="Enter address"
+               aria-label="latitude and longitude" aria-describedby="goto-coordinates">
         <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="geocoder-submit">Go to</button>
             <button class="btn btn-outline-secondary" type="button" id="geocoder-mark">Mark</button>
         </div>
     </div>
+</section>
+<section class="container row" id="weather-forecast-container">
+    <!--    <div class="col text-center weather-card text-capitalize" id="weather-current-card">-->
+    <!--        <h3 class="weather-day" id="weather-current-day">Right now:</h3>-->
+    <!--        <p class="weather-date" id="weather-current-date"></p>-->
+    <!--        <img class="weather-icon" id="weather-current-icon" alt="current weather icon">-->
+    <!--        <h5 class="weather-type" id="weather-current-type"></h5>-->
+    <!--        <p class="weather-desc" id="weather-current-desc"></p>-->
+    <!--        <p class="weather-temp temp-avg" id="weather-current-temp"></p>-->
+    <!--    </div>-->
 </section>
 
 <!-- jQuery -->
@@ -44,29 +98,279 @@
     });
 </script>
 <script>
-    let request = {
-        lat: 29.43,
-        lon: -98.54,
-        exclude: ['minutely','hourly'],
-        units: 'imperial',
-        lang: 'en',
-    }
+    "use strict";
 
-    function buildAPIRequest (req) {
-        $.get('https://api.openweathermap.org/data/2.5/onecall',{
-            lat: req.lat,
-            lon: req.lon,
-            exclude: req.exclude.join(','),
-            units: req.units,
-            lang: req.lang,
-            appid: OPENWEATHER_TOKEN,
-        }).done((res) => {
-            console.log(res);
-            $('#weather-icon').attr('src', `http://openweathermap.org/img/wn/${res.current.weather[0].icon}.png`)
+    $(document).ready(function () {
+        const unitInfo = {
+            imperial: {
+                type: 'imperial',
+                temp: '°F',
+            }
+        }
+        let preferences = {
+            location: 'San Antonio, TX',
+            units: 'imperial',
+            lang: 'en'
+        }
+        let request = {
+            lat: 29.43,
+            lon: -98.54,
+            exclude: ['minutely', 'hourly'],
+            units: preferences.units,
+            lang: preferences.lang,
+        }
+
+        function buildWeatherAPIRequest(req) {
+            let day = 0
+            $.get('https://api.openweathermap.org/data/2.5/onecall', {
+                lat: req.lat,
+                lon: req.lon,
+                exclude: req.exclude.join(','),
+                units: req.units,
+                lang: req.lang,
+                appid: OPENWEATHER_TOKEN,
+            }).done((res) => {
+                // build a date (currently unused but intended for local daylight correction for weather image bg color)
+                let localTime = new Date(res.current.dt * 1000);
+                // clear forecast container for new content
+                $('#weather-forecast-container').text('');
+                // current weather is a bit of a special case so we handle it (naively) here
+                $('#weather-forecast-container').append(displayCurrentWeather(res.current, 0, localTime));
+                // the index limit for future forecast could be parameterized for generating specific forecast periods
+                for (let i = 0; i < 5; i++) {
+                    // the bulk of the forecast day cards get built here
+                    $('#weather-forecast-container').append(displayDayWeather(res.daily[i], i, localTime));
+                }
+
+                // we change the background to be day or night for the weather icon images
+                $('.weather-icon').addClass(checkDayOrNight(localTime))
+
+            });
+
+            // to do later: rework this to adjust to local time
+            // function checkDayOrNight (date, tzOffset) {
+            //     console.log(date.getUTCHours(), tzOffset /1000)
+            //     let hour = (date.getUTCHours() + tzOffset/1000)
+            //     console.log('current hour:', hour)
+            //     if ((hour > 5) && (hour < 19)) {
+            //         console.log('setting class to day');
+            //         return 'day';
+            //     } else {
+            //         console.log('setting class to night');
+            //         return 'night';
+            //     }
+            function checkDayOrNight(date, tzOffset) {
+                // console.log(date.getUTCHours(), tzOffset /1000)
+                // let hour = (date.getUTCHours() + tzOffset/1000)
+                // console.log('current hour:', hour)
+                let hour = date.getHours();
+                if ((hour > 5) && (hour < 19)) {
+                    return 'day';
+                } else {
+                    return 'night';
+                }
+            }
+
+            // function displayCurrentWeather (data, index, localTime) {
+            //
+            //     let date = new Date(data.dt * 1000);
+            //     $('#weather-current-date').text(date.toDateString())
+            //     $('#weather-current-icon').attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
+            //
+            //     $('#weather-current-type').text(`${data.weather[0].main}`);
+            //     $('#weather-current-desc').text(`${data.weather[0].description}`);
+            //     $('#weather-current-temp').text(`${Math.round(data.temp)} ${unitInfo[preferences.units].temp}`);
+            // }
+
+            function displayCurrentWeather(data, index, localTime) {
+                const weatherDayCount = $(document.createElement('h3'))
+                    .addClass('weather-daycount')
+                    .attr('id', `weather-current-daycount`)
+                    .text('Right now:');
+
+                let date = new Date(data.dt * 1000);
+                const weatherDate = $(document.createElement('p'))
+                    .addClass('weather-date')
+                    .attr('id', `weather-current-date`)
+                    .text(date.toDateString())
+
+                const weatherIcon = $(document.createElement('img'))
+                    .addClass(`weather-icon`)
+                    .attr('id', `weather-current-icon`)
+                    .attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
+                    .attr('alt', `${data.weather[0].main} weather icon for ${date.toDateString()}`);
+
+                const weatherType = $(document.createElement('h5'))
+                    .addClass('weather-type')
+                    .attr('id', `weather-current-type`)
+                    .text(data.weather[0].main);
+
+                const weatherDesc = $(document.createElement('p'))
+                    .addClass('weather-desc')
+                    .attr('id', `weather-current-desc`)
+                    .text(data.weather[0].description);
+
+                const weatherTempAvg = $(document.createElement('h5'))
+                    .addClass('weather-tempavg')
+                    .attr('id', `weather-current-tempavg`)
+                    .text(`${Math.round(data.temp)} ${unitInfo[preferences.units].temp}`);
+
+                const weatherTempFeels = $(document.createElement('span'))
+                    .addClass('weather-tempfeels')
+                    .attr('id', 'weather-current-tempfeels')
+                    .text(`feels like ${Math.round(data.feels_like)} ${unitInfo[preferences.units].temp}`);
+
+                // const weatherTempHi = $(document.createElement('span'))
+                //     .addClass('weather-temphi')
+                //     .attr('id', `weather-current-temphi`)
+                //     .text(`${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
+                //
+                // const weatherTempLo = $(document.createElement('span'))
+                //     .addClass('weather-templo')
+                //     .attr('id', `weather-current-templo`)
+                //     .text(`${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
+
+                const weatherTemp = $(document.createElement('div'))
+                    .addClass('weather-temp')
+                    .attr('id', `weather-current-temp`)
+                    .append(weatherTempAvg)
+                    .append(weatherTempFeels);
+
+                return $(document.createElement('div'))
+                    .addClass('col-4 text-center text-capitalize weather-card')
+                    .attr('id', `weather-current-card`)
+                    .append(weatherDayCount)
+                    .append(weatherDate)
+                    .append(weatherIcon)
+                    .append(weatherType)
+                    .append(weatherDesc)
+                    .append(weatherTemp);
+            }
+
+            function displayDayWeather(data, index, localTime) {
+                /* weather cards for each day structured like:
+                    <div class="col text-center weather-card text-capitalize" id="weather-{daynum}-card">
+                        <h3 class="weather-daycount" id="weather-{daynum}-daycount></h3>
+                        <p class="weather-date" id="weather-{daynum}-date"></p>
+                        <img class="weather-icon" id="weather-{daynum}-icon" class="weather-icon">
+                        <h5 class="weather-type" id="weather-{daynum}-type"></h5>
+                        <p class="weather-desc" id="weather-{daynum}-desc"></p>
+                        <div class="weather-temp" id="weather{daynum}-temp>
+                            <p class="weather-tempavg" id="weather-{daynum}-tempavg"></p>
+                            <span class="weather-temphi" id="weather-{daynum}-temphi"></span>
+                            <span class="weather-templo" id="weather-{daynum}-templo"></span>
+                        </div>
+                    </div> */
+
+                const weatherDayCount = $(document.createElement('h3'))
+                    .addClass('weather-daycount')
+                    .attr('id', `weather-${index}-daycount`)
+                    .text(getDayCountStr(index));
+
+                let date = new Date(data.dt * 1000);
+                const weatherDate = $(document.createElement('p'))
+                    .addClass('weather-date')
+                    .attr('id', `weather-${index}-date`)
+                    .text(date.toDateString())
+
+                const weatherIcon = $(document.createElement('img'))
+                    .addClass(`weather-icon`)
+                    .attr('id', `weather-${index}-icon`)
+                    .attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
+                    .attr('alt', `${data.weather[0].main} weather icon for ${date.toDateString()}`);
+
+                const weatherType = $(document.createElement('h5'))
+                    .addClass('weather-type')
+                    .attr('id', `weather-${index}-type`)
+                    .text(data.weather[0].main);
+
+                const weatherDesc = $(document.createElement('p'))
+                    .addClass('weather-desc')
+                    .attr('id', `weather-${index}-desc`)
+                    .text(data.weather[0].description);
+
+                const weatherTempAvg = $(document.createElement('h5'))
+                    .addClass('weather-tempavg')
+                    .attr('id', `weather-${index}-tempavg`)
+                    .text(`${Math.round(data.temp.day)} ${unitInfo[preferences.units].temp}`);
+
+                const weatherTempHi = $(document.createElement('span'))
+                    .addClass('weather-temphi')
+                    .attr('id', `weather-${index}-temphi`)
+                    .text(`${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
+
+                const weatherTempLo = $(document.createElement('span'))
+                    .addClass('weather-templo')
+                    .attr('id', `weather-${index}-templo`)
+                    .text(`${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
+
+                const weatherTemp = $(document.createElement('div'))
+                    .addClass('weather-temp')
+                    .attr('id', `weather-${index}-temp`)
+                    .append(weatherTempAvg)
+                    .append(weatherTempHi)
+                    .append(weatherTempLo);
+
+                return $(document.createElement('div'))
+                    .addClass('col-4 text-center text-capitalize weather-card')
+                    .attr('id', `weather-${index}-card`)
+                    .append(weatherDayCount)
+                    .append(weatherDate)
+                    .append(weatherIcon)
+                    .append(weatherType)
+                    .append(weatherDesc)
+                    .append(weatherTemp);
+            }
+        }
+
+        function getDayCountStr(index) {
+            switch (index) {
+                case 0:
+                    return 'today';
+                case 1:
+                    return 'tomorrow';
+                default:
+                    return 'this week';
+            }
+        }
+
+
+        // text field's input button group members handled here
+        // optional non-bonus thing that flies to location w/o marker placement
+        $('#geocoder-submit').on('click', function () {
+            flyToSearch($('#geocoder-search').val());
+        })
+
+        function flyToSearch(query) {
+            geocode(query, MAPBOX_TOKEN).then(function (res) {
+                map.flyTo({center: res, speed: 1});
+            });
+        }
+
+        // mark and move to input
+        $('#geocoder-mark').on('click', function () {
+            markSearch($('#geocoder-search').val());
         });
-    }
-    buildAPIRequest(request);
 
+
+        // for good reasons including but not limited to my sanity, the user only gets ONE marker
+        const userMarkerEl = document.createElement('div');
+        userMarkerEl.className = 'marker';
+        const userMarker = new mapboxgl.Marker(userMarkerEl);
+
+        function markSearch(query) {
+            geocode(query, MAPBOX_TOKEN).then(function (res) {
+                userMarker.setLngLat(res).addTo(map);
+                map.flyTo({center: userMarker.getLngLat(), speed: 1});
+                request.lon = userMarker.getLngLat().lng;
+                request.lat = userMarker.getLngLat().lat;
+                buildWeatherAPIRequest(request);
+            });
+        }
+
+        // for debug search for this city and show weather on load
+        markSearch(preferences.location);
+    });
 </script>
 </body>
 </html>
