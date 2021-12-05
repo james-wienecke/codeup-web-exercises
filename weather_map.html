@@ -59,14 +59,14 @@
     </div>
 </section>
 <section class="container row" id="weather-forecast-container">
-    <div class="col text-center weather-card text-capitalize" id="weather-current-card">
-        <h3 class="weather-day" id="weather-current-day">Right now:</h3>
-        <p class="weather-date" id="weather-current-date"></p>
-        <img class="weather-icon" id="weather-current-icon" alt="current weather icon">
-        <h5 class="weather-type" id="weather-current-type"></h5>
-        <p class="weather-desc" id="weather-current-desc"></p>
-        <p class="weather-temp temp-avg" id="weather-current-temp"></p>
-    </div>
+<!--    <div class="col text-center weather-card text-capitalize" id="weather-current-card">-->
+<!--        <h3 class="weather-day" id="weather-current-day">Right now:</h3>-->
+<!--        <p class="weather-date" id="weather-current-date"></p>-->
+<!--        <img class="weather-icon" id="weather-current-icon" alt="current weather icon">-->
+<!--        <h5 class="weather-type" id="weather-current-type"></h5>-->
+<!--        <p class="weather-desc" id="weather-current-desc"></p>-->
+<!--        <p class="weather-temp temp-avg" id="weather-current-temp"></p>-->
+<!--    </div>-->
 </section>
 
 <!-- jQuery -->
@@ -120,16 +120,20 @@
             appid: OPENWEATHER_TOKEN,
         }).done((res) => {
             console.log(res);
+            // build a date (currently unused but intended for local daylight correction for weather image bg color)
             let localTime = new Date(res.current.dt * 1000);
-
-            displayCurrentWeather(res.current, 0, localTime);
-
+            // clear forecast container for new content
+            $('#weather-forecast-container').text('');
+            // current weather is a bit of a special case so we handle it (naively) here
+            $('#weather-forecast-container').append(displayCurrentWeather(res.current, 0, localTime));
+            // the index limit for future forecast could be parameterized for generating specific forecast periods
             for (let i = 0; i < 5; i++) {
+                // the bulk of the forecast day cards get built here
                 $('#weather-forecast-container').append(displayDayWeather(res.daily[i], i, localTime));
             }
 
+            // we change the background to be day or night for the weather icon images
             $('.weather-icon').addClass(checkDayOrNight(localTime))
-
 
         });
 
@@ -159,15 +163,80 @@
             }
         }
 
+        // function displayCurrentWeather (data, index, localTime) {
+        //
+        //     let date = new Date(data.dt * 1000);
+        //     $('#weather-current-date').text(date.toDateString())
+        //     $('#weather-current-icon').attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
+        //
+        //     $('#weather-current-type').text(`${data.weather[0].main}`);
+        //     $('#weather-current-desc').text(`${data.weather[0].description}`);
+        //     $('#weather-current-temp').text(`${Math.round(data.temp)} ${unitInfo[preferences.units].temp}`);
+        // }
+
         function displayCurrentWeather (data, index, localTime) {
+            const weatherDayCount = $(document.createElement('h3'))
+                .addClass('weather-daycount')
+                .attr('id', `weather-current-daycount`)
+                .text('Right now:');
 
             let date = new Date(data.dt * 1000);
-            $('#weather-current-date').text(date.toDateString())
-            $('#weather-current-icon').attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
+            const weatherDate = $(document.createElement('p'))
+                .addClass('weather-date')
+                .attr('id', `weather-current-date`)
+                .text(date.toDateString())
 
-            $('#weather-current-type').text(`${data.weather[0].main}`);
-            $('#weather-current-desc').text(`${data.weather[0].description}`);
-            $('#weather-current-temp').text(`${Math.round(data.temp)} ${unitInfo[preferences.units].temp}`);
+            const weatherIcon = $(document.createElement('img'))
+                .addClass(`weather-icon`)
+                .attr('id', `weather-current-icon`)
+                .attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
+                .attr('alt', `${data.weather[0].main} weather icon for ${date.toDateString()}`);
+
+            const weatherType = $(document.createElement('h5'))
+                .addClass('weather-type')
+                .attr('id', `weather-current-type`)
+                .text(data.weather[0].main);
+
+            const weatherDesc = $(document.createElement('p'))
+                .addClass('weather-desc')
+                .attr('id', `weather-current-desc`)
+                .text(data.weather[0].description);
+
+            const weatherTempAvg = $(document.createElement('h5'))
+                .addClass('weather-tempavg')
+                .attr('id', `weather-current-tempavg`)
+                .text(`${Math.round(data.temp)} ${unitInfo[preferences.units].temp}`);
+
+            const weatherTempFeels = $(document.createElement('span'))
+                .addClass('weather-tempfeels')
+                .attr('id', 'weather-current-tempfeels')
+                .text(`feels like ${Math.round(data.feels_like)} ${unitInfo[preferences.units].temp}`);
+
+            // const weatherTempHi = $(document.createElement('span'))
+            //     .addClass('weather-temphi')
+            //     .attr('id', `weather-current-temphi`)
+            //     .text(`${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
+            //
+            // const weatherTempLo = $(document.createElement('span'))
+            //     .addClass('weather-templo')
+            //     .attr('id', `weather-current-templo`)
+            //     .text(`${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
+
+            const weatherTemp = $(document.createElement('div'))
+                .addClass('weather-temp')
+                .attr('id', `weather-current-temp`)
+                .append(weatherTempAvg)
+                .append(weatherTempFeels);
+
+            return $(document.createElement('div'))
+                .addClass('col-4 text-center text-capitalize weather-card')
+                .attr('id', `weather-current-card`)
+                .append(weatherDayCount)
+                .append(weatherDate)
+                .append(weatherIcon)
+                .append(weatherType)
+                .append(weatherDesc)
+                .append(weatherTemp);
         }
 
         function displayDayWeather (data, index, localTime) {
@@ -220,7 +289,7 @@
             const weatherTempHi = $(document.createElement('span'))
                 .addClass('weather-temphi')
                 .attr('id', `weather-${index}-temphi`)
-                .text(`${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp}`);
+                .text(`${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
 
             const weatherTempLo = $(document.createElement('span'))
                 .addClass('weather-templo')
