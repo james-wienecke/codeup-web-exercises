@@ -77,6 +77,12 @@
         .night {
             background-color: #37179b;
         }
+        .weather-temphi, .weather-templo {
+            line-height: .5em;
+        }
+        .weather-details {
+            line-height: .75em;
+        }
     </style>
 </head>
 <body class="container justify-content-center">
@@ -252,8 +258,8 @@
         // user preferences. set to these values by default for debug and my own ease of use
         let preferences = {
             location: 'San Antonio, TX',
-            units: 'imperial',
-            lang: 'en',
+            units: $('#pref-units').val(),
+            lang: $('#pref-lang').val(),
             hours: 12,
             darkmode: false,
         }
@@ -286,8 +292,10 @@
         $('#pref-darkmode').on('change', function () {
             $(document.body).toggleClass('dark-mode');
             if (this.checked) {
+                preferences.darkmode = true;
                 map.setStyle('mapbox://styles/mapbox/dark-v10');
             } else {
+                preferences.darkmode = false;
                 map.setStyle('mapbox://styles/mapbox/light-v10');
             }
         });
@@ -374,12 +382,16 @@
                 }
             }
 
-            function formatDistance(num, pref) {
-                if (pref === 'imperial') {
+            function formatDistance(num) {
+                if (preferences.units === 'imperial') {
                     return `${num * 0.000621} ${unitInfo[preferences.units].distance}`;
                 } else {
                     return `${num} ${unitInfo[preferences.units].distance}`
                 }
+            }
+
+            function formatUVIndex(num) {
+                return `${Math.round(parseFloat(num) * 10)} out of 10`;
             }
 
             // the "current" weather card contains slightly different data and formatting compared to the
@@ -440,14 +452,14 @@
                     .append(weatherTemp);
 
                 // the next few nodes are detailed extra weather/sky info
-                /*  pressure: 1015,
-                    humidity: 64,
-                    dew_point: 65.77,
-                    uvi: 0.21,
-                    clouds: 20,
-                    visibility: 10000,
-                    wind_speed: 9.22,
-                    wind_deg: 150,
+                /*  pressure: 1015 (hPa),
+                    humidity: 64 (%),
+                    dew_point: 65.77 (degrees),
+                    uvi: 0.21 (x/10),
+                    clouds: 20 (%),
+                    visibility: 10000 (meters),
+                    wind_speed: 9.22 (speed),
+                    wind_deg: 150 (pain),
                  */
 
                 const weatherSunrise = $(document.createElement('p'))
@@ -480,14 +492,32 @@
                     .attr('id', `weather-current-windspeed`)
                     .text(formatWindString(data));
 
+                const weatherUVIndex = $(document.createElement('p'))
+                    .addClass('weather-uvindex')
+                    .attr('id', `weather-current-uvindex`)
+                    .text(`UV index at midday: ${formatUVIndex(data.uvi)}`);
+
+                const weatherCloudcover = $(document.createElement('p'))
+                    .addClass('weather-cloudcover')
+                    .attr('id', `weather-current-cloudcover`)
+                    .text(`Cloudcover: ${100 - (data.clouds * 100)}%`);
+
+                const weatherVisibility = $(document.createElement('p'))
+                    .addClass('weather-visib')
+                    .attr('id', 'weather-current-visib')
+                    .text(`Visibility: ${formatDistance(data.visibility)}`)
+
                 const weatherDetails = $(document.createElement('div'))
-                    .addClass('weather-details')
+                    .addClass('weather-details text-left')
                     .attr('id', `weather-current-details`)
                     .append(weatherSunrise)
                     .append(weatherSunset)
                     .append(weatherHumidity)
                     .append(weatherDewpoint)
                     .append(weatherPressure)
+                    .append(weatherCloudcover)
+                    .append(weatherVisibility)
+                    .append(weatherUVIndex)
                     .append(weatherWind);
 
 
@@ -547,12 +577,12 @@
                     .attr('id', `weather-${index}-tempavg`)
                     .text(`${Math.round(data.temp.day)} ${unitInfo[preferences.units].temp}`);
 
-                const weatherTempHi = $(document.createElement('span'))
+                const weatherTempHi = $(document.createElement('p'))
                     .addClass('weather-temphi')
                     .attr('id', `weather-${index}-temphi`)
                     .text(`High: ${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
 
-                const weatherTempLo = $(document.createElement('span'))
+                const weatherTempLo = $(document.createElement('p'))
                     .addClass('weather-templo')
                     .attr('id', `weather-${index}-templo`)
                     .text(`Low: ${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
