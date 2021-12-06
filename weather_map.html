@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Weather Map</title>
     <!-- Bootstrap stylesheet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
@@ -13,7 +14,9 @@
         body {
             background-color: #e1e1e1;
         }
-
+        .content {
+            background-color: #FFFFFF;
+        }
         .marker {
             background-image: url('img/marker.svg.png');
             background-size: cover;
@@ -54,29 +57,112 @@
         }
     </style>
 </head>
-<body class="container">
-<h1 class="mx-4 mb-4">Weather</h1>
+<body class="container justify-content-center">
+<section class="content">
+<nav class="d-flex">
+<h1 class="mx-4 my-2">All of the Weather</h1>
 
-<div class="container-fluid" id='map' style='width: 100%; height: 200px;'></div>
-<section class="d-flex m-4">
-    <div class="input-group">
-        <input type="text" class="form-control" id="geocoder-search" placeholder="Enter address"
-               aria-label="latitude and longitude" aria-describedby="goto-coordinates">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="geocoder-submit">Go to</button>
-            <button class="btn btn-outline-secondary" type="button" id="geocoder-mark">Mark</button>
-        </div>
+</nav>
+
+<div class="container-fluid mx-auto my-2" id='map' style='width: 90%; height: 200px;'></div>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false">Detailed view</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="options-tab" data-toggle="tab" href="#options" role="tab" aria-controls="options" aria-selected="false">Preferences</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <section class="d-flex my-2 mx-auto p-3">
+            <div class="input-group">
+                <input type="text" class="form-control" id="geocoder-search" placeholder="Enter location for local weather"
+                       aria-label="change location" aria-describedby="goto-location-for-local-weather">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="geocoder-mark">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="container row mx-auto my-2" id="weather-forecast-container">
+
+        </section>
     </div>
-</section>
-<section class="container row" id="weather-forecast-container">
-    <!--    <div class="col text-center weather-card text-capitalize" id="weather-current-card">-->
-    <!--        <h3 class="weather-day" id="weather-current-day">Right now:</h3>-->
-    <!--        <p class="weather-date" id="weather-current-date"></p>-->
-    <!--        <img class="weather-icon" id="weather-current-icon" alt="current weather icon">-->
-    <!--        <h5 class="weather-type" id="weather-current-type"></h5>-->
-    <!--        <p class="weather-desc" id="weather-current-desc"></p>-->
-    <!--        <p class="weather-temp temp-avg" id="weather-current-temp"></p>-->
-    <!--    </div>-->
+
+    <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+
+    </div>
+
+    <div class="tab-pane fade p-2" id="options" role="tabpanel" aria-labelledby="options-tab">
+        <section class="container-fluid">
+            <div class="form-group my-2">
+                <label for="pref-units">Unit preference:</label>
+                <select class="form-control" id="pref-units">
+                    <option selected value="imperial">Imperial units</option>
+                    <option value="metric">Metric units</option>
+                    <option value="standard">Standard units</option>
+                </select>
+            </div>
+            <div class="form-group my-2">
+                <label for="pref-lang">Language preference:</label>
+                <!-- why did i do this? am i a programmer or a data clerk? the rest of the page isn't translated... -->
+                <select class="form-control" id="pref-lang">
+                    <option selected value="en">English</option>
+                    <option value="af">Afrikaans</option>
+                    <option value="al">Albanian</option>
+                    <option value="ar">Arabic</option>
+                    <option value="az">Azerbaijani</option>
+                    <option value="bg">Bulgarian</option>
+                    <option value="ca">Catalan</option>
+                    <option value="cz">Czech</option>
+                    <option value="da">Danish</option>
+                    <option value="de">German</option>
+                    <option value="el">Greek</option>
+                    <option value="eu">Basque</option>
+                    <option value="fa">Persian (Farsi)</option>
+                    <option value="fi">Finnish</option>
+                    <option value="fr">French</option>
+                    <option value="gl">Galician</option>
+                    <option value="he">Hebrew</option>
+                    <option value="hi">Hindi</option>
+                    <option value="hr">Croatian</option>
+                    <option value="hu">Hungarian</option>
+                    <option value="id">Indonesian</option>
+                    <option value="it">Italian</option>
+                    <option value="ja">Japanese</option>
+                    <option value="kr">Korean</option>
+                    <option value="la">Latvian</option>
+                    <option value="lt">Lithuanian</option>
+                    <option value="mk">Macedonian</option>
+                    <option value="no">Norwegian</option>
+                    <option value="nl">Dutch</option>
+                    <option value="pl">Polish</option>
+                    <option value="pt">Portuguese</option>
+                    <option value="pt_br">Português Brasil</option>
+                    <option value="ro">Romanian</option>
+                    <option value="ru">Russian</option>
+                    <option value="se">Swedish</option>
+                    <option value="sk">Slovak</option>
+                    <option value="sl">Slovenian</option>
+                    <option value="es">Spanish</option>
+                    <option value="sr">Serbian</option>
+                    <option value="th">Thai</option>
+                    <option value="tr">Turkish</option>
+                    <option value="uk">Ukrainian</option>
+                    <option value="vi">Vietnamese</option>
+                    <option value="zh_cn">Chinese Simplified</option>
+                    <option value="zh_tw">Chinese Traditional</option>
+                    <option value="zu">Zulu</option>
+                </select>
+            </div>
+        </section>
+    </div>
+</div>
 </section>
 
 <!-- jQuery -->
@@ -106,23 +192,23 @@
             imperial: {
                 type: 'imperial',
                 temp: '°F',
-                speed: 'MPH'
+                speed: 'MPH',
             },
             metric: {
                 type: 'metric',
                 temp: '°C',
-                speed: 'm/s'
+                speed: 'm/s',
             },
             standard: {
                 type: 'standard',
                 temp: 'K',
-                speed: 'm/s'
-            }
+                speed: 'm/s',
+            },
         }
         let preferences = {
             location: 'San Antonio, TX',
-            units: 'imperial',
-            lang: 'en'
+            units: 'metric',
+            lang: 'en',
         }
         let request = {
             lat: 29.43,
@@ -131,9 +217,20 @@
             units: preferences.units,
             lang: preferences.lang,
         }
+        $('#pref-units, #pref-lang').on('change', function () {
+            preferences.units = $('#pref-units').val();
+            preferences.lang = $('#pref-lang').val();
+
+            console.log('Preferences changed');
+            console.log(preferences);
+            // refresh request w/ new preferences
+            map.flyTo({center: userMarker.getLngLat(), speed: 1});
+            request.lon = userMarker.getLngLat().lng;
+            request.lat = userMarker.getLngLat().lat;
+            buildWeatherAPIRequest(request);
+        });
 
         function buildWeatherAPIRequest(req) {
-            let day = 0
             $.get('https://api.openweathermap.org/data/2.5/onecall', {
                 lat: req.lat,
                 lon: req.lon,
@@ -380,29 +477,23 @@
             }
         }
 
-
-        // text field's input button group members handled here
-        // optional non-bonus thing that flies to location w/o marker placement
-        $('#geocoder-submit').on('click', function () {
-            flyToSearch($('#geocoder-search').val());
-        })
-
-        function flyToSearch(query) {
-            geocode(query, MAPBOX_TOKEN).then(function (res) {
-                map.flyTo({center: res, speed: 1});
-            });
-        }
-
         // mark and move to input
         $('#geocoder-mark').on('click', function () {
             markSearch($('#geocoder-search').val());
         });
 
-
         // for good reasons including but not limited to my sanity, the user only gets ONE marker
         const userMarkerEl = document.createElement('div');
         userMarkerEl.className = 'marker';
         const userMarker = new mapboxgl.Marker(userMarkerEl);
+        userMarker.setDraggable(true);
+
+        userMarker.on('dragend', function () {
+            map.flyTo({center: userMarker.getLngLat(), speed: 1});
+            request.lon = userMarker.getLngLat().lng;
+            request.lat = userMarker.getLngLat().lat;
+            buildWeatherAPIRequest(request);
+        });
 
         function markSearch(query) {
             geocode(query, MAPBOX_TOKEN).then(function (res) {
