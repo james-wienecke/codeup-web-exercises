@@ -160,6 +160,10 @@
                     <option value="zu">Zulu</option>
                 </select>
             </div>
+            <div class="form-group my-2">
+                <input type="checkbox" id="pref-darkmode">
+                <label for="pref-darkmode">Night mode</label>
+            </div>
         </section>
     </div>
 </div>
@@ -211,6 +215,7 @@
             location: 'San Antonio, TX',
             units: 'metric',
             lang: 'en',
+            darkmode: false,
         }
         let request = {
             lat: 29.43,
