@@ -326,7 +326,7 @@
                 const weatherDayCount = $(document.createElement('h3'))
                     .addClass('weather-daycount')
                     .attr('id', `weather-current-daycount`)
-                    .text('Right now:');
+                    .text('Right now');
 
                 let date = new Date(data.dt * 1000);
                 const weatherDate = $(document.createElement('p'))
@@ -367,7 +367,7 @@
                     .append(weatherTempFeels);
 
                 return $(document.createElement('div'))
-                    .addClass('col-4 text-center text-capitalize weather-card')
+                    .addClass('col-12 text-center text-capitalize weather-card')
                     .attr('id', `weather-current-card`)
                     .append(weatherDayCount)
                     .append(weatherDate)
@@ -443,7 +443,7 @@
                     .append(weatherTempLo);
 
                 return $(document.createElement('div'))
-                    .addClass('col-4 text-center text-capitalize weather-card')
+                    .addClass('col text-center text-capitalize weather-card')
                     .attr('id', `weather-${index}-card`)
                     .append(weatherDayCount)
                     .append(weatherDate)
