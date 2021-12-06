@@ -429,6 +429,16 @@
                     .append(weatherTempAvg)
                     .append(weatherTempFeels);
 
+                const weatherBrief = $(document.createElement('div'))
+                    .addClass('weather-brief')
+                    .attr('id', 'weather-current-brief')
+                    .append(weatherDayCount)
+                    .append(weatherDate)
+                    .append(weatherIcon)
+                    .append(weatherType)
+                    .append(weatherDesc)
+                    .append(weatherTemp);
+
                 // the next few nodes are detailed extra weather/sky info
                 /*  pressure: 1015,
                     humidity: 64,
@@ -439,9 +449,6 @@
                     wind_speed: 9.22,
                     wind_deg: 150,
                  */
-                const weatherDetails = $(document.createElement('div'))
-                    .addClass('weather-details')
-                    .attr('id', `weather-current-details`);
 
                 const weatherSunrise = $(document.createElement('p'))
                     .addClass('weather-sunrise')
@@ -452,6 +459,11 @@
                     .addClass('weather-sunset')
                     .attr('id', `weather-current-sunset`)
                     .text(`Sunset: ${formatTime(new Date(data.sunset * 1000), preferences.hours)}`);
+
+                const weatherPressure = $(document.createElement('p'))
+                    .addClass('weather-pressure')
+                    .attr('id', `weather-current-pressure`)
+                    .text(`Pressure: ${data.pressure} hPa`);
 
                 const weatherHumidity = $(document.createElement('p'))
                     .addClass('weather-humidity')
@@ -468,21 +480,23 @@
                     .attr('id', `weather-current-windspeed`)
                     .text(formatWindString(data));
 
-
-                return $(document.createElement('div'))
-                    .addClass('col-12 text-center text-capitalize weather-card')
-                    .attr('id', `weather-current-card`)
-                    .append(weatherDayCount)
-                    .append(weatherDate)
-                    .append(weatherIcon)
-                    .append(weatherType)
-                    .append(weatherDesc)
-                    .append(weatherTemp)
+                const weatherDetails = $(document.createElement('div'))
+                    .addClass('weather-details')
+                    .attr('id', `weather-current-details`)
                     .append(weatherSunrise)
                     .append(weatherSunset)
                     .append(weatherHumidity)
                     .append(weatherDewpoint)
+                    .append(weatherPressure)
                     .append(weatherWind);
+
+
+                return $(document.createElement('div'))
+                    .addClass('col-12 d-flex text-center justify-content-around text-capitalize weather-card')
+                    .attr('id', `weather-current-card`)
+                    .append(weatherBrief)
+                    .append(weatherDetails);
+
             }
 
             // bulk processing for non-current weather information. builds a dom node w/ jquery and returns it
