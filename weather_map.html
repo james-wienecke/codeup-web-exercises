@@ -203,7 +203,7 @@
                 const weatherDate = $(document.createElement('p'))
                     .addClass('weather-date')
                     .attr('id', `weather-current-date`)
-                    .text(date.toDateString())
+                    .text(formatDateString(date))
 
                 const weatherIcon = $(document.createElement('img'))
                     .addClass(`weather-icon`)
@@ -230,16 +230,6 @@
                     .addClass('weather-tempfeels')
                     .attr('id', 'weather-current-tempfeels')
                     .text(`feels like ${Math.round(data.feels_like)} ${unitInfo[preferences.units].temp}`);
-
-                // const weatherTempHi = $(document.createElement('span'))
-                //     .addClass('weather-temphi')
-                //     .attr('id', `weather-current-temphi`)
-                //     .text(`${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
-                //
-                // const weatherTempLo = $(document.createElement('span'))
-                //     .addClass('weather-templo')
-                //     .attr('id', `weather-current-templo`)
-                //     .text(`${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
 
                 const weatherTemp = $(document.createElement('div'))
                     .addClass('weather-temp')
@@ -282,7 +272,7 @@
                 const weatherDate = $(document.createElement('p'))
                     .addClass('weather-date')
                     .attr('id', `weather-${index}-date`)
-                    .text(date.toDateString())
+                    .text(formatDateString(date));
 
                 const weatherIcon = $(document.createElement('img'))
                     .addClass(`weather-icon`)
@@ -308,12 +298,12 @@
                 const weatherTempHi = $(document.createElement('span'))
                     .addClass('weather-temphi')
                     .attr('id', `weather-${index}-temphi`)
-                    .text(`${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
+                    .text(`High: ${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
 
                 const weatherTempLo = $(document.createElement('span'))
                     .addClass('weather-templo')
                     .attr('id', `weather-${index}-templo`)
-                    .text(`${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
+                    .text(`Low: ${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
 
                 const weatherTemp = $(document.createElement('div'))
                     .addClass('weather-temp')
@@ -342,6 +332,59 @@
                     return 'tomorrow';
                 default:
                     return 'this week';
+            }
+        }
+
+        function formatDateString (date) {
+            return `${stringWeekday(date.getDay())}, ${stringMonth(date.getMonth())} ${ordinal_suffix_of(date.getDate())}`;
+            function ordinal_suffix_of(i) {
+                // function created by Salman A and shared on stackoverflow
+                // link: https://stackoverflow.com/a/13627586
+                var j = i % 10,
+                    k = i % 100;
+                if (j == 1 && k != 11) {
+                    return i + "st";
+                }
+                if (j == 2 && k != 12) {
+                    return i + "nd";
+                }
+                if (j == 3 && k != 13) {
+                    return i + "rd";
+                }
+                return i + "th";
+            }
+            function stringMonth (month) {
+                switch (month) {
+                    case 0: return 'january';
+                    case 1: return 'february';
+                    case 2: return 'march';
+                    case 3: return 'april';
+                    case 4: return 'may';
+                    case 5: return 'june';
+                    case 6: return 'july';
+                    case 7: return 'august';
+                    case 8: return 'september';
+                    case 9: return 'october';
+                    case 10: return 'november';
+                    case 11: return 'december';
+                    default:
+                        console.log('something went wrong in stringMonth() function :(', month);
+                        return false;
+                }
+            }
+            function stringWeekday (day) {
+                switch (day) {
+                    case 0: return 'sunday';
+                    case 1: return 'monday';
+                    case 2: return 'tuesday';
+                    case 3: return 'wednesday';
+                    case 4: return 'thursday';
+                    case 5: return 'friday';
+                    case 6: return 'saturday';
+                    default:
+                        console.log('something went wrong in stringWeekday() function :(', day);
+                        return false;
+                }
             }
         }
 
