@@ -37,6 +37,7 @@
 
         .weather-card {
             background-color: #efefef;
+            padding: 1.5em;
         }
 
         .weather-icon {
@@ -154,28 +155,19 @@
                 }
 
                 // we change the background to be day or night for the weather icon images
-                $('.weather-icon').addClass(checkDayOrNight(localTime))
+                $('#weather-current-icon').addClass(checkDayOrNight(localTime, res))
 
             });
 
-            // to do later: rework this to adjust to local time
-            // function checkDayOrNight (date, tzOffset) {
-            //     console.log(date.getUTCHours(), tzOffset /1000)
-            //     let hour = (date.getUTCHours() + tzOffset/1000)
-            //     console.log('current hour:', hour)
-            //     if ((hour > 5) && (hour < 19)) {
-            //         console.log('setting class to day');
-            //         return 'day';
-            //     } else {
-            //         console.log('setting class to night');
-            //         return 'night';
-            //     }
-            function checkDayOrNight(date, tzOffset) {
-                // console.log(date.getUTCHours(), tzOffset /1000)
-                // let hour = (date.getUTCHours() + tzOffset/1000)
-                // console.log('current hour:', hour)
+
+            function checkDayOrNight(date, data) {
+                // just a bit of extra fluff but here we take current sunrise/set times into account deciding
+                // whether to color the icons for day or night
+                const sunrise = new Date(data.current.sunrise * 1000).getHours();
+                const sunset = new Date(data.current.sunset * 1000).getHours();
+
                 let hour = date.getHours();
-                if ((hour > 5) && (hour < 19)) {
+                if ((hour > sunrise) && (hour < sunset)) {
                     return 'day';
                 } else {
                     return 'night';
@@ -275,7 +267,7 @@
                     .text(formatDateString(date));
 
                 const weatherIcon = $(document.createElement('img'))
-                    .addClass(`weather-icon`)
+                    .addClass(`weather-icon day`)
                     .attr('id', `weather-${index}-icon`)
                     .attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
                     .attr('alt', `${data.weather[0].main} weather icon for ${date.toDateString()}`);
