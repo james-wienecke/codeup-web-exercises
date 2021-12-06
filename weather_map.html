@@ -252,7 +252,7 @@
         // user preferences. set to these values by default for debug and my own ease of use
         let preferences = {
             location: 'San Antonio, TX',
-            units: 'metric',
+            units: 'imperial',
             lang: 'en',
             hours: 12,
             darkmode: false,
@@ -271,8 +271,10 @@
             preferences.units = $('#pref-units').val();
             preferences.lang = $('#pref-lang').val();
             preferences.hours = $('#pref-hours').val();
+            request.units = preferences.units;
+            request.lang = preferences.lang;
 
-            console.log(preferences);
+            // console.log(preferences);
             // refresh request w/ new preferences
             map.flyTo({center: userMarker.getLngLat(), speed: 1});
             request.lon = userMarker.getLngLat().lng;
@@ -345,23 +347,30 @@
                 }
             }
 
-            function formatDirection(data) {
+            function formatWindString(data) {
+                console.log(data);
                 if (data.wind_speed == 0) {
                     return 'calm';
                 } else {
-                    /*  (0)	10     0    270    (west)
-                        (1)	 0    10    180    (south)
-                        (2)  0   -10      0    (north)
-                    (3)    -10     0     90    (east)
-
-                        (4)	10    10    225    (southwest)
-                        (5)	10   -10    315    (northwest)
-                    (6)    -10    10    135    (southeast)
-                    (7)    -10   -10     45    (northeast)
- */
-                    switch (data.wind_deg) {
-                        case
-                    }
+                    let windInfo = `${data.wind_speed} ${unitInfo[preferences.units].speed} `
+                    // each direction gets 45 degrees
+                    if ((data.wind_deg >= 30) && (data.wind_deg < 67.5)) {
+                         return windInfo + 'northeast';
+                     } else if ((data.wind_deg >= 67.5) && (data.wind_deg < 112.5)) {
+                         return windInfo + 'east';
+                     } else if ((data.wind_deg >= 112.5) && (data.wind_deg < 157.5)) {
+                         return windInfo + 'southeast';
+                     } else if ((data.wind_deg >= 157.5) && (data.wind_deg < 202.5)) {
+                         return windInfo + 'south';
+                     } else if ((data.wind_deg >= 202.5) && (data.wind_deg < 247.5)) {
+                         return windInfo + 'southwest';
+                     } else if ((data.wind_deg >= 247.5) && (data.wind_deg < 292.5)) {
+                         return windInfo + 'west';
+                     } else if ((data.wind_deg >= 292.5) && (data.wind_deg < 337.5)) {
+                         return windInfo + 'northwest';
+                     } else {
+                         return windInfo + 'north';
+                     }
                 }
             }
 
@@ -454,10 +463,10 @@
                     .attr('id', `weather-current-dewpoint`)
                     .text(`Dew point: ${data.dew_point}${unitInfo[preferences.units].temp}`);
 
-                const weatherWindspeed = $(document.createElement('p'))
-                    .addClass('weather-windspeed')
+                const weatherWind = $(document.createElement('p'))
+                    .addClass('weather-windspeed text-lowercase')
                     .attr('id', `weather-current-windspeed`)
-                    .text('')
+                    .text(formatWindString(data));
 
 
                 return $(document.createElement('div'))
@@ -472,7 +481,8 @@
                     .append(weatherSunrise)
                     .append(weatherSunset)
                     .append(weatherHumidity)
-                    .append(weatherDewpoint);
+                    .append(weatherDewpoint)
+                    .append(weatherWind);
             }
 
             // bulk processing for non-current weather information. builds a dom node w/ jquery and returns it
