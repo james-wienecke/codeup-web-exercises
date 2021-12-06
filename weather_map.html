@@ -188,6 +188,7 @@
     "use strict";
 
     $(document).ready(function () {
+        // this little object is used to display different unit types based on user prefs and api response
         const unitInfo = {
             imperial: {
                 type: 'imperial',
@@ -205,6 +206,7 @@
                 speed: 'm/s',
             },
         }
+        // user preferences. set to these values by default for debug and my own ease of use
         let preferences = {
             location: 'San Antonio, TX',
             units: 'metric',
@@ -217,11 +219,13 @@
             units: preferences.units,
             lang: preferences.lang,
         }
+
+        // here we handle user preference changes and automatically refresh data
+        // this is possibly very naive please someone good at apis rebuke my folly
         $('#pref-units, #pref-lang').on('change', function () {
             preferences.units = $('#pref-units').val();
             preferences.lang = $('#pref-lang').val();
 
-            console.log('Preferences changed');
             console.log(preferences);
             // refresh request w/ new preferences
             map.flyTo({center: userMarker.getLngLat(), speed: 1});
@@ -230,6 +234,7 @@
             buildWeatherAPIRequest(request);
         });
 
+        // here we put together the openweathermap request and handle the API response
         function buildWeatherAPIRequest(req) {
             $.get('https://api.openweathermap.org/data/2.5/onecall', {
                 lat: req.lat,
@@ -250,13 +255,12 @@
                     // the bulk of the forecast day cards get built here
                     $('#weather-forecast-container').append(displayDayWeather(res.daily[i], i, localTime));
                 }
-
                 // we change the background to be day or night for the weather icon images
                 $('#weather-current-icon').addClass(checkDayOrNight(localTime, res))
 
             });
 
-
+            // dynamically color the bg of the current weather's weather icon for local daylight
             function checkDayOrNight(date, data) {
                 // just a bit of extra fluff but here we take current sunrise/set times into account deciding
                 // whether to color the icons for day or night
@@ -271,17 +275,9 @@
                 }
             }
 
-            // function displayCurrentWeather (data, index, localTime) {
-            //
-            //     let date = new Date(data.dt * 1000);
-            //     $('#weather-current-date').text(date.toDateString())
-            //     $('#weather-current-icon').attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
-            //
-            //     $('#weather-current-type').text(`${data.weather[0].main}`);
-            //     $('#weather-current-desc').text(`${data.weather[0].description}`);
-            //     $('#weather-current-temp').text(`${Math.round(data.temp)} ${unitInfo[preferences.units].temp}`);
-            // }
-
+            // the "current" weather card contains slightly different data and formatting compared to the
+            // other days of forecasting
+            // uses jquery to build a dom node and returns it
             function displayCurrentWeather(data, index, localTime) {
                 const weatherDayCount = $(document.createElement('h3'))
                     .addClass('weather-daycount')
@@ -337,6 +333,7 @@
                     .append(weatherTemp);
             }
 
+            // bulk processing for non-current weather information. builds a dom node w/ jquery and returns it
             function displayDayWeather(data, index, localTime) {
                 /* weather cards for each day structured like:
                     <div class="col text-center weather-card text-capitalize" id="weather-{daynum}-card">
@@ -413,6 +410,7 @@
             }
         }
 
+        // simple little thing to label days based on their index
         function getDayCountStr(index) {
             switch (index) {
                 case 0:
@@ -424,6 +422,7 @@
             }
         }
 
+        // a slightly fancier way of formatting javascript Dates
         function formatDateString (date) {
             return `${stringWeekday(date.getDay())}, ${stringMonth(date.getMonth())} ${ordinal_suffix_of(date.getDate())}`;
             function ordinal_suffix_of(i) {
@@ -488,6 +487,7 @@
         const userMarker = new mapboxgl.Marker(userMarkerEl);
         userMarker.setDraggable(true);
 
+        // handle marker dragging and search for the weather of where it's been dragged to
         userMarker.on('dragend', function () {
             map.flyTo({center: userMarker.getLngLat(), speed: 1});
             request.lon = userMarker.getLngLat().lng;
@@ -495,6 +495,7 @@
             buildWeatherAPIRequest(request);
         });
 
+        // the main generic-ish get weather by geocoded string query
         function markSearch(query) {
             geocode(query, MAPBOX_TOKEN).then(function (res) {
                 userMarker.setLngLat(res).addTo(map);
