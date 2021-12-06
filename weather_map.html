@@ -15,7 +15,28 @@
             background-color: #e1e1e1;
         }
         .content {
-            background-color: #FFFFFF;
+            background-color: #ffffff;
+        }
+        .dark-mode {
+            background-color: #000000;
+            color: #ffffff
+        }
+        .dark-mode .content {
+            background-color: #2f2f2f;
+        }
+        .dark-mode .weather-card {
+            background-color: #3a3a3a;
+        }
+        .dark-mode .nav-link {
+            color: #3B94D9 !important;
+        }
+        .dark-mode .nav-link.active {
+            background-color: #909090 !important;
+            color: #ffffff !important;
+        }
+        .dark-mode select, input {
+            background-color: #bcbcbc;
+            color: #2f2f2f;
         }
         .marker {
             background-image: url('img/marker.svg.png');
@@ -35,12 +56,13 @@
         }
 
         .citations {
-            font-size: 10px;
+            font-size: 12px;
         }
 
         .weather-card {
             background-color: #efefef;
             padding: 1.5em;
+            border: 2px solid white;
         }
 
         .weather-icon {
@@ -53,7 +75,13 @@
         }
 
         .night {
-            background-color: #22067a;
+            background-color: #37179b;
+        }
+        .weather-temphi, .weather-templo {
+            line-height: .5em;
+        }
+        .weather-details {
+            line-height: .75em;
         }
     </style>
 </head>
@@ -89,7 +117,7 @@
             </div>
         </section>
 
-        <section class="container row mx-auto my-2" id="weather-forecast-container">
+        <section class="container row mx-auto my-2 p-1" id="weather-forecast-container">
 
         </section>
     </div>
@@ -100,6 +128,7 @@
 
     <div class="tab-pane fade p-2" id="options" role="tabpanel" aria-labelledby="options-tab">
         <section class="container-fluid">
+            <h3>Preferences</h3>
             <div class="form-group my-2">
                 <label for="pref-units">Unit preference:</label>
                 <select class="form-control" id="pref-units">
@@ -107,6 +136,13 @@
                     <option selected value="metric">Metric units</option>
                     <option value="standard">Standard units</option>
                 </select>
+            </div>
+            <div class ="form-group my-2">
+            <label for="pref-hours">Time format preference:</label>
+            <select class="form-control" id="pref-hours">
+                <option selected value="24">24 hour system</option>
+                <option value="12">12 hour system</option>
+            </select>
             </div>
             <div class="form-group my-2">
                 <label for="pref-lang">Language preference:</label>
@@ -165,6 +201,12 @@
                 <label for="pref-darkmode">Night mode</label>
             </div>
         </section>
+        <section class="container" id="sources-attribs">
+            <h3>Sources and Attributions</h3>
+            <p class="citations">Map marker icon source:
+                <a href="https://commons.wikimedia.org/wiki/File:Map_marker.svg">Andrew Onorato, modified by User:Psubhashish</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
+            </p>
+        </section>
     </div>
 </div>
 </section>
@@ -183,7 +225,7 @@
     mapboxgl.accessToken = MAPBOX_TOKEN;
     const map = new mapboxgl.Map({
         container: 'map', // container ID
-        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        style: 'mapbox://styles/mapbox/light-v10', // style URL
         center: [-98.54, 29.43], // starting position
         zoom: 10 // starting zoom
     });
@@ -197,24 +239,28 @@
             imperial: {
                 type: 'imperial',
                 temp: '°F',
+                distance: 'Miles',
                 speed: 'MPH',
             },
             metric: {
                 type: 'metric',
                 temp: '°C',
+                distance: 'meters',
                 speed: 'm/s',
             },
             standard: {
                 type: 'standard',
                 temp: 'K',
+                distance: 'meters',
                 speed: 'm/s',
             },
         }
         // user preferences. set to these values by default for debug and my own ease of use
         let preferences = {
             location: 'San Antonio, TX',
-            units: 'metric',
-            lang: 'en',
+            units: $('#pref-units').val(),
+            lang: $('#pref-lang').val(),
+            hours: 12,
             darkmode: false,
         }
         let request = {
@@ -227,16 +273,31 @@
 
         // here we handle user preference changes and automatically refresh data
         // this is possibly very naive please someone good at apis rebuke my folly
-        $('#pref-units, #pref-lang').on('change', function () {
+        $('#pref-units, #pref-lang, #pref-hours').on('change', function () {
             preferences.units = $('#pref-units').val();
             preferences.lang = $('#pref-lang').val();
+            preferences.hours = $('#pref-hours').val();
+            request.units = preferences.units;
+            request.lang = preferences.lang;
 
-            console.log(preferences);
+            // console.log(preferences);
             // refresh request w/ new preferences
             map.flyTo({center: userMarker.getLngLat(), speed: 1});
             request.lon = userMarker.getLngLat().lng;
             request.lat = userMarker.getLngLat().lat;
             buildWeatherAPIRequest(request);
+        });
+
+        // allow toggling night/dark mode by user
+        $('#pref-darkmode').on('change', function () {
+            $(document.body).toggleClass('dark-mode');
+            if (this.checked) {
+                preferences.darkmode = true;
+                map.setStyle('mapbox://styles/mapbox/dark-v10');
+            } else {
+                preferences.darkmode = false;
+                map.setStyle('mapbox://styles/mapbox/light-v10');
+            }
         });
 
         // here we put together the openweathermap request and handle the API response
@@ -280,6 +341,59 @@
                 }
             }
 
+            function formatTime(date, pref) {
+                let hours = date.getHours();
+                if (pref == 12) {
+                    let append = 'A.M.';
+                    if (hours > 12) {
+                        hours = hours - 12;
+                        append = 'P.M.';
+                    }
+                    return `${hours}:${date.getMinutes()} ${append}`;
+                } else if (pref == 24) {
+                    return `${hours}:${date.getMinutes()}`;
+                }
+            }
+
+            function formatWindString(data) {
+                console.log(data);
+                if (data.wind_speed == 0) {
+                    return 'calm';
+                } else {
+                    let windInfo = `${data.wind_speed} ${unitInfo[preferences.units].speed} `
+                    // each direction gets 45 degrees
+                    if ((data.wind_deg >= 30) && (data.wind_deg < 67.5)) {
+                         return windInfo + 'northeast';
+                     } else if ((data.wind_deg >= 67.5) && (data.wind_deg < 112.5)) {
+                         return windInfo + 'east';
+                     } else if ((data.wind_deg >= 112.5) && (data.wind_deg < 157.5)) {
+                         return windInfo + 'southeast';
+                     } else if ((data.wind_deg >= 157.5) && (data.wind_deg < 202.5)) {
+                         return windInfo + 'south';
+                     } else if ((data.wind_deg >= 202.5) && (data.wind_deg < 247.5)) {
+                         return windInfo + 'southwest';
+                     } else if ((data.wind_deg >= 247.5) && (data.wind_deg < 292.5)) {
+                         return windInfo + 'west';
+                     } else if ((data.wind_deg >= 292.5) && (data.wind_deg < 337.5)) {
+                         return windInfo + 'northwest';
+                     } else {
+                         return windInfo + 'north';
+                     }
+                }
+            }
+
+            function formatDistance(num) {
+                if (preferences.units === 'imperial') {
+                    return `${num * 0.000621} ${unitInfo[preferences.units].distance}`;
+                } else {
+                    return `${num} ${unitInfo[preferences.units].distance}`
+                }
+            }
+
+            function formatUVIndex(num) {
+                return `${Math.round(parseFloat(num) * 10)} out of 10`;
+            }
+
             // the "current" weather card contains slightly different data and formatting compared to the
             // other days of forecasting
             // uses jquery to build a dom node and returns it
@@ -287,7 +401,7 @@
                 const weatherDayCount = $(document.createElement('h3'))
                     .addClass('weather-daycount')
                     .attr('id', `weather-current-daycount`)
-                    .text('Right now:');
+                    .text('Right now');
 
                 let date = new Date(data.dt * 1000);
                 const weatherDate = $(document.createElement('p'))
@@ -327,15 +441,92 @@
                     .append(weatherTempAvg)
                     .append(weatherTempFeels);
 
-                return $(document.createElement('div'))
-                    .addClass('col-4 text-center text-capitalize weather-card')
-                    .attr('id', `weather-current-card`)
+                const weatherBrief = $(document.createElement('div'))
+                    .addClass('weather-brief')
+                    .attr('id', 'weather-current-brief')
                     .append(weatherDayCount)
                     .append(weatherDate)
                     .append(weatherIcon)
                     .append(weatherType)
                     .append(weatherDesc)
                     .append(weatherTemp);
+
+                // the next few nodes are detailed extra weather/sky info
+                /*  pressure: 1015 (hPa),
+                    humidity: 64 (%),
+                    dew_point: 65.77 (degrees),
+                    uvi: 0.21 (x/10),
+                    clouds: 20 (%),
+                    visibility: 10000 (meters),
+                    wind_speed: 9.22 (speed),
+                    wind_deg: 150 (pain),
+                 */
+
+                const weatherSunrise = $(document.createElement('p'))
+                    .addClass('weather-sunrise')
+                    .attr('id', `weather-current-sunrise`)
+                    .text(`Sunrise: ${formatTime(new Date(data.sunrise * 1000), preferences.hours)}`);
+
+                const weatherSunset = $(document.createElement('p'))
+                    .addClass('weather-sunset')
+                    .attr('id', `weather-current-sunset`)
+                    .text(`Sunset: ${formatTime(new Date(data.sunset * 1000), preferences.hours)}`);
+
+                const weatherPressure = $(document.createElement('p'))
+                    .addClass('weather-pressure')
+                    .attr('id', `weather-current-pressure`)
+                    .text(`Pressure: ${data.pressure} hPa`);
+
+                const weatherHumidity = $(document.createElement('p'))
+                    .addClass('weather-humidity')
+                    .attr('id', `weather-current-humidity`)
+                    .text(`Humidity: ${data.humidity}%`);
+
+                const weatherDewpoint = $(document.createElement('p'))
+                    .addClass('weather-dewpoint')
+                    .attr('id', `weather-current-dewpoint`)
+                    .text(`Dew point: ${data.dew_point}${unitInfo[preferences.units].temp}`);
+
+                const weatherWind = $(document.createElement('p'))
+                    .addClass('weather-windspeed text-lowercase')
+                    .attr('id', `weather-current-windspeed`)
+                    .text(formatWindString(data));
+
+                const weatherUVIndex = $(document.createElement('p'))
+                    .addClass('weather-uvindex')
+                    .attr('id', `weather-current-uvindex`)
+                    .text(`UV index at midday: ${formatUVIndex(data.uvi)}`);
+
+                const weatherCloudcover = $(document.createElement('p'))
+                    .addClass('weather-cloudcover')
+                    .attr('id', `weather-current-cloudcover`)
+                    .text(`Cloudcover: ${100 - (data.clouds * 100)}%`);
+
+                const weatherVisibility = $(document.createElement('p'))
+                    .addClass('weather-visib')
+                    .attr('id', 'weather-current-visib')
+                    .text(`Visibility: ${formatDistance(data.visibility)}`)
+
+                const weatherDetails = $(document.createElement('div'))
+                    .addClass('weather-details text-left')
+                    .attr('id', `weather-current-details`)
+                    .append(weatherSunrise)
+                    .append(weatherSunset)
+                    .append(weatherHumidity)
+                    .append(weatherDewpoint)
+                    .append(weatherPressure)
+                    .append(weatherCloudcover)
+                    .append(weatherVisibility)
+                    .append(weatherUVIndex)
+                    .append(weatherWind);
+
+
+                return $(document.createElement('div'))
+                    .addClass('col-12 d-flex text-center justify-content-around text-capitalize weather-card')
+                    .attr('id', `weather-current-card`)
+                    .append(weatherBrief)
+                    .append(weatherDetails);
+
             }
 
             // bulk processing for non-current weather information. builds a dom node w/ jquery and returns it
@@ -386,12 +577,12 @@
                     .attr('id', `weather-${index}-tempavg`)
                     .text(`${Math.round(data.temp.day)} ${unitInfo[preferences.units].temp}`);
 
-                const weatherTempHi = $(document.createElement('span'))
+                const weatherTempHi = $(document.createElement('p'))
                     .addClass('weather-temphi')
                     .attr('id', `weather-${index}-temphi`)
                     .text(`High: ${Math.round(data.temp.max)} ${unitInfo[preferences.units].temp} `);
 
-                const weatherTempLo = $(document.createElement('span'))
+                const weatherTempLo = $(document.createElement('p'))
                     .addClass('weather-templo')
                     .attr('id', `weather-${index}-templo`)
                     .text(`Low: ${Math.round(data.temp.min)} ${unitInfo[preferences.units].temp}`);
@@ -404,7 +595,7 @@
                     .append(weatherTempLo);
 
                 return $(document.createElement('div'))
-                    .addClass('col-4 text-center text-capitalize weather-card')
+                    .addClass('col text-center text-capitalize weather-card')
                     .attr('id', `weather-${index}-card`)
                     .append(weatherDayCount)
                     .append(weatherDate)
