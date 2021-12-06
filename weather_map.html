@@ -27,8 +27,12 @@
         .dark-mode .weather-card {
             background-color: #3a3a3a;
         }
+        .dark-mode .nav-link {
+            color: #3B94D9 !important;
+        }
         .dark-mode .nav-link.active {
-            background-color: #aeaeae !important;
+            background-color: #909090 !important;
+            color: #ffffff !important;
         }
         .dark-mode select, input {
             background-color: #bcbcbc;
@@ -208,7 +212,7 @@
     mapboxgl.accessToken = MAPBOX_TOKEN;
     const map = new mapboxgl.Map({
         container: 'map', // container ID
-        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        style: 'mapbox://styles/mapbox/light-v10', // style URL
         center: [-98.54, 29.43], // starting position
         zoom: 10 // starting zoom
     });
@@ -266,12 +270,12 @@
 
         // allow toggling night/dark mode by user
         $('#pref-darkmode').on('change', function () {
-            // if (this.checked) {
-            //     $(document.body).addClass('.dark-mode');
-            // } else {
-            //     $(document.body).removeClass('.dark-mode')
-            // }
             $(document.body).toggleClass('dark-mode');
+            if (this.checked) {
+                map.setStyle('mapbox://styles/mapbox/dark-v10');
+            } else {
+                map.setStyle('mapbox://styles/mapbox/light-v10');
+            }
         });
 
         // here we put together the openweathermap request and handle the API response
