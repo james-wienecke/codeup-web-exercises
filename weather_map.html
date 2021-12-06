@@ -131,6 +131,13 @@
                     <option value="standard">Standard units</option>
                 </select>
             </div>
+            <div class ="form-group my-2">
+            <label for="pref-hours">Time format preference:</label>
+            <select class="form-control" id="pref-hours">
+                <option selected value="24">24 hour system</option>
+                <option value="12">12 hour system</option>
+            </select>
+            </div>
             <div class="form-group my-2">
                 <label for="pref-lang">Language preference:</label>
                 <!-- why did i do this? am i a programmer or a data clerk? the rest of the page isn't translated... -->
@@ -226,16 +233,19 @@
             imperial: {
                 type: 'imperial',
                 temp: '°F',
+                distance: 'Miles',
                 speed: 'MPH',
             },
             metric: {
                 type: 'metric',
                 temp: '°C',
+                distance: 'meters',
                 speed: 'm/s',
             },
             standard: {
                 type: 'standard',
                 temp: 'K',
+                distance: 'meters',
                 speed: 'm/s',
             },
         }
@@ -244,6 +254,7 @@
             location: 'San Antonio, TX',
             units: 'metric',
             lang: 'en',
+            hours: 12,
             darkmode: false,
         }
         let request = {
@@ -256,9 +267,10 @@
 
         // here we handle user preference changes and automatically refresh data
         // this is possibly very naive please someone good at apis rebuke my folly
-        $('#pref-units, #pref-lang').on('change', function () {
+        $('#pref-units, #pref-lang, #pref-hours').on('change', function () {
             preferences.units = $('#pref-units').val();
             preferences.lang = $('#pref-lang').val();
+            preferences.hours = $('#pref-hours').val();
 
             console.log(preferences);
             // refresh request w/ new preferences
@@ -319,6 +331,48 @@
                 }
             }
 
+            function formatTime(date, pref) {
+                let hours = date.getHours();
+                if (pref == 12) {
+                    let append = 'A.M.';
+                    if (hours > 12) {
+                        hours = hours - 12;
+                        append = 'P.M.';
+                    }
+                    return `${hours}:${date.getMinutes()} ${append}`;
+                } else if (pref == 24) {
+                    return `${hours}:${date.getMinutes()}`;
+                }
+            }
+
+            function formatDirection(data) {
+                if (data.wind_speed == 0) {
+                    return 'calm';
+                } else {
+                    /*  (0)	10     0    270    (west)
+                        (1)	 0    10    180    (south)
+                        (2)  0   -10      0    (north)
+                    (3)    -10     0     90    (east)
+
+                        (4)	10    10    225    (southwest)
+                        (5)	10   -10    315    (northwest)
+                    (6)    -10    10    135    (southeast)
+                    (7)    -10   -10     45    (northeast)
+ */
+                    switch (data.wind_deg) {
+                        case
+                    }
+                }
+            }
+
+            function formatDistance(num, pref) {
+                if (pref === 'imperial') {
+                    return `${num * 0.000621} ${unitInfo[preferences.units].distance}`;
+                } else {
+                    return `${num} ${unitInfo[preferences.units].distance}`
+                }
+            }
+
             // the "current" weather card contains slightly different data and formatting compared to the
             // other days of forecasting
             // uses jquery to build a dom node and returns it
@@ -366,6 +420,46 @@
                     .append(weatherTempAvg)
                     .append(weatherTempFeels);
 
+                // the next few nodes are detailed extra weather/sky info
+                /*  pressure: 1015,
+                    humidity: 64,
+                    dew_point: 65.77,
+                    uvi: 0.21,
+                    clouds: 20,
+                    visibility: 10000,
+                    wind_speed: 9.22,
+                    wind_deg: 150,
+                 */
+                const weatherDetails = $(document.createElement('div'))
+                    .addClass('weather-details')
+                    .attr('id', `weather-current-details`);
+
+                const weatherSunrise = $(document.createElement('p'))
+                    .addClass('weather-sunrise')
+                    .attr('id', `weather-current-sunrise`)
+                    .text(`Sunrise: ${formatTime(new Date(data.sunrise * 1000), preferences.hours)}`);
+
+                const weatherSunset = $(document.createElement('p'))
+                    .addClass('weather-sunset')
+                    .attr('id', `weather-current-sunset`)
+                    .text(`Sunset: ${formatTime(new Date(data.sunset * 1000), preferences.hours)}`);
+
+                const weatherHumidity = $(document.createElement('p'))
+                    .addClass('weather-humidity')
+                    .attr('id', `weather-current-humidity`)
+                    .text(`Humidity: ${data.humidity}%`);
+
+                const weatherDewpoint = $(document.createElement('p'))
+                    .addClass('weather-dewpoint')
+                    .attr('id', `weather-current-dewpoint`)
+                    .text(`Dew point: ${data.dew_point}${unitInfo[preferences.units].temp}`);
+
+                const weatherWindspeed = $(document.createElement('p'))
+                    .addClass('weather-windspeed')
+                    .attr('id', `weather-current-windspeed`)
+                    .text('')
+
+
                 return $(document.createElement('div'))
                     .addClass('col-12 text-center text-capitalize weather-card')
                     .attr('id', `weather-current-card`)
@@ -374,7 +468,11 @@
                     .append(weatherIcon)
                     .append(weatherType)
                     .append(weatherDesc)
-                    .append(weatherTemp);
+                    .append(weatherTemp)
+                    .append(weatherSunrise)
+                    .append(weatherSunset)
+                    .append(weatherHumidity)
+                    .append(weatherDewpoint);
             }
 
             // bulk processing for non-current weather information. builds a dom node w/ jquery and returns it
