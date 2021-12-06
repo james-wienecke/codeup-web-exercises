@@ -18,8 +18,21 @@
             background-color: #ffffff;
         }
         .dark-mode {
-            background-color: #1e1e1e;
+            background-color: #000000;
             color: #ffffff
+        }
+        .dark-mode .content {
+            background-color: #2f2f2f;
+        }
+        .dark-mode .weather-card {
+            background-color: #3a3a3a;
+        }
+        .dark-mode .nav-link.active {
+            background-color: #aeaeae !important;
+        }
+        .dark-mode select, input {
+            background-color: #bcbcbc;
+            color: #2f2f2f;
         }
         .marker {
             background-image: url('img/marker.svg.png');
@@ -39,12 +52,13 @@
         }
 
         .citations {
-            font-size: 10px;
+            font-size: 12px;
         }
 
         .weather-card {
             background-color: #efefef;
             padding: 1.5em;
+            border: 2px solid white;
         }
 
         .weather-icon {
@@ -57,7 +71,7 @@
         }
 
         .night {
-            background-color: #22067a;
+            background-color: #37179b;
         }
     </style>
 </head>
@@ -93,7 +107,7 @@
             </div>
         </section>
 
-        <section class="container row mx-auto my-2" id="weather-forecast-container">
+        <section class="container row mx-auto my-2 p-1" id="weather-forecast-container">
 
         </section>
     </div>
@@ -104,6 +118,7 @@
 
     <div class="tab-pane fade p-2" id="options" role="tabpanel" aria-labelledby="options-tab">
         <section class="container-fluid">
+            <h3>Preferences</h3>
             <div class="form-group my-2">
                 <label for="pref-units">Unit preference:</label>
                 <select class="form-control" id="pref-units">
@@ -168,6 +183,12 @@
                 <input type="checkbox" id="pref-darkmode">
                 <label for="pref-darkmode">Night mode</label>
             </div>
+        </section>
+        <section class="container" id="sources-attribs">
+            <h3>Sources and Attributions</h3>
+            <p class="citations">Map marker icon source:
+                <a href="https://commons.wikimedia.org/wiki/File:Map_marker.svg">Andrew Onorato, modified by User:Psubhashish</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
+            </p>
         </section>
     </div>
 </div>
@@ -241,6 +262,16 @@
             request.lon = userMarker.getLngLat().lng;
             request.lat = userMarker.getLngLat().lat;
             buildWeatherAPIRequest(request);
+        });
+
+        // allow toggling night/dark mode by user
+        $('#pref-darkmode').on('change', function () {
+            // if (this.checked) {
+            //     $(document.body).addClass('.dark-mode');
+            // } else {
+            //     $(document.body).removeClass('.dark-mode')
+            // }
+            $(document.body).toggleClass('dark-mode');
         });
 
         // here we put together the openweathermap request and handle the API response
