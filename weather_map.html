@@ -19,7 +19,7 @@
         }
         .dark-mode {
             background-color: #000000;
-            color: #ffffff
+            color: #ffffff;
         }
         .dark-mode .content {
             background-color: #2f2f2f;
@@ -103,9 +103,6 @@
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false">Detailed view</a>
-    </li>
-    <li class="nav-item" role="presentation">
         <a class="nav-link" id="options-tab" data-toggle="tab" href="#options" role="tab" aria-controls="options" aria-selected="false">Preferences</a>
     </li>
 </ul>
@@ -124,10 +121,6 @@
         <section class="container row mx-auto my-2 p-1" id="weather-forecast-container">
 
         </section>
-    </div>
-
-    <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">
-
     </div>
 
     <div class="tab-pane fade p-2" id="options" role="tabpanel" aria-labelledby="options-tab">
@@ -150,7 +143,6 @@
             </div>
             <div class="form-group my-2">
                 <label for="pref-lang">Language preference:</label>
-                <!-- why did i do this? am i a programmer or a data clerk? the rest of the page isn't translated... -->
                 <select class="form-control" id="pref-lang">
                     <option selected value="en">English</option>
                     <option value="af">Afrikaans</option>
@@ -275,6 +267,50 @@
             lang: preferences.lang,
         }
 
+        // mark and move to input
+        $('#geocoder-mark').on('click', function () {
+            markSearch($('#geocoder-search').val());
+        });
+
+        // for good reasons including but not limited to my sanity, the user only gets ONE marker
+        const userMarkerEl = document.createElement('div');
+        userMarkerEl.className = 'marker';
+        const userMarker = new mapboxgl.Marker(userMarkerEl);
+        userMarker.setDraggable(true);
+
+        // handle marker dragging and search for the weather of where it's been dragged to
+        userMarker.on('dragend', function () {
+            let coords = userMarker.getLngLat()
+            // mapbox marker coordinates are unbounded from longitude's range from -180 to 180
+            // mapbox doesn't care but openweathermap REALLY REALLY does so I fix it here.
+            if (coords.lng > 180) {
+                coords.lng = coords.lng - 360;
+                request.lon = coords.lng;
+                request.lat = coords.lat;
+            } else if (coords.lng < -180) {
+                coords.lng = coords.lng + 360;
+                request.lon = coords.lng;
+                request.lat = coords.lat;
+            }
+            map.flyTo({center: coords, speed: 1});
+
+            buildWeatherAPIRequest(request);
+        });
+
+        // the main generic-ish get weather by geocoded string query
+        function markSearch(query) {
+            geocode(query, MAPBOX_TOKEN).then(function (res) {
+                userMarker.setLngLat(res).addTo(map);
+                map.flyTo({center: userMarker.getLngLat(), speed: 1});
+                request.lon = res[0];
+                request.lat = res[1];
+                buildWeatherAPIRequest(request);
+            });
+        }
+
+        // for debug search for this city and show weather on load
+        markSearch(preferences.location);
+
         // here we handle user preference changes and automatically refresh data
         // this is possibly very naive please someone good at apis rebuke my folly
         $('#pref-units, #pref-lang, #pref-hours').on('change', function () {
@@ -284,7 +320,6 @@
             request.units = preferences.units;
             request.lang = preferences.lang;
 
-            // console.log(preferences);
             // refresh request w/ new preferences
             map.flyTo({center: userMarker.getLngLat(), speed: 1});
             request.lon = userMarker.getLngLat().lng;
@@ -334,11 +369,14 @@
             function checkDayOrNight(date, data) {
                 // just a bit of extra fluff but here we take current sunrise/set times into account deciding
                 // whether to color the icons for day or night
-                const sunrise = new Date(data.current.sunrise * 1000).getUTCHours();
-                const sunset = new Date(data.current.sunset * 1000).getUTCHours();
                 let tzOffsetMin = data.timezone_offset / 60;
 
+                let sunrise = new Date(data.current.sunrise * 1000).getUTCHours();
+                let sunset = new Date(data.current.sunset * 1000).getUTCHours();
+                sunrise = sunrise - (tzOffsetMin / 60);
+                sunset = sunset - (tzOffsetMin / 60);
                 let hour = date.getUTCHours() - (tzOffsetMin / 60);
+
                 if ((hour > sunrise) && (hour < sunset)) {
                     return 'day';
                 } else {
@@ -401,7 +439,7 @@
             }
 
             function formatUVIndex(num) {
-                return `${Math.round(parseFloat(num) * 10)} out of 10`;
+                return `${Math.round(parseFloat(num))} out of 10`;
             }
 
             // the "current" weather card contains slightly different data and formatting compared to the
@@ -488,9 +526,9 @@
                     .text(`Dew point: ${data.dew_point}${unitInfo[preferences.units].temp}`);
 
                 const weatherWind = $(document.createElement('p'))
-                    .addClass('weather-windspeed text-lowercase')
+                    .addClass('weather-windspeed')
                     .attr('id', `weather-current-windspeed`)
-                    .text(formatWindString(data));
+                    .text(`Wind: ${formatWindString(data)}`);
 
                 const weatherUVIndex = $(document.createElement('p'))
                     .addClass('weather-uvindex')
@@ -671,39 +709,6 @@
                 }
             }
         }
-
-        // mark and move to input
-        $('#geocoder-mark').on('click', function () {
-            markSearch($('#geocoder-search').val());
-        });
-
-        // for good reasons including but not limited to my sanity, the user only gets ONE marker
-        const userMarkerEl = document.createElement('div');
-        userMarkerEl.className = 'marker';
-        const userMarker = new mapboxgl.Marker(userMarkerEl);
-        userMarker.setDraggable(true);
-
-        // handle marker dragging and search for the weather of where it's been dragged to
-        userMarker.on('dragend', function () {
-            map.flyTo({center: userMarker.getLngLat(), speed: 1});
-            request.lon = userMarker.getLngLat().lng;
-            request.lat = userMarker.getLngLat().lat;
-            buildWeatherAPIRequest(request);
-        });
-
-        // the main generic-ish get weather by geocoded string query
-        function markSearch(query) {
-            geocode(query, MAPBOX_TOKEN).then(function (res) {
-                userMarker.setLngLat(res).addTo(map);
-                map.flyTo({center: userMarker.getLngLat(), speed: 1});
-                request.lon = userMarker.getLngLat().lng;
-                request.lat = userMarker.getLngLat().lat;
-                buildWeatherAPIRequest(request);
-            });
-        }
-
-        // for debug search for this city and show weather on load
-        markSearch(preferences.location);
     });
 </script>
 </body>
