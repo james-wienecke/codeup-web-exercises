@@ -264,7 +264,7 @@
             location: 'San Antonio, TX',
             units: $('#pref-units').val(),
             lang: $('#pref-lang').val(),
-            hours: 12,
+            hours: $('#pref-hours').val(),
             darkmode: false,
         }
         let request = {
@@ -319,11 +319,11 @@
                 // clear forecast container for new content
                 $('#weather-forecast-container').text('');
                 // current weather is a bit of a special case so we handle it (naively) here
-                $('#weather-forecast-container').append(displayCurrentWeather(res.current, 0, localTime));
+                $('#weather-forecast-container').append(displayCurrentWeather(res.current, res));
                 // the index limit for future forecast could be parameterized for generating specific forecast periods
                 for (let i = 0; i < 5; i++) {
                     // the bulk of the forecast day cards get built here
-                    $('#weather-forecast-container').append(displayDayWeather(res.daily[i], i, localTime));
+                    $('#weather-forecast-container').append(displayDayWeather(res.daily[i], i, res));
                 }
                 // we change the background to be day or night for the weather icon images
                 $('#weather-current-icon').addClass(checkDayOrNight(localTime, res))
@@ -334,10 +334,11 @@
             function checkDayOrNight(date, data) {
                 // just a bit of extra fluff but here we take current sunrise/set times into account deciding
                 // whether to color the icons for day or night
-                const sunrise = new Date(data.current.sunrise * 1000).getHours();
-                const sunset = new Date(data.current.sunset * 1000).getHours();
+                const sunrise = new Date(data.current.sunrise * 1000).getUTCHours();
+                const sunset = new Date(data.current.sunset * 1000).getUTCHours();
+                let tzOffsetMin = data.timezone_offset / 60;
 
-                let hour = date.getHours();
+                let hour = date.getUTCHours() - (tzOffsetMin / 60);
                 if ((hour > sunrise) && (hour < sunset)) {
                     return 'day';
                 } else {
@@ -345,8 +346,10 @@
                 }
             }
 
-            function formatTime(date, pref) {
-                let hours = date.getHours();
+            function formatTime(date, pref, data) {
+                let tzOffsetMin = data.timezone_offset / 60;
+
+                let hours = date.getUTCHours() + (tzOffsetMin / 60);
                 let minutes = date.getMinutes();
                 if (minutes < 10) {
                     minutes = `0${minutes}`;
@@ -364,7 +367,6 @@
             }
 
             function formatWindString(data) {
-                console.log(data);
                 if (data.wind_speed == 0) {
                     return 'calm';
                 } else {
@@ -405,7 +407,7 @@
             // the "current" weather card contains slightly different data and formatting compared to the
             // other days of forecasting
             // uses jquery to build a dom node and returns it
-            function displayCurrentWeather(data) {
+            function displayCurrentWeather(data, response) {
                 const weatherDayCount = $(document.createElement('h3'))
                     .addClass('weather-daycount')
                     .attr('id', `weather-current-daycount`)
@@ -463,12 +465,12 @@
                 const weatherSunrise = $(document.createElement('p'))
                     .addClass('weather-sunrise')
                     .attr('id', `weather-current-sunrise`)
-                    .text(`Sunrise: ${formatTime(new Date(data.sunrise * 1000), preferences.hours)}`);
+                    .text(`Sunrise: ${formatTime(new Date(data.sunrise * 1000), preferences.hours, response)}`);
 
                 const weatherSunset = $(document.createElement('p'))
                     .addClass('weather-sunset')
                     .attr('id', `weather-current-sunset`)
-                    .text(`Sunset: ${formatTime(new Date(data.sunset * 1000), preferences.hours)}`);
+                    .text(`Sunset: ${formatTime(new Date(data.sunset * 1000), preferences.hours, response)}`);
 
                 const weatherPressure = $(document.createElement('p'))
                     .addClass('weather-pressure')
@@ -528,7 +530,7 @@
             }
 
             // bulk processing for non-current weather information. builds a dom node w/ jquery and returns it
-            function displayDayWeather(data, index) {
+            function displayDayWeather(data, index, response) {
                 /* weather cards for each day structured like:
                     <div class="col text-center weather-card text-capitalize" id="weather-{daynum}-card">
                         <h3 class="weather-daycount" id="weather-{daynum}-daycount></h3>
