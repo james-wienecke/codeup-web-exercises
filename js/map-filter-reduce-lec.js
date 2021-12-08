@@ -77,6 +77,46 @@ $(document).ready(() => {
     ];
 
     // map method
+    // creates a new array with the results of calling a provided function on every element in the array
 
+    // old way:
+    // foodOptions.forEach(elem => {
+    //     $('#food-list').append(`<li>${elem.name}</li>`);
+    // });
 
+    // new way:
+    // let foodHTML = foodOptions.map(restaurant => `<li>${restaurant.name}</li>`);
+    // $('#food-list').append(foodHTML);
+    // OR
+    $('#food-list').append(foodOptions.map(restaurant => `<li>${restaurant.name}</li>`))
+
+    // filter method
+    // creates a new array with all elements that pass the test implemented by the provided function
+
+    // old way:
+    // var bucket = [];
+    // foodOptions.forEach((elem) => {
+    //     if (elem.specialty === 'seafood') {
+    //         bucket.push(elem);
+    //     }
+    // });
+    // console.log(bucket);
+
+    // cool es6 way
+    let seafoodOptions = foodOptions.filter(restaurant => restaurant.specialty === 'seafood');
+    console.log(seafoodOptions);
+
+    // reduce method
+
+    // array.reduce(function {prevVal, currentVal}, startingPoint)
+    let grades = [76, 44, 82, 80, 90, 74, 100];
+
+    let gradeTotal = grades.reduce((prevValue, currentValue) => prevValue + currentValue, 0)
+    console.log(gradeTotal / grades.length);
+
+    let specialties = foodOptions.reduce((uniqueSpecialty, restaurant) => {
+        if (!(uniqueSpecialty.includes(restaurant.specialty))) uniqueSpecialty.push(restaurant.specialty);
+        return uniqueSpecialty;
+    }, []);
+    console.log(specialties);
 });
