@@ -60,7 +60,9 @@ console.log(longestEmail);
 // Use .reduce to get the list of user's names in a single string.
 // Example: Your instructors are: ryan, luis, zach, fernando, justin.
 let userNames = users.reduce((names, user, i) => {
+    // if we're at the last index, don't bother adding comma and space
     if (i === users.length - 1) names += `${user.name}`;
+    // otherwise add the comma and space for readability
     else names += `${user.name}, `;
     return names
 } , '')
