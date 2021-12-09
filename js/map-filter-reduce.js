@@ -67,3 +67,31 @@ let userNames = users.reduce((names, user, i) => {
     return names
 } , '')
 console.log(userNames)
+
+// Use .reduce to get the unique list of languages from the list of users.
+
+let userLangs = users.reduce((langCount, user) => {
+    // if (typeof langCount[user.languages] === 'undefined') {
+    //     langCount[user.languages] = 1;
+    // }
+    // else {
+    //     langCount[user.languages] += 1;
+    // }
+    for (let lang of user.languages) {
+        if (typeof langCount[lang] === 'undefined') {
+            langCount[lang] = 1;
+        }
+        else {
+            langCount[lang] += 1;
+        }
+    }
+    return langCount;
+}, {});
+let uniqueLangs = Object.keys(userLangs).reduce((langs, langStr, i, arr) => {
+    // if we're at the last index, don't bother adding comma and space
+    if (i === arr.length - 1) langs += `${langStr}`;
+    // otherwise add the comma and space for readability
+    else langs += `${langStr}, `;
+    return langs
+}, '');
+console.log(uniqueLangs);
