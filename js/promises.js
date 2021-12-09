@@ -7,7 +7,7 @@ $(document).ready(() => {
             .then(res => res.json())
             .then(data => {
                 let pushes = data.filter(event => event.type === 'PushEvent');
-                console.log(pushes[0].created_at);
+                console.log(user, 'last push on:', pushes[0].created_at);
             })
             .catch(() => console.log('Github API request failed. Check your input.'));
     }
@@ -25,15 +25,6 @@ $(document).ready(() => {
     const logTime = time => console.log(`resolved in ${time}ms`);
     const logTimeFail = time => console.error(typeof time, time, `argument invalid`);
 
-    // wait(2000)
-    //     .then((time) => console.log(logTime(time)))
-    //     .catch((time) => console.error(logTimeFail(time)));
-    // wait(1000)
-    //     .then((time) => console.log(logTime(time)))
-    //     .catch((time) => console.error(logTimeFail(time)));
-    // wait('cat')
-    //     .then((time) => console.log(logTime(time)))
-    //     .catch((time) => console.error(logTimeFail(time)));
     wait(2000)
         .then(time => logTime(time))
         .catch(time => logTimeFail(time));
