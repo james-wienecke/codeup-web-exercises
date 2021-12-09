@@ -7,11 +7,18 @@ $(document).ready(() => {
             .then(res => res.json())
             .then(data => {
                 let pushes = data.filter(event => event.type === 'PushEvent');
-                console.log(user, 'last push on:', pushes[0].created_at);
+                // console.log(user, 'last push on:', pushes[0].created_at);
+                $('#github-user-name').text(user);
+                $('#github-user-time').text(pushes[0].created_at);
             })
             .catch(() => console.log('Github API request failed. Check your input.'));
     }
     getUserEvent('james-wienecke');
+
+    $('#github-user-search-submit').on('click', (e) => {
+        e.preventDefault();
+        getUserEvent($('#gh-user-input').val())
+    });
 
     const wait = time => {
         return new Promise((resolve, reject) => {
