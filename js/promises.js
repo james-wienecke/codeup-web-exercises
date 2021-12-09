@@ -2,20 +2,43 @@
 
 $(document).ready(() => {
 
+    // utility function for the demo
+    const formatDemoTimeStamp = (time) => {
+        const hour = String(time.getHours()).padStart(2, '0');
+        const min = String(time.getMinutes()).padStart(2, '0');
+        const sec = String(time.getSeconds()).padStart(2, '0');
+        const ms = String(time.getMilliseconds()).padStart(3, '0');
+        return `${hour}:${min}:${sec}.${ms}`;
+    }
+
+    // we use this broadly scoped object to toggle verbose logging for the initial demo mode
+    let demoRunning = { gh: true, wait: true, };
+
     const setupGithubUserSearchSection = () => {
-        const convertTimestampToDate = (timestamp) => {
+        const formatDate = (timestamp) => {
             const date = new Date(timestamp);
-            return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear() + 1} at ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.`;
+            return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear() + 1} at `
+                + `${String(date.getHours()).padStart(2, '0')}:`
+                + `${String(date.getMinutes()).padStart(2, '0')}:`
+                + `${String(date.getSeconds()).padStart(2, '0')}.`;
         }
 
         const getUserEvent = user => {
+            const timeStart = new Date();
             fetch(`https://api.github.com/users/${user}/events`,
                 {headers: {'Authorization': `token ${GITHUB_TOKEN}`}})
                 .then(res => res.json())
                 .then(data => {
                     let pushes = data.filter(event => event.type === 'PushEvent');
                     $('#github-user-name').text(user);
-                    $('#github-user-time').text(convertTimestampToDate(pushes[0].created_at));
+                    const timeStamp = formatDate(pushes[0].created_at)
+                    $('#github-user-time').text(timeStamp);
+                    // console.log for demo
+                    let timeResponse1 = new Date()
+                    if (demoRunning.gh) {
+                        console.log(`user: ${user}`, `time changed: ${timeStamp}`);
+                        console.log(`<< Github section 1st response time delta: ${(timeResponse1 - timeStart)}ms >>`);
+                    }
                     // add the repo's name and a link to the main page
                     fetch(`https://api.github.com/repos/${pushes[0].repo.name}`,
                         {headers: {'Authorization': `token ${GITHUB_TOKEN}`}})
@@ -25,6 +48,15 @@ $(document).ready(() => {
                                 .append($(document.createElement('a'))
                                     .text(data.name)
                                     .attr('href', data.html_url));
+                            // console.log for demo
+                            if (demoRunning.gh) {
+                                console.log(`repo name: ${data.name}`, `repo link:`, data.html_url);
+                                const timeResponse2 = new Date();
+                                console.log(`<< Github section 2nd response time delta: ${(timeResponse2 - timeResponse1)}ms >>`);
+                                console.log(`<< Github section total time delta: ${(timeResponse2 - timeStart)}ms >>`);
+                                console.log(`<< [Demo]: Demo github section complete. Timestamp: ${formatDemoTimeStamp(timeResponse2)} >>`);
+                                demoRunning.gh = false;
+                            }
                         });
 
                 })
@@ -34,6 +66,7 @@ $(document).ready(() => {
         $('#github-user-search-submit').on('click', (e) => {
             e.preventDefault();
             getUserEvent($('#gh-user-input').val())
+            $('#gh-user-input').val('');
         });
     }
 
@@ -86,7 +119,7 @@ $(document).ready(() => {
 
         // build up the wait results display
         const createWaitResultsElem = index => {
-            const $label = $(document.createElement('h5'))
+            const $label = $(document.createElement('p'))
                 .addClass('text-secondary text-monospace py-2 my-auto mr-2')
                 .attr('id', `wait-result-label-${index}`)
                 .text(`Wait #${index + 1}`)
@@ -109,9 +142,17 @@ $(document).ready(() => {
                 e.preventDefault();
                 const index = $(this).children('button').data('index');
                 const input = parseFloat($(this).parent().children('input').val());
-                const $result = $(`#wait-result-${index}`).text('');
+                const $result = $(`#wait-result-${index}`).text('Still waiting...');
                 wait(input * 1000)
-                    .then(time => $result.text(`Waited for ${time/1000} seconds`))
+                    .then(time => {
+                        $result.text(`Waited for ${time/1000} seconds`);
+                        // console logging for demo
+                        if (demoRunning.wait) {
+                            logTime(time);
+                            console.log(`<< [Demo]: Demo wait for promise section complete. Timestamp: ${formatDemoTimeStamp(new Date())} >>`)
+                            demoRunning.wait = false;
+                        }
+                    })
                     .catch(time => logTimeFail(time));
             });
         }
@@ -139,9 +180,22 @@ $(document).ready(() => {
             buildWaitElements($(this).val());
         });
     }
+    const demo = () => {
+        console.log(`<< [Demo]: Demo start. Timestamp: ${formatDemoTimeStamp(new Date())} >>`);
+        // demo github history lookup
+        $('#gh-user-input').val('james-wienecke');
+        $('#github-user-search-submit').trigger('click');
+
+        // demo wait for promise
+        $('#wait-time-input-0').val('1.337');
+        $('.wait-button').trigger('click');
+    }
+
     // initial page setup
     (() => {
         setupGithubUserSearchSection();
         setupWaitAndPromisesSection();
+
+        demo();
     })();
 });
