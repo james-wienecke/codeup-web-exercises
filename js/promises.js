@@ -16,9 +16,19 @@ $(document).ready(() => {
                     let pushes = data.filter(event => event.type === 'PushEvent');
                     $('#github-user-name').text(user);
                     $('#github-user-time').text(convertTimestampToDate(pushes[0].created_at));
+                    // add the repo's name and a link to the main page
+                    fetch(`https://api.github.com/repos/${pushes[0].repo.name}`,
+                        {headers: {'Authorization': `token ${GITHUB_TOKEN}`}})
+                        .then(res => res.json())
+                        .then(data => {
+                            $('#github-user-repo').empty()
+                                .append($(document.createElement('a'))
+                                    .text(data.name)
+                                    .attr('href', data.html_url));
+                        });
 
                 })
-                .catch(() => console.log('Github API request failed. Check your input.'));
+                .catch(() => console.error('Github API request failed. Check your input.'));
         }
 
         $('#github-user-search-submit').on('click', (e) => {
@@ -100,7 +110,6 @@ $(document).ready(() => {
                 const index = $(this).children('button').data('index');
                 const input = parseFloat($(this).parent().children('input').val());
                 const $result = $(`#wait-result-${index}`).text('');
-                console.log(input);
                 wait(input * 1000)
                     .then(time => $result.text(`Waited for ${time/1000} seconds`))
                     .catch(time => logTimeFail(time));
@@ -130,7 +139,6 @@ $(document).ready(() => {
             buildWaitElements($(this).val());
         });
     }
-
     // initial page setup
     (() => {
         setupGithubUserSearchSection();
