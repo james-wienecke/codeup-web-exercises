@@ -86,7 +86,7 @@ $(document).ready(() => {
 
         // build up the wait results display
         const createWaitResultsElem = index => {
-            const $label = $(document.createElement('h5'))
+            const $label = $(document.createElement('p'))
                 .addClass('text-secondary text-monospace py-2 my-auto mr-2')
                 .attr('id', `wait-result-label-${index}`)
                 .text(`Wait #${index + 1}`)
