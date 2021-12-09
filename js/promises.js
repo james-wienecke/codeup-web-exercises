@@ -142,7 +142,7 @@ $(document).ready(() => {
                 e.preventDefault();
                 const index = $(this).children('button').data('index');
                 const input = parseFloat($(this).parent().children('input').val());
-                const $result = $(`#wait-result-${index}`).text('');
+                const $result = $(`#wait-result-${index}`).text('Still waiting...');
                 wait(input * 1000)
                     .then(time => {
                         $result.text(`Waited for ${time/1000} seconds`);
